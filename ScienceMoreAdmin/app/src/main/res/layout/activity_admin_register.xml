@@ -37,8 +37,8 @@
 
     <TextView
         android:layout_width="161dp"
-        android:layout_height="40dp"
-        android:fontFamily="@font/convergence"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="Register"
         android:textColor="#040404"
         android:textSize="34sp"
@@ -48,12 +48,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:fontFamily="@font/convergence"
+        android:fontFamily="sans-serif-condensed"
         android:text="User Name"
         android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
-        android:translationY="-500dp" />
+        android:translationY="-550dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -62,7 +62,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:translationX="20dp"
-        android:translationY="-500dp"
+        android:translationY="-550dp"
         app:boxCornerRadiusBottomEnd="5dp"
         app:boxCornerRadiusBottomStart="5dp"
         app:boxCornerRadiusTopEnd="5dp"
@@ -87,12 +87,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:fontFamily="@font/convergence"
+        android:fontFamily="sans-serif-condensed"
         android:text="Password"
         android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
-        android:translationY="-500dp" />
+        android:translationY="-550dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -101,7 +101,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:translationX="20dp"
-        android:translationY="-500dp"
+        android:translationY="-550dp"
         app:boxCornerRadiusBottomEnd="5dp"
         app:boxCornerRadiusBottomStart="5dp"
         app:boxCornerRadiusTopEnd="5dp"
@@ -126,12 +126,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:fontFamily="@font/convergence"
+        android:fontFamily="sans-serif-condensed"
         android:text="Confirm Password"
         android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
-        android:translationY="-500dp" />
+        android:translationY="-550dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -140,7 +140,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:translationX="20dp"
-        android:translationY="-500dp"
+        android:translationY="-550dp"
         app:boxCornerRadiusBottomEnd="5dp"
         app:boxCornerRadiusBottomStart="5dp"
         app:boxCornerRadiusTopEnd="5dp"
@@ -166,13 +166,13 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnRegister"
         android:text="Register"
         android:textColor="@color/black"
         android:transformPivotY="-100px"
         android:translationX="100dp"
         android:translationY="-500dp"
-        android:backgroundTint="@android:color/transparent"
+        android:backgroundTint="@color/lightBlue"
         app:cornerRadius="8dp"
         app:strokeColor="@color/lightBlue"
         app:strokeWidth="2dp"
