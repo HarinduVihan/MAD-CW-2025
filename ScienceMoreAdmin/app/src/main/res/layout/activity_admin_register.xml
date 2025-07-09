@@ -38,7 +38,8 @@
     <TextView
         android:layout_width="161dp"
         android:layout_height="50dp"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
         android:text="Register"
         android:textColor="#040404"
         android:textSize="34sp"
@@ -48,7 +49,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:fontFamily="sans-serif-condensed"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
         android:text="User Name"
         android:textColor="#040404"
         android:textSize="24sp"
@@ -87,7 +89,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:fontFamily="sans-serif-condensed"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
         android:text="Password"
         android:textColor="#040404"
         android:textSize="24sp"
@@ -126,7 +129,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:fontFamily="sans-serif-condensed"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
         android:text="Confirm Password"
         android:textColor="#040404"
         android:textSize="24sp"
