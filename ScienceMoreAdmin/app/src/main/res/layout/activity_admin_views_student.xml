@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AdminRegister">
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="700dp"
+        android:background="@drawable/rounded_layout"
+        android:backgroundTint="@color/lightBlue"
+        android:paddingLeft="10px"
+        android:rotation="-19"
+        android:rotationX="0"
+        android:translationX="-190dp"
+        android:translationY="-1300px"
+        android:layout_margin="-100px"
+        android:padding="-100px">
+
+    </LinearLayout>
+
+</LinearLayout>
