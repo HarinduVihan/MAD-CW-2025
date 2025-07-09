@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AdminRegister">
+    tools:context=".StudentTeacherLogin">
     <LinearLayout
         android:layout_width="600dp"
         android:layout_height="700dp"
@@ -40,7 +40,7 @@
         android:layout_height="50dp"
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
-        android:text="Register"
+        android:text="Login"
         android:textColor="#040404"
         android:textSize="34sp"
         android:translationX="35dp"
@@ -51,7 +51,54 @@
         android:layout_height="30dp"
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
-        android:text="User Name"
+        android:text="Select User Type"
+        android:textColor="#040404"
+        android:textSize="24sp"
+        android:translationX="35dp"
+        android:translationY="-550dp" />
+    <RadioGroup
+        android:id="@+id/idRadioGroup"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:translationX="-50dp"
+        android:translationY="-550dp"
+        >
+        <RadioButton
+            android:id="@+id/idBtnTeacherRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="Teacher"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/alumin"
+            android:textFontWeight="1000"/>
+
+        <RadioButton
+            android:id="@+id/idBtnStudentRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="Student"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginLeft="20px"
+            android:fontFamily="@font/alumin"
+            android:textFontWeight="1000"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Username"
         android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
@@ -78,7 +125,7 @@
             android:id="@+id/editUserName"
             android:layout_width="350dp"
             android:layout_height="40dp"
-            android:hint="Enter Name"
+            android:hint="Enter Username"
             android:ellipsize="end"
             android:maxLines="1"
             tools:ignore="KeyboardInaccessibleWidget"
@@ -118,47 +165,7 @@
             android:id="@+id/editPassword"
             android:layout_width="350dp"
             android:layout_height="40dp"
-            android:hint="Enter Password"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:ignore="KeyboardInaccessibleWidget"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:fontFamily="@font/alumin"
-        android:textFontWeight="1000"
-        android:text="Confirm Password"
-        android:textColor="#040404"
-        android:textSize="24sp"
-        android:translationX="35dp"
-        android:translationY="-550dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:translationX="20dp"
-        android:translationY="-550dp"
-        app:boxCornerRadiusBottomEnd="5dp"
-        app:boxCornerRadiusBottomStart="5dp"
-        app:boxCornerRadiusTopEnd="5dp"
-        app:boxCornerRadiusTopStart="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="40px">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editConfirmPassword"
-            android:layout_width="350dp"
-            android:layout_height="40dp"
-            android:hint="Confirm Password"
+            android:hint="Password"
             android:ellipsize="end"
             android:maxLines="1"
             tools:ignore="KeyboardInaccessibleWidget"
@@ -170,8 +177,8 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:id="@+id/btnRegister"
-        android:text="Register"
+        android:id="@+id/btnLogin"
+        android:text="Login"
         android:textColor="@color/black"
         android:transformPivotY="-100px"
         android:translationX="100dp"
