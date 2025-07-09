@@ -1,19 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="700dp"
+        android:background="@drawable/rounded_layout"
+        android:backgroundTint="@color/lightBlue"
+        android:paddingLeft="10px"
+        android:rotation="-19"
+        android:rotationX="0"
+        android:translationX="-150dp"
+        android:translationY="-700px"
+        android:layout_margin="-100px"
+        android:padding="-100px">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/studentspic"
+        android:translationX="180dp"
+        android:translationY="-550dp"
+        />
+
+    <TextView
+        android:layout_width="190dp"
+        android:layout_height="50dp"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="ScienceMore"
+        android:textColor="#040404"
+        android:textSize="34sp"
+        android:translationX="35dp"
+        android:translationY="-850dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="50dp"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Welcome Teachers and Students"
+        android:textColor="#040404"
+        android:textSize="24sp"
+        android:translationX="35dp"
+        android:translationY="-850dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:id="@+id/btnLogin"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Login"
+        android:textColor="@color/black"
+        android:transformPivotY="-100px"
+        android:translationX="100dp"
+        android:translationY="-400dp"
+        android:backgroundTint="@color/lightBlue"
+        android:layout_marginBottom="10dp">
+    </com.google.android.material.button.MaterialButton>
+
+
+
+</LinearLayout>
