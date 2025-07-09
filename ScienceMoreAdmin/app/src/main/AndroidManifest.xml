@@ -15,6 +15,12 @@
         <activity
             android:name=".AdminLogin"
             android:exported="false" />
+      <activity
+            android:name=".AssignTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".AssignStudent"
+            android:exported="false" />
         <activity
             android:name=".AdminRegister"
             android:exported="false" />
