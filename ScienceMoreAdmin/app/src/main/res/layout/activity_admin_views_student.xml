@@ -22,4 +22,48 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnbk"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="&lt;"
+        android:backgroundTint="@color/transparent"
+        android:textColor="@color/black"
+        android:textFontWeight="1000"
+        android:textSize="30dp"
+        android:layout_marginTop="25px"
+        android:translationX="5dp"
+        android:translationY="-700dp"/>
+
+    <TextView
+        android:layout_width="161dp"
+        android:layout_height="50dp"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="View students"
+        android:textColor="#040404"
+        android:textSize="34sp"
+        android:translationX="35dp"
+        android:translationY="-700dp" />
+
+    <ScrollView
+        android:id="@+id/namesScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:translationX="0dp"
+        android:translationY="-550dp"
+
+        android:layout_marginTop="16dp"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/namesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"></LinearLayout>
+
+    </ScrollView>
+
+
+
 </LinearLayout>
