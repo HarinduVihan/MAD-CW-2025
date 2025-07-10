@@ -3,7 +3,6 @@ package com.example.sciencemore;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,7 +13,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class StudentAssignmentResults extends AppCompatActivity {
@@ -29,6 +27,7 @@ public class StudentAssignmentResults extends AppCompatActivity {
 
         List<AssignmentResults> results = new ArrayList<>();
         results.add(new AssignmentResults("Science", "firs assignment" , "100"));
+        results.add(new AssignmentResults("Science", "second assignment" , "90"));
         populateCardViews(results);
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -49,18 +48,22 @@ public class StudentAssignmentResults extends AppCompatActivity {
 
             View cardViewLayout = inflater.inflate(R.layout.result_card,cardContainer, false);
 
-            TextView subject  = cardViewLayout.findViewById(R.id.txtsubject);
-            TextView descriptionTextView = cardViewLayout.findViewById(R.id.txtdescription);
-            TextView marks = cardViewLayout.findViewById(R.id.txtmark);
+            // IMPORTANT: Find the inner LinearLayout first
+            LinearLayout cardContentLayout = cardViewLayout.findViewById(R.id.cardContentLayout);
+
+            // Now, find the TextViews within that inner LinearLayout
+            TextView subject  = cardContentLayout.findViewById(R.id.txtsubject);
+            TextView descriptionTextView = cardContentLayout.findViewById(R.id.txtdescription);
+            TextView marks = cardContentLayout.findViewById(R.id.txtmark);
 
             //populate the views with data
             subject.setText(currentItem.getSubject());
             descriptionTextView.setText(currentItem.getDescription());
-            marks.setText(currentItem.getMarks() + "100%");
+            marks.setText(currentItem.getMarks() + "/100"); // Assuming getMarks() returns "100" or "100%"
+
+            // You had 'final int cardIndex = i;' which wasn't used, safe to remove if not needed.
 
             cardContainer.addView(cardViewLayout);
-
-
         }
     }
 }

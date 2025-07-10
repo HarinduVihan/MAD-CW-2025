@@ -51,58 +51,13 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:fontFamily="@font/alumin"
-        android:textFontWeight="3000"
+        android:textFontWeight="1000"
         android:text="Assignments Results"
         android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
         android:translationY="-560dp"
         android:textStyle="bold"/>
-
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="24dp"-->
-<!--        android:layout_marginEnd="24dp"-->
-<!--        android:layout_marginTop="-540dp" android:layout_marginBottom="16dp"-->
-<!--        app:cardCornerRadius="8dp"-->
-<!--        app:cardElevation="4dp"-->
-<!--        app:cardBackgroundColor="@color/lightBlue">-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:padding="16dp">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Science"-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:textSize="18sp"-->
-<!--                android:textStyle="bold"-->
-<!--                android:layout_marginBottom="4dp"/>-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Drawing a complete anatomy of a leaf"-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:textSize="16sp"-->
-<!--                android:layout_marginBottom="8dp"/>-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="end"-->
-<!--                android:text="100 /100%"-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textStyle="bold"/>-->
-
-<!--        </LinearLayout>-->
-<!--    </androidx.cardview.widget.CardView>-->
 
     <ScrollView
         android:id="@+id/namesScrollView"
