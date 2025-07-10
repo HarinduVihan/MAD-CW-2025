@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TeacherAddCourseMaterial">
+
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="700dp"
+        android:layout_margin="-100px"
+        android:background="@drawable/rounded_layout"
+        android:backgroundTint="@color/lightBlue"
+        android:padding="-100px"
+        android:paddingLeft="10px"
+        android:rotation="-19"
+        android:rotationX="0"
+        android:translationX="-190dp"
+        android:translationY="-1300px" />
+
+    <Button
+        android:id="@+id/btnbk"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="&lt;"
+        android:backgroundTint="@color/transparent"
+        android:textColor="@color/black"
+        android:textFontWeight="1000"
+        android:textSize="30dp"
+        android:layout_marginTop="25px"
+        android:translationX="5dp"
+        android:translationY="-700dp"/>
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alumin"
+        android:text="History Grade 10"
+        android:textColor="#040404"
+        android:textFontWeight="1000"
+        android:textSize="34sp"
+        android:translationX="35dp"
+        android:translationY="-700dp" />
+
+    <TextView
+        android:id="@+id/txtselectClass"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Course Material"
+        android:textColor="#040404"
+        android:textSize="24sp"
+        android:translationX="35dp"
+        android:translationY="-560dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10px"
+        android:id="@+id/txtduedate"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Upload File here"
+        android:textColor="#040404"
+        android:textSize="24sp"
+        android:translationX="35dp"
+        android:translationY="-500dp" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="250px"
+        android:id="@+id/btnUpload"
+        android:text="Chosse File"
+        android:textColor="@color/black"
+        android:transformPivotY="-100px"
+        android:translationX="15dp"
+        android:translationY="-590dp"
+        android:backgroundTint="@color/lightBlue"
+        app:cornerRadius="8dp"
+        app:strokeColor="@color/lightBlue"
+        app:strokeWidth="2dp"
+        >
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:id="@+id/btnAssign"
+        android:text="Upload"
+        android:textColor="@color/black"
+        android:transformPivotY="-100px"
+        android:translationX="100dp"
+        android:translationY="-500dp"
+        android:backgroundTint="@color/lightBlue"
+        app:cornerRadius="8dp"
+        app:strokeColor="@color/lightBlue"
+        app:strokeWidth="2dp"
+        >
+    </com.google.android.material.button.MaterialButton>
+
+
+
+</LinearLayout>
