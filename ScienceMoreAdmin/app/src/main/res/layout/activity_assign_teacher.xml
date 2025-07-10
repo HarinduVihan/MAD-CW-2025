@@ -41,7 +41,6 @@
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
         android:text="Assign Teachers to Class"
-        android:gravity="center"
         android:textColor="#040404"
         android:textSize="34sp"
         android:translationX="35dp"
