@@ -6,6 +6,9 @@ plugins {
 android {
     namespace = "com.example.sciencemore_admin"
     compileSdk = 35
+    buildFeatures {
+        viewBinding = true
+    }
 
     defaultConfig {
         applicationId = "com.example.sciencemore_admin"

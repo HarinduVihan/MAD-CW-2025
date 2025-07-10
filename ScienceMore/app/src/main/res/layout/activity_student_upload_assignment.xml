@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".StudentViewSubjectMaterial">
+  <LinearLayout
+      android:layout_width="600dp"
+      android:layout_height="700dp"
+      android:background="@drawable/rounded_layout"
+      android:backgroundTint="@color/lightBlue"
+      android:paddingLeft="10px"
+      android:rotation="-19"
+      android:rotationX="0"
+      android:translationX="-190dp"
+      android:translationY="-1300px"
+      android:layout_margin="-100px"
+      android:padding="-100px">
+
+  </LinearLayout>
+
+  <Button
+      android:id="@+id/btnbk"
+      android:layout_width="wrap_content"
+      android:layout_height="60dp"
+      android:text="&lt;"
+      android:backgroundTint="@color/transparent"
+      android:textColor="@color/black"
+      android:textFontWeight="1000"
+      android:textSize="30dp"
+      android:layout_marginTop="25px"
+      android:translationX="5dp"
+      android:translationY="-700dp"/>
+
+  <TextView
+      android:layout_width="225dp"
+      android:layout_height="50dp"
+      android:fontFamily="@font/alumin"
+      android:text="History Grade 10"
+      android:textColor="#040404"
+      android:textFontWeight="1000"
+      android:textSize="34sp"
+      android:translationX="35dp"
+      android:translationY="-700dp" />
+  <TextView
+      android:layout_width="161dp"
+      android:layout_height="30dp"
+      android:fontFamily="@font/alata"
+      android:text="Assignments"
+      android:textColor="@color/black"
+      android:textSize="18sp"
+      android:textStyle="bold"
+      android:translationX="15dp"
+      android:layout_marginBottom="30dp"
+      android:translationY="-594dp">
+
+  </TextView>
+
+  <TextView
+      android:layout_width="380dp"
+      android:layout_height="80dp"
+      android:background="@color/buttonBlue"
+      android:fontFamily="@font/alata"
+      android:text="Draw miss lily potter"
+      android:textColor="@color/black"
+      android:textSize="18sp"
+      android:paddingLeft="2dp"
+      android:translationX="15dp"
+      android:translationY="-594dp">
+
+  </TextView>
+
+  <com.google.android.material.button.MaterialButton
+      style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+      android:layout_width="250dp"
+      android:layout_height="50dp"
+      android:id="@+id/btnDownloadIns"
+      android:text="Download instructions"
+      android:textColor="@color/black"
+      android:transformPivotY="-100px"
+      android:translationX="15dp"
+      android:translationY="-580dp"
+      android:backgroundTint="@color/lightBlue"
+      app:cornerRadius="8dp"
+      app:strokeColor="@color/lightBlue"
+      app:strokeWidth="2dp"
+      >
+  </com.google.android.material.button.MaterialButton>
+
+  <TextView
+      android:layout_width="250dp"
+      android:layout_height="30dp"
+      android:fontFamily="@font/alata"
+      android:text="Upload your assignment"
+      android:textColor="@color/black"
+      android:textSize="18sp"
+      android:textStyle="bold"
+      android:translationX="15dp"
+      android:layout_marginBottom="1dp"
+      android:translationY="-545dp"></TextView>
+  <TextView
+      android:layout_width="250dp"
+      android:layout_height="40dp"
+      android:fontFamily="@font/alata"
+      android:text="*Make sure your file is in PDF format"
+      android:textColor="@color/black"
+      android:textSize="12sp"
+
+      android:translationX="15dp"
+      android:layout_marginBottom="30dp"
+      android:translationY="-545dp"></TextView>
+
+  <com.google.android.material.button.MaterialButton
+      style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+      android:layout_width="200dp"
+      android:layout_height="50dp"
+      android:id="@+id/btnUpload"
+      android:text="Upload"
+      android:textColor="@color/black"
+      android:transformPivotY="-100px"
+      android:translationX="15dp"
+      android:translationY="-590dp"
+      android:backgroundTint="@color/lightBlue"
+      app:cornerRadius="8dp"
+      app:strokeColor="@color/lightBlue"
+      app:strokeWidth="2dp"
+      >
+  </com.google.android.material.button.MaterialButton>
+
+  <com.google.android.material.button.MaterialButton
+      style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+      android:layout_width="200dp"
+      android:layout_height="60dp"
+      android:id="@+id/btnSubmit"
+      android:text="Submit"
+      android:textColor="@color/black"
+      android:transformPivotY="-100px"
+      android:translationX="100dp"
+      android:translationY="-500dp"
+      android:backgroundTint="@color/lightBlue"
+      app:cornerRadius="8dp"
+      app:strokeColor="@color/lightBlue"
+      app:strokeWidth="2dp"
+      >
+  </com.google.android.material.button.MaterialButton>
+
+
+</LinearLayout>

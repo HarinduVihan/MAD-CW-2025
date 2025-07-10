@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AssignTeacher">
+    tools:context=".TeacherAddCourseMaterial">
 
     <LinearLayout
         android:layout_width="600dp"
@@ -29,19 +29,19 @@
         android:backgroundTint="@color/transparent"
         android:textColor="@color/black"
         android:textFontWeight="1000"
-        android:textSize="35dp"
+        android:textSize="30dp"
         android:layout_marginTop="25px"
         android:translationX="5dp"
         android:translationY="-700dp"/>
 
     <TextView
-        android:layout_width="300dp"
-        android:layout_height="73dp"
         android:id="@+id/heading"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/alumin"
-        android:textFontWeight="1000"
-        android:text="Assign Teachers to Class"
+        android:text="History Grade 10"
         android:textColor="#040404"
+        android:textFontWeight="1000"
         android:textSize="34sp"
         android:translationX="35dp"
         android:translationY="-700dp" />
@@ -52,50 +52,50 @@
         android:layout_height="30dp"
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
-        android:text="Select Class"
+        android:text="Course Material"
         android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
-        android:translationY="-500dp" />
-
-    <Spinner
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="60px"
-        android:layout_below="@id/txtselectClass"
-        android:translationX="35dp"
-        android:translationY="-500dp"
-        />
+        android:translationY="-560dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginTop="200px"
-        android:id="@+id/txtselectTeacher"
+        android:layout_marginTop="10px"
+        android:id="@+id/txtduedate"
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
-        android:text="Select Teacher Name"
+        android:text="Upload File here"
         android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
         android:translationY="-500dp" />
-
-    <Spinner
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="60px"
-        android:layout_below="@id/txtselectTeacher"
-        android:translationX="35dp"
-        android:translationY="-500dp"
-        />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginTop="200px"
+        android:layout_marginTop="250px"
+        android:id="@+id/btnUpload"
+        android:text="Chosse File"
+        android:textColor="@color/black"
+        android:transformPivotY="-100px"
+        android:translationX="15dp"
+        android:translationY="-590dp"
+        android:backgroundTint="@color/lightBlue"
+        app:cornerRadius="8dp"
+        app:strokeColor="@color/lightBlue"
+        app:strokeWidth="2dp"
+        >
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:id="@+id/btnAssign"
-        android:text="Assign"
+        android:text="Upload"
         android:textColor="@color/black"
         android:transformPivotY="-100px"
         android:translationX="100dp"
@@ -106,5 +106,7 @@
         app:strokeWidth="2dp"
         >
     </com.google.android.material.button.MaterialButton>
+
+
 
 </LinearLayout>
