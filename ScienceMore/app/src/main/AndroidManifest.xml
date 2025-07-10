@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ScienceMore"
         tools:targetApi="31">
         <activity
+            android:name=".TeacherAddCourseMaterial"
+            android:exported="false" />
+        <activity
             android:name=".TeacherAddAssignment"
             android:exported="true">
             <intent-filter>
@@ -38,7 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".StudentUploadAssignment"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>
