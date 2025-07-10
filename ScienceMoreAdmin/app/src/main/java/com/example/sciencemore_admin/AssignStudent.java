@@ -85,7 +85,7 @@ public class AssignStudent extends AppCompatActivity {
         loadStudentsFromFirestore();
     }
 
-    private void NavigationBar(){
+    private void NavigationBar() {
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
