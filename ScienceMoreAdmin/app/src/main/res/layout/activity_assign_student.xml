@@ -52,6 +52,7 @@
         android:layout_height="30dp"
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
+        android:layout_marginTop="-300px"
         android:text="Select Class"
         android:textColor="#040404"
         android:textSize="24sp"
@@ -146,5 +147,16 @@
         app:strokeWidth="2dp"
         >
     </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-1200px"
+        android:background="@color/lightBlue"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_nav_menu" />
 
 </LinearLayout>
