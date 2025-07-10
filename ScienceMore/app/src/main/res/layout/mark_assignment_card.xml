@@ -23,7 +23,7 @@
             android:id="@+id/txtStudentName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="P.K.S kamal manchanayaka"
+            android:text="name"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
