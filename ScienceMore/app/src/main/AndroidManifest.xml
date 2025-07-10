@@ -13,28 +13,32 @@
         android:theme="@style/Theme.ScienceMore"
         tools:targetApi="31">
         <activity
+            android:name=".TeacherAddAssignment"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".TeacherMarkAssignment"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".StudentViewSubjectMaterial"
             android:exported="false" />
         <activity
             android:name=".StudentAssignmentResults"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".StudentTeacherLogin"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".StudentUploadAssignment"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
     </application>
 
 </manifest>
