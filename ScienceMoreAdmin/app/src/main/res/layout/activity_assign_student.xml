@@ -127,7 +127,7 @@
             android:layout_width="350dp"
             android:layout_height="120dp"
             android:gravity="top|start"
-            android:hint="Selected Students"
+            android:hint="Selected Student"
             android:inputType="textMultiLine"
             android:minHeight="120dp"
             android:paddingBottom="6dp"

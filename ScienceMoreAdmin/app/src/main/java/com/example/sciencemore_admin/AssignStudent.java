@@ -46,10 +46,10 @@ public class AssignStudent extends AppCompatActivity {
     private Map<String , String> studentDocIdMap;
 
     // store the assigning student name and subject name
-    private String selectedSubjectNameActual;
-    private String selectedStudentNameActual;
+    private String selectedSubjectName;
+    private String selectedStudentName;
 
-    // store the ids
+    // store the DOC ids
     private String selectedSubjectDocId;
     private String selectedStudentDocId;
 
@@ -115,13 +115,13 @@ public class AssignStudent extends AppCompatActivity {
         classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedSubjectNameActual = parent.getItemAtPosition(position).toString(); // Store the actual subject name
-                selectedSubjectDocId = subjectIdMap.get(selectedSubjectNameActual); // Store the subject document ID
+                selectedSubjectName = parent.getItemAtPosition(position).toString(); // Store the actual subject name
+                selectedSubjectDocId = subjectIdMap.get(selectedSubjectName); // Store the subject document ID
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectedSubjectNameActual = null;
+                selectedSubjectName = null;
                 selectedSubjectDocId = null;
             }
         });
@@ -133,14 +133,14 @@ public class AssignStudent extends AppCompatActivity {
         studentNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedStudentNameActual = parent.getItemAtPosition(position).toString(); // Store the actual student name
-                selectedStudentDocId = studentDocIdMap.get(selectedStudentNameActual); // Store the student document ID
-                studentDisplay.setText(selectedStudentNameActual);
+                selectedStudentName = parent.getItemAtPosition(position).toString(); // Store the actual student name
+                selectedStudentDocId = studentDocIdMap.get(selectedStudentName); // Store the student document ID
+                studentDisplay.setText(selectedStudentName);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectedStudentNameActual = null;
+                selectedStudentName = null;
                 selectedStudentDocId = null;
                 studentDisplay.setText("");
             }
@@ -195,10 +195,10 @@ public class AssignStudent extends AppCompatActivity {
 
     // save data in firestore
     public void saveDataInFireStore(View v){
-        if (selectedStudentNameActual != null && selectedSubjectNameActual != null){
+        if (selectedStudentName != null && selectedSubjectName != null){
             Map<String, Object> assignmentData = new HashMap<>();
-            assignmentData.put("studentName", selectedStudentNameActual);
-            assignmentData.put("subject", selectedSubjectNameActual);
+            assignmentData.put("studentName", selectedStudentName);
+            assignmentData.put("subject", selectedSubjectName);
 
             db.collection("studentSubject")
                     .add(assignmentData)
@@ -219,8 +219,8 @@ public class AssignStudent extends AppCompatActivity {
         studentDisplay.setText("");
         classSpinner.setSelection(0);
         studentNameSpinner.setSelection(0);
-        selectedSubjectNameActual = null;
-        selectedStudentNameActual = null;
+        selectedSubjectName = null;
+        selectedStudentName = null;
         selectedSubjectDocId = null;
         selectedStudentDocId = null;
     }
