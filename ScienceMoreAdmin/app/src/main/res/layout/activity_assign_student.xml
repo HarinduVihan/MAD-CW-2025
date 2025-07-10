@@ -6,21 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AdminRegister">
+    tools:context=".AssignStudent">
+
     <LinearLayout
         android:layout_width="600dp"
         android:layout_height="700dp"
+        android:layout_margin="-100px"
         android:background="@drawable/rounded_layout"
         android:backgroundTint="@color/lightBlue"
+        android:padding="-100px"
         android:paddingLeft="10px"
         android:rotation="-19"
         android:rotationX="0"
         android:translationX="-190dp"
-        android:translationY="-1300px"
-        android:layout_margin="-100px"
-        android:padding="-100px">
-
-    </LinearLayout>
+        android:translationY="-1300px" />
 
     <Button
         android:id="@+id/btnbk"
@@ -36,26 +35,72 @@
         android:translationY="-700dp"/>
 
     <TextView
-        android:layout_width="161dp"
-        android:layout_height="50dp"
+        android:layout_width="300dp"
+        android:layout_height="73dp"
+        android:id="@+id/heading"
+        android:text="Assign Students to Class"
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
-        android:text="Register"
+        android:gravity="center"
         android:textColor="#040404"
         android:textSize="34sp"
         android:translationX="35dp"
         android:translationY="-700dp" />
 
     <TextView
+        android:id="@+id/txtselectClass"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
-        android:text="User Name"
+        android:text="Select Class"
         android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
-        android:translationY="-550dp" />
+        android:translationY="-500dp" />
+
+    <Spinner
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60px"
+        android:layout_below="@id/txtselectClass"
+        android:translationX="35dp"
+        android:translationY="-500dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="50px"
+        android:id="@+id/txtselectStudent"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Select Student Name"
+        android:textColor="#040404"
+        android:textSize="24sp"
+        android:translationX="35dp"
+        android:translationY="-500dp" />
+
+    <Spinner
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60px"
+        android:layout_below="@id/txtselectTeacher"
+        android:translationX="35dp"
+        android:translationY="-500dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="50px"
+        android:id="@+id/txtSudent"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Student"
+        android:textColor="#040404"
+        android:textSize="24sp"
+        android:translationX="35dp"
+        android:translationY="-500dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -72,106 +117,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="40px">
+        android:layout_marginTop="140px">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editUserName"
             android:layout_width="350dp"
             android:layout_height="40dp"
-            android:hint="Enter Name"
+            android:hint="Students Name Display Here"
             android:ellipsize="end"
             android:maxLines="1"
             tools:ignore="KeyboardInaccessibleWidget"
             />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:fontFamily="@font/alumin"
-        android:textFontWeight="1000"
-        android:text="Password"
-        android:textColor="#040404"
-        android:textSize="24sp"
-        android:translationX="35dp"
-        android:translationY="-550dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:translationX="20dp"
-        android:translationY="-550dp"
-        app:boxCornerRadiusBottomEnd="5dp"
-        app:boxCornerRadiusBottomStart="5dp"
-        app:boxCornerRadiusTopEnd="5dp"
-        app:boxCornerRadiusTopStart="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="40px">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editPassword"
-            android:layout_width="350dp"
-            android:layout_height="40dp"
-            android:hint="Enter Password"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:ignore="KeyboardInaccessibleWidget"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:fontFamily="@font/alumin"
-        android:textFontWeight="1000"
-        android:text="Confirm Password"
-        android:textColor="#040404"
-        android:textSize="24sp"
-        android:translationX="35dp"
-        android:translationY="-550dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:translationX="20dp"
-        android:translationY="-550dp"
-        app:boxCornerRadiusBottomEnd="5dp"
-        app:boxCornerRadiusBottomStart="5dp"
-        app:boxCornerRadiusTopEnd="5dp"
-        app:boxCornerRadiusTopStart="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="40px">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editConfirmPassword"
-            android:layout_width="350dp"
-            android:layout_height="40dp"
-            android:hint="Confirm Password"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:ignore="KeyboardInaccessibleWidget"
-            />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:id="@+id/btnRegister"
-        android:text="Register"
+        android:layout_marginTop="40px"
+        android:id="@+id/btnAssign"
+        android:text="Assign"
         android:textColor="@color/black"
         android:transformPivotY="-100px"
         android:translationX="100dp"
@@ -182,6 +147,5 @@
         app:strokeWidth="2dp"
         >
     </com.google.android.material.button.MaterialButton>
-
 
 </LinearLayout>
