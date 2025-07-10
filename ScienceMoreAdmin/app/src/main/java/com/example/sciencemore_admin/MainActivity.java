@@ -25,10 +25,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enterLogin(View v){
+        //go to login page
         startActivity(new Intent(MainActivity.this, AdminLogin.class));
     }
 
     public void enterRegister(View v){
+        //go to register page
         startActivity(new Intent(MainActivity.this, AdminRegister.class));
     }
 }
