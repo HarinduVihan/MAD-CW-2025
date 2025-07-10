@@ -14,8 +14,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.sciencemore_admin.databinding.ActivityAdminViewsStudentBinding;
 import com.example.sciencemore_admin.databinding.ActivityMainBinding;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AdminViewsStudent extends AppCompatActivity {
+
+
+
     private ActivityAdminViewsStudentBinding binding;
 
     @Override
