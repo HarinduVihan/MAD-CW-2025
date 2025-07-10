@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ScienceMore"
         tools:targetApi="31">
         <activity
+            android:name=".StudentViewSubjectMaterial"
+            android:exported="false" />
+        <activity
             android:name=".StudentAssignmentResults"
             android:exported="false" />
         <activity
@@ -27,6 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"/>
+
+
     </application>
 
 </manifest>
