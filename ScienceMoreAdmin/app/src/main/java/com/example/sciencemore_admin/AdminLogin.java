@@ -24,9 +24,6 @@ public class AdminLogin extends AppCompatActivity {
 
     String userName;
     String password;
-
-    boolean usernameFound;
-
     EditText usernametxt;
     EditText passwordtxt;
     @Override
@@ -64,8 +61,6 @@ public class AdminLogin extends AppCompatActivity {
 
                     QuerySnapshot querySnapshot = task.getResult();
                     if(querySnapshot != null && !querySnapshot.isEmpty()){
-
-                        usernameFound = true;
                         Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show();
                         //open admin dashboard
                        // startActivity(new Intent(AdminLogin.this,AdminDashboard.class));
