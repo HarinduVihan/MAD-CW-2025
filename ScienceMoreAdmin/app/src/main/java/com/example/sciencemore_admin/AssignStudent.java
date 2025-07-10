@@ -39,14 +39,17 @@ public class AssignStudent extends AppCompatActivity {
     // Firestore
     private FirebaseFirestore db;
 
+    // Store data getting from firestore
     private List<String> subjectNameList;
     private Map<String , String> subjectIdMap;
     private List<String> studentNamesList;
     private Map<String , String> studentDocIdMap;
 
+    // store the assigning student name and subject name
     private String selectedSubjectNameActual;
     private String selectedStudentNameActual;
 
+    // store the ids
     private String selectedSubjectDocId;
     private String selectedStudentDocId;
 
@@ -62,6 +65,7 @@ public class AssignStudent extends AppCompatActivity {
             return insets;
         });
 
+        // initializing FireStore
         db = FirebaseFirestore.getInstance();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -74,6 +78,7 @@ public class AssignStudent extends AppCompatActivity {
         studentNamesList  = new ArrayList<>();
         studentDocIdMap = new HashMap<>();
 
+        // calling methods
         NavigationBar();
         setupSpinners();
         loadSubjectsFromFirestore();
@@ -101,6 +106,7 @@ public class AssignStudent extends AppCompatActivity {
         });
     }
 
+    // set data to the spinners
     private void setupSpinners() {
         ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjectNameList);
         subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -141,6 +147,7 @@ public class AssignStudent extends AppCompatActivity {
         });
     }
 
+    // load subject data from firestore
     private void loadSubjectsFromFirestore() {
         db.collection("Subject")
                 .get()
@@ -163,6 +170,7 @@ public class AssignStudent extends AppCompatActivity {
                 });
     }
 
+    // load student data from firestore
     private void loadStudentsFromFirestore() {
         db.collection("Student")
                 .get()
@@ -185,6 +193,7 @@ public class AssignStudent extends AppCompatActivity {
                 });
     }
 
+    // save data in firestore
     public void saveDataInFireStore(View v){
         if (selectedStudentNameActual != null && selectedSubjectNameActual != null){
             Map<String, Object> assignmentData = new HashMap<>();
@@ -205,6 +214,7 @@ public class AssignStudent extends AppCompatActivity {
         }
     }
 
+    // reset all texts and spinners
     private void resetSelections(){
         studentDisplay.setText("");
         classSpinner.setSelection(0);
