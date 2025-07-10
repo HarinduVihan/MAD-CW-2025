@@ -54,6 +54,11 @@ public class AdminRegister extends AppCompatActivity {
 
     }
 
+    public void back(View v){
+        startActivity(new Intent(AdminRegister.this, MainActivity.class));
+
+    }
+
     public void clickRegister(View v){
         try{
             //assigning input by id
@@ -81,16 +86,10 @@ public class AdminRegister extends AppCompatActivity {
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                 Toast.makeText(AdminRegister.this, "Registered success", Toast.LENGTH_SHORT).show();
+                                //back to first page
                                 startActivity(new Intent(AdminRegister.this, MainActivity.class));
                             }
                         })
-//                    .addOnSuccessListener(documentReference -> {
-//                        //Success callback
-//                        System.out.println("Document added with ID: " + documentReference.getId());
-//                        Log.d("success", "Document added");
-//                        Toast.makeText(this, "Registered success", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(AdminRegister.this, MainActivity.class));
-//                    })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
