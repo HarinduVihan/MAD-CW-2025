@@ -33,7 +33,8 @@
         android:textSize="30dp"
         android:layout_marginTop="25px"
         android:translationX="5dp"
-        android:translationY="-700dp"/>
+        android:translationY="-700dp"
+        android:onClick="back"/>
 
     <TextView
         android:layout_width="161dp"
@@ -72,17 +73,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:boxStrokeColor="@color/lightBlue"
         android:layout_marginBottom="40px">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editUserName"
             android:layout_width="350dp"
             android:layout_height="40dp"
-            android:hint="Enter Name"
             android:ellipsize="end"
+            android:gravity="bottom"
+            android:hint="Enter Name"
             android:maxLines="1"
-            tools:ignore="KeyboardInaccessibleWidget"
-            />
+            android:paddingBottom="6dp"
+            tools:ignore="KeyboardInaccessibleWidget" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,6 +115,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:boxStrokeColor="@color/lightBlue"
         android:layout_marginBottom="40px">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -121,6 +125,7 @@
             android:hint="Enter Password"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingBottom="6dp"
             tools:ignore="KeyboardInaccessibleWidget"
             />
 
@@ -152,6 +157,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:boxStrokeColor="@color/lightBlue"
         android:layout_marginBottom="40px">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -161,6 +167,7 @@
             android:hint="Confirm Password"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingBottom="6dp"
             tools:ignore="KeyboardInaccessibleWidget"
             />
 

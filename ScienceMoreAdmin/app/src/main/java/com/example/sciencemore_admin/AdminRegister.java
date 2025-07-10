@@ -54,6 +54,11 @@ public class AdminRegister extends AppCompatActivity {
 
     }
 
+    public void back(View v){
+        startActivity(new Intent(AdminRegister.this, MainActivity.class));
+
+    }
+
     public void clickRegister(View v){
         try{
             //assigning input by id
