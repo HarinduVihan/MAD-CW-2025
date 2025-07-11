@@ -22,14 +22,17 @@
         android:theme="@style/Theme.ScienceMore"
         tools:targetApi="31">
         <activity
+            android:name=".TeacherDashboard"
+            android:exported="false" />
+        <activity
             android:name=".StudentDashboard"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".StudentQr"
             android:exported="false" />
@@ -56,7 +59,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".StudentUploadAssignment"
             android:exported="false" />
