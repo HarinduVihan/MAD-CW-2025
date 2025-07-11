@@ -23,7 +23,13 @@
             android:exported="false"/>
         <activity
             android:name=".AssignTeacher"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".AssignStudent"
             android:exported="false" />
@@ -38,13 +44,7 @@
             android:exported="false"/>
         <activity
             android:name=".AdminStudentDashboard"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

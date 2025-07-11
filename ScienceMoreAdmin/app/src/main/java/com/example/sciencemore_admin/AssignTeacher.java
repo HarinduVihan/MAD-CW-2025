@@ -19,8 +19,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +37,8 @@ public class AssignTeacher extends AppCompatActivity {
     private Spinner classSpinner;
     private Spinner teacherNameSpinner;
     private TextInputEditText teacherDisplay;
+
+    boolean isAvailabele;
 
     // Firestore
     private FirebaseFirestore db;
@@ -163,6 +168,9 @@ public class AssignTeacher extends AppCompatActivity {
                             }
                         }
                         ((ArrayAdapter) classSpinner.getAdapter()).notifyDataSetChanged();
+                        if (!subjectNameList.isEmpty()) {
+                            classSpinner.setSelection(0); // Set initial selection
+                        }
                     } else {
                         Toast.makeText(this, "Failed to load subjects" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -186,6 +194,9 @@ public class AssignTeacher extends AppCompatActivity {
 
                         }
                         ((ArrayAdapter) teacherNameSpinner.getAdapter()).notifyDataSetChanged();
+                        if (!teacherNameList.isEmpty()) {
+                            teacherNameSpinner.setSelection(0); // Set initial selection
+                        }
                     } else {
                         Toast.makeText(this, "Failed to load Teacher" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -193,33 +204,45 @@ public class AssignTeacher extends AppCompatActivity {
     }
 
     public void saveDataInFirebase(View v) {
-        if (selectedTeacherName != null && selectedSubjectName != null) {
-            Map<String , Object> assignedData = new HashMap<>();
-            assignedData.put("teacherName" , selectedTeacherName);
-            assignedData.put("subjectName" , selectedSubjectName);
-
-            db.collection("teacherSubject")
-                    .add(assignedData)
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
-//                        resetSelections();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        }else {
-            Toast.makeText(this, "Please select both a teacher and a subject.", Toast.LENGTH_SHORT).show();
+        if(selectedTeacherName == null || selectedSubjectName == null) {
+            Toast.makeText(AssignTeacher.this, "Please Select Teacher and subject", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        CollectionReference collectionReference = db.collection("teacherSubject");
+        // Corrected: Use "subjectName" for consistency with your put operation
+        Query query = collectionReference.whereEqualTo("teacherName", selectedTeacherName).whereEqualTo("subjectName", selectedSubjectName);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    // isAvailabele = true; // This line is likely redundant, can be removed
+                    Toast.makeText(AssignTeacher.this, "Already Assigned", Toast.LENGTH_SHORT).show(); // Consistent context
+                } else {
+                    Map<String , Object> assignedData = new HashMap<>();
+                    assignedData.put("teacherName" , selectedTeacherName);
+                    assignedData.put("subjectName" , selectedSubjectName); // This field name should match the query
+
+                    db.collection("teacherSubject")
+                            .add(assignedData)
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(AssignTeacher.this, "Assigned successfully!", Toast.LENGTH_SHORT).show(); // Consistent context
+                                resetSelections();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(AssignTeacher.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show(); // Consistent context
+                            });
+                }
+            } else {
+                Toast.makeText(AssignTeacher.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show(); // Consistent context and better error message
+            }
+        });
     }
 
     private void resetSelections(){
         teacherDisplay.setText("");
         classSpinner.setSelection(0);
         teacherNameSpinner.setSelection(0);
-        selectedSubjectName = null;
-        selectedTeacherName = null;
-        selectedSubjectDocId = null;
-        selectedTeacherDocId = null;
     }
 
 
