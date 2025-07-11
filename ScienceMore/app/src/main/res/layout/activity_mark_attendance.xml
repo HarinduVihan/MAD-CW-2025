@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".StudentViewSubjectMaterial">
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="700dp"
+        android:background="@drawable/rounded_layout"
+        android:backgroundTint="@color/lightBlue"
+        android:paddingLeft="10px"
+        android:rotation="-19"
+        android:rotationX="0"
+        android:translationX="-190dp"
+        android:translationY="-1300px"
+        android:layout_margin="-100px"
+        android:padding="-100px">
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnbk"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="&lt;"
+        android:backgroundTint="@color/transparent"
+        android:textColor="@color/black"
+        android:textFontWeight="1000"
+        android:textSize="30dp"
+        android:layout_marginTop="25px"
+        android:translationX="5dp"
+        android:translationY="-700dp"/>
+
+    <TextView
+        android:layout_width="225dp"
+        android:layout_height="50dp"
+        android:fontFamily="@font/alumin"
+        android:text="Attendance"
+        android:textColor="#040404"
+        android:textFontWeight="1000"
+        android:textSize="34sp"
+        android:translationX="35dp"
+        android:translationY="-700dp" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:id="@+id/scan_button"
+        android:text="Scan QR"
+        android:textColor="@color/black"
+        android:transformPivotY="-100px"
+        android:translationX="100dp"
+        android:translationY="-580dp"
+        android:backgroundTint="@color/lightBlue"
+        app:cornerRadius="8dp"
+        app:strokeColor="@color/lightBlue"
+        app:strokeWidth="2dp"
+        android:onClick="scanQR"
+        >
+    </com.google.android.material.button.MaterialButton>
+    <TextView
+        android:id="@+id/studentId"
+        android:layout_width="225dp"
+        android:layout_height="50dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/alumin"
+        android:text="S001"
+        android:textColor="#040404"
+        android:textFontWeight="1000"
+        android:textSize="34sp"
+        android:translationX="100dp"
+        android:translationY="-550dp" />
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/alumin"
+        android:text="W.A.U.S Weerasooriya"
+        android:textColor="#040404"
+        android:textFontWeight="1000"
+        android:textSize="34sp"
+        android:translationX="5dp"
+        android:translationY="-550dp" />
+
+    <Spinner
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:translationX="80dp"
+        android:translationY="-550dp">
+
+    </Spinner>
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:id="@+id/btnMark"
+        android:text="Mark"
+        android:textColor="@color/black"
+        android:transformPivotY="-100px"
+        android:translationX="100dp"
+        android:translationY="-520dp"
+        android:backgroundTint="@color/lightBlue"
+        app:cornerRadius="8dp"
+        app:strokeColor="@color/lightBlue"
+        app:strokeWidth="2dp"
+
+        >
+    </com.google.android.material.button.MaterialButton>
+
+
+</LinearLayout>

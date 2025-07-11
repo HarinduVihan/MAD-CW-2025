@@ -13,8 +13,20 @@
         android:theme="@style/Theme.ScienceMoreAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".AdminTeacherDashboard"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".AdminViewTeachers"
-            android:exported="true" />
+            android:exported="false"/>
+        <activity
+            android:name=".AdminLogin"
+            android:exported="false"/>
         <activity
             android:name=".AdminLogin"
             android:exported="false" />
@@ -23,6 +35,18 @@
             android:exported="true" />
         <activity
             android:name=".AssignStudent"
+            android:exported="false" />
+        <activity
+            android:name=".AdminRegister"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminViewsStudent"
+            android:exported="false"/>
+        <activity
+            android:name=".AdminStudentDashboard"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
