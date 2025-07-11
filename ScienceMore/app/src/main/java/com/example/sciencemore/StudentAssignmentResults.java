@@ -1,5 +1,6 @@
 package com.example.sciencemore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +26,11 @@ public class StudentAssignmentResults extends AppCompatActivity {
         setContentView(R.layout.activity_student_assignment_results);
         cardContainer = findViewById(R.id.cardContainer);
 
+        Intent intent = getIntent();
+        String studentName = intent.getStringExtra("studentName");
+
         List<AssignmentResults> results = new ArrayList<>();
-        results.add(new AssignmentResults("Science", "firs assignment" , "100"));
+        results.add(new AssignmentResults("Science", studentName , "100"));
         results.add(new AssignmentResults("Science", "second assignment" , "90"));
         populateCardViews(results);
         EdgeToEdge.enable(this);
