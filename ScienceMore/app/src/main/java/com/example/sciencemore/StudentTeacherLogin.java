@@ -102,7 +102,7 @@ public class StudentTeacherLogin extends AppCompatActivity {
                         if (querySnapshot != null && !querySnapshot.isEmpty()) {
                            Toast.makeText(this, "Login success as Student", Toast.LENGTH_SHORT).show();
                             //open Student dashboard
-                            // startActivity(new Intent(AdminLogin.this,StudentDashboard.class));
+                             startActivity(new Intent(StudentTeacherLogin.this,StudentDashboard.class));
                         } else {
                            Toast.makeText(this, "Enter correct username and password", Toast.LENGTH_SHORT).show();
                         }
@@ -119,6 +119,5 @@ public class StudentTeacherLogin extends AppCompatActivity {
     }
     public void back(View v){
         startActivity(new Intent(StudentTeacherLogin.this, MainActivity.class));
-
     }
 }
