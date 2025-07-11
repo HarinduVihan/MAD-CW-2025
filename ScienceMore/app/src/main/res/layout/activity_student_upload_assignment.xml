@@ -68,6 +68,7 @@
       android:textColor="@color/black"
       android:textSize="18sp"
       android:paddingLeft="2dp"
+      android:id="@+id/description"
       android:translationX="15dp"
       android:translationY="-594dp">
 
