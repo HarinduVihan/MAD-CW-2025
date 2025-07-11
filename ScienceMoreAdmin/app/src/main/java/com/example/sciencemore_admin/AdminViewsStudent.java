@@ -2,6 +2,7 @@ package com.example.sciencemore_admin;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,8 +17,15 @@ import com.example.sciencemore_admin.databinding.ActivityAdminViewsStudentBindin
 import com.example.sciencemore_admin.databinding.ActivityMainBinding;
 import com.google.firebase.Firebase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminViewsStudent extends AppCompatActivity {
+    private static final String TAG = "TeacherNamesTest";
+    private FirebaseFirestore db;
+    List<String> teacherNames = new ArrayList<>();
 
 
 
@@ -36,20 +44,9 @@ public class AdminViewsStudent extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        addNameToScrollView("mama");
-        addNameToScrollView("mage amma");
-        addNameToScrollView("mama");
-        addNameToScrollView("mage amma");
-        addNameToScrollView("mama");
-        addNameToScrollView("mage amma");
-        addNameToScrollView("mama");
-        addNameToScrollView("mage amma");
-        addNameToScrollView("mama");
-        addNameToScrollView("mage amma");
-        addNameToScrollView("mama");
-        addNameToScrollView("mage amma");
-        addNameToScrollView("mama");
-        addNameToScrollView("mage amma");
+        db = FirebaseFirestore.getInstance();
+        fetchAndLogTeacherNames();
+
     }
     private void addNameToScrollView(String name) {
         TextView textView = new TextView(this);
@@ -64,13 +61,42 @@ public class AdminViewsStudent extends AppCompatActivity {
         textView.setLayoutParams(layoutParams);
 
         textView.setText(name);
-        textView.setTextSize(18);
+        textView.setTextSize(24);
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setGravity(Gravity.LEFT);
         textView.setTypeface(null, Typeface.NORMAL);
         textView.setPadding(16, 8, 16, 8);
 
         binding.namesContainer.addView(textView);
+    }
+    private void fetchAndLogTeacherNames() {
+        Log.d(TAG, "Attempting to fetch student names..."); //all these log codes are used during development stage to make debugging easy since android studio doesn't provide a terminal.
+
+        db.collection("Student")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            String name = document.getString("studentName");
+                            if (name != null) {
+                                teacherNames.add(name);
+                                Log.d(TAG, "Found student: " + name);
+                                addNameToScrollView(name);// Log each name as it's found
+                            } else {
+                                Log.w(TAG, "Document " + document.getId() + " does not have 'studentName'");
+                            }
+                        }
+
+                        Log.d(TAG, "All Teacher Names Fetched: " + teacherNames);
+
+
+
+                    } else {
+                        Log.e(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
     }
 
 }
