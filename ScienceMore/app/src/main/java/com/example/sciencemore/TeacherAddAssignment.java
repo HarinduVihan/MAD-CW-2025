@@ -65,6 +65,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
     private ActivityResultLauncher<Intent> pickFileLauncher;
 
     private FirebaseFirestore db;
+    String uniqueMetadata;
 
     //below is the method that will always be called whenever this activity class is called
     @Override
@@ -188,7 +189,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         pickFileLauncher.launch(Intent.createChooser(intent, "Select PDF"));
     }
-    private void uploadPdf() {
+    private void uploadPdf(String subject, String assignmentName) {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading PDF...");
@@ -201,8 +202,8 @@ public class TeacherAddAssignment extends AppCompatActivity {
             // 👇 Define custom metadata
             StorageMetadata metadata = new StorageMetadata.Builder()
                     .setContentType("application/pdf")
-                    .setCustomMetadata("studentId", "s12345") // replace with dynamic value if needed
-                    .setCustomMetadata("assignmentId", "a7890") // optional additional metadata
+                    .setCustomMetadata("key", createUniqueMetada(subject, assignmentName)) // replace with dynamic value if needed
+
                     .build();
 
             // Upload file with metadata
@@ -241,13 +242,16 @@ public class TeacherAddAssignment extends AppCompatActivity {
     }
     public void assignmentUpload(View v){
         Toast.makeText(this, "upload clicked", Toast.LENGTH_SHORT).show();
-        uploadPdf();
+
         saveAssignment();
+
     }
 
     private void saveAssignment(){
         String assignmentName = editAssignmentName.getText().toString().trim();
         String dueDate = editDueDate.getText().toString().trim();
+        String subject = "history";
+
 
         if (assignmentName.isEmpty()) {
             editAssignmentName.setError("Assignment Name is required");
@@ -267,7 +271,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
         }
 
         CollectionReference collectionReference = db.collection("Assignment");
-        Query query = collectionReference.whereEqualTo("assignmentName", assignmentName);
+        Query query = collectionReference.whereEqualTo("assignmentName", assignmentName).whereEqualTo("subject", subject);
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 
@@ -279,6 +283,8 @@ public class TeacherAddAssignment extends AppCompatActivity {
                     Map<String, Object> assignmentData = new HashMap<>();
                     assignmentData.put("assignmentName", assignmentName);
                     assignmentData.put("dueDate", dueDate);
+                    assignmentData.put("subject", subject);
+                    assignmentData.put("fileMetaData", createUniqueMetada(subject, assignmentName));
 
                     db.collection("Assignment")
                             .add(assignmentData)
@@ -295,8 +301,14 @@ public class TeacherAddAssignment extends AppCompatActivity {
             }
         });
 
+        uploadPdf(subject, assignmentName);
 
 
+
+    }
+    public String createUniqueMetada(String subject, String assignmentName){
+        uniqueMetadata = subject + assignmentName;
+        return uniqueMetadata;
     }
 
 }
