@@ -1,6 +1,8 @@
 package com.example.sciencemore_admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,4 +23,17 @@ public class AdminTeacherDashboard extends AppCompatActivity {
             return insets;
         });
     }
+    public void onClickAddTeacher(View v){
+        //startActivity(new Intent(AdminTeacherDashboard.this, .class));
+    }
+    public void onClickManageTeacher(View v){
+        //startActivity(new Intent(AdminTeacherDashboard.this, .class));
+    }
+    public void onClickAssignTeacher(View v){
+        startActivity(new Intent(AdminTeacherDashboard.this, AssignTeacher.class));
+    }
+    public void onClickViewTeacher(View v){
+        startActivity(new Intent(AdminTeacherDashboard.this, AdminViewTeachers.class));
+    }
+
 }

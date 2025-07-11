@@ -53,6 +53,7 @@
         android:backgroundTint="#c4c4c4"
         app:cardCornerRadius="8dp"
         android:layout_marginBottom="15dp"
+        android:onClick="onClickAddTeacher"
 
         >
         <TextView
@@ -88,6 +89,7 @@
         android:backgroundTint="#c4c4c4"
         app:cardCornerRadius="8dp"
         android:layout_marginBottom="15dp"
+        android:onClick="onClickManageTeacher"
 
         >
         <TextView
@@ -123,6 +125,7 @@
         android:backgroundTint="#c4c4c4"
         app:cardCornerRadius="8dp"
         android:layout_marginBottom="15dp"
+        android:onClick="onClickAssignTeacher"
 
         >
         <TextView
@@ -158,6 +161,7 @@
         android:backgroundTint="#c4c4c4"
         app:cardCornerRadius="8dp"
         android:layout_marginBottom="15dp"
+        android:onClick="onClickViewTeacher"
         
 
         >
