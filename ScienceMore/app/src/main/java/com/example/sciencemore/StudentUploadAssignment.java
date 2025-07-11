@@ -1,9 +1,12 @@
 package com.example.sciencemore;
 
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,20 +27,21 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.UUID;
 
 public class StudentUploadAssignment extends AppCompatActivity {
-    private ImageView imageView;
+
     private Button btnChooseFile;
     private Button btnUploadFile;
-    private Button btnDownloadFile;
+
 
     private Uri filePath;
 
-    String filedburl;
+
 
     private FirebaseStorage storage;
 
@@ -46,6 +50,10 @@ public class StudentUploadAssignment extends AppCompatActivity {
     private ActivityResultLauncher<Intent> pickFileLauncher;
 
     private TextView txt;
+
+    private static final String TAG = "PDFDownloadFirebase";
+    private Button btnDownloadPdfFromUrl;
+    private static final String ACTUAL_DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/madsciencemore.firebasestorage.app/o/pdfs%2Fed4fd8cc-6f93-4dc9-8ba8";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
         btnChooseFile = findViewById(R.id.btnUpload); // Reusing ID, but text changed
         btnUploadFile = findViewById(R.id.btnSubmit);   // Reusing ID, but text changed
         txt = findViewById(R.id.description);
+        btnDownloadPdfFromUrl = findViewById(R.id.btnDownloadIns);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -94,6 +103,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
 
     private String getFileName(Uri uri) {
@@ -136,47 +146,82 @@ public class StudentUploadAssignment extends AppCompatActivity {
             progressDialog.setTitle("Uploading PDF...");
             progressDialog.show();
 
-            // Store PDFs in a "pdfs" folder with a unique name
-            StorageReference ref = storageReference.child("pdfs/" + UUID.randomUUID().toString() + ".pdf");
+            // Create a unique file reference inside the "pdfs" folder
+            String uniqueFileName = UUID.randomUUID().toString() + ".pdf";
+            StorageReference ref = storageReference.child("pdfs/" + uniqueFileName);
 
-            ref.putFile(filePath)
+            // 👇 Define custom metadata
+            StorageMetadata metadata = new StorageMetadata.Builder()
+                    .setContentType("application/pdf")
+                    .setCustomMetadata("studentId", "s12345") // replace with dynamic value if needed
+                    .setCustomMetadata("assignmentId", "a7890") // optional additional metadata
+                    .build();
+
+            // Upload file with metadata
+            ref.putFile(filePath, metadata)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
                             Toast.makeText(StudentUploadAssignment.this, "PDF Uploaded Successfully! 🎉", Toast.LENGTH_SHORT).show();
 
-                            // Get the download URL
-                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String downloadUrl = uri.toString();
-                                    Toast.makeText(StudentUploadAssignment.this, "Download URL: " + downloadUrl, Toast.LENGTH_LONG).show();
-                                    System.out.println("PDF Download URL: " + downloadUrl);
-                                    filedburl = downloadUrl;
-                                    txt.setText(downloadUrl);
-                                    // You would typically save this URL to Firestore/Realtime Database
-                                    // to easily retrieve the PDF later.
-                                }
-                            });
+                            // Get and show download URL
+
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@androidx.annotation.NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(StudentUploadAssignment.this, "PDF Upload Failed: " + e.getMessage() + " 😔", Toast.LENGTH_SHORT).show();
-                        }
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Toast.makeText(StudentUploadAssignment.this, "PDF Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@androidx.annotation.NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                        }
+                    .addOnProgressListener(taskSnapshot -> {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        progressDialog.setMessage("Uploaded " + (int) progress + "%");
                     });
         } else {
             Toast.makeText(this, "No PDF selected", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    private void findAndDownloadByMetadata(String targetStudentId) {
+        StorageReference listRef = storageReference.child("pdfs/");
+
+        listRef.listAll()
+                .addOnSuccessListener(listResult -> {
+                    for (StorageReference item : listResult.getItems()) {
+                        item.getMetadata().addOnSuccessListener(storageMetadata -> {
+                            String studentId = storageMetadata.getCustomMetadata("studentId");
+
+                            if (studentId != null && studentId.equals(targetStudentId)) {
+                                String fileName = storageMetadata.getName();
+                                item.getDownloadUrl().addOnSuccessListener(uri -> {
+                                    // Download file
+                                    downloadFile(uri.toString(), fileName);
+                                });
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to list files: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void downloadFile(String url, String filename) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setTitle("Downloading " + filename);
+        request.setDescription("Downloading PDF...");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+    }
+    public void downloadInstructions(View v){
+        findAndDownloadByMetadata("s12345");
+    }
+
+
+
+
 }
