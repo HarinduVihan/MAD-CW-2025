@@ -1,6 +1,7 @@
 package com.example.sciencemore_admin;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,14 +91,20 @@ public class AssignTeacher extends AppCompatActivity {
                     return true;
                 } else if (itemId == R.id.bottom_nav_teacher) {
                     Toast.makeText(AssignTeacher.this, "Teacher Selected", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(AssignTeacher.this, AdminTeacherDashboard.class));
                     return true;
                 } else if (itemId == R.id.bottom_nav_students) {
                     Toast.makeText(AssignTeacher.this, "Students Selected", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(AssignTeacher.this, AdminStudentDashboard.class));
                     return true;
                 }
                 return false;
             }
         });
+    }
+
+    public void backBtn(View v){
+        startActivity(new Intent(this, AdminTeacherDashboard.class));
     }
 
     private void setupSpinners() {
