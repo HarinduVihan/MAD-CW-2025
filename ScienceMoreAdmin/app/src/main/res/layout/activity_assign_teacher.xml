@@ -151,6 +151,7 @@
         app:cornerRadius="8dp"
         app:strokeColor="@color/lightBlue"
         app:strokeWidth="2dp"
+        android:onClick="saveDataInFirebase"
         >
     </com.google.android.material.button.MaterialButton>
 

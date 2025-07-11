@@ -203,11 +203,11 @@ public class AssignStudent extends AppCompatActivity {
             db.collection("studentSubject")
                     .add(assignmentData)
                     .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(AssignStudent.this, "Assignment created successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AssignStudent.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
                         resetSelections();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(AssignStudent.this, "Error adding assignment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AssignStudent.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         } else {
             Toast.makeText(AssignStudent.this, "Please select both a student and a subject.", Toast.LENGTH_SHORT).show();

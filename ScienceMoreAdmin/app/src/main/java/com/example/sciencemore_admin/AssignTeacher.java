@@ -74,7 +74,9 @@ public class AssignTeacher extends AppCompatActivity {
         teacherDocIdMap = new HashMap<>();
 
         NavigationBar();
-
+        setupSpinners();
+        loadSubjectsFromFireStore();
+        loadTeacherFromFirebase();
     }
 
     private void NavigationBar() {
@@ -159,4 +161,59 @@ public class AssignTeacher extends AppCompatActivity {
                     }
                 });
     }
+
+    private void loadTeacherFromFirebase() {
+        db.collection("Teacher")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        teacherNameList.clear();
+                        teacherDocIdMap.clear();
+                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                            String teacherDocId = documentSnapshot.getId();
+                            String currentTeacherName = documentSnapshot.getString("teacherName");
+                            if (currentTeacherName != null) {
+                                teacherNameList.add(currentTeacherName);
+                                teacherDocIdMap.put(currentTeacherName, teacherDocId);
+                            }
+
+                        }
+                        ((ArrayAdapter) teacherNameSpinner.getAdapter()).notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(this, "Failed to load Teacher" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void saveDataInFirebase(View v) {
+        if (selectedTeacherName != null && selectedSubjectName != null) {
+            Map<String , Object> assignedData = new HashMap<>();
+            assignedData.put("teacherName" , selectedTeacherName);
+            assignedData.put("subjectName" , selectedSubjectName);
+
+            db.collection("teacherSubject")
+                    .add(assignedData)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
+//                        resetSelections();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }else {
+            Toast.makeText(this, "Please select both a teacher and a subject.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void resetSelections(){
+        teacherDisplay.setText("");
+        classSpinner.setSelection(0);
+        teacherNameSpinner.setSelection(0);
+        selectedSubjectName = null;
+        selectedTeacherName = null;
+        selectedSubjectDocId = null;
+        selectedTeacherDocId = null;
+    }
+
+
 }
