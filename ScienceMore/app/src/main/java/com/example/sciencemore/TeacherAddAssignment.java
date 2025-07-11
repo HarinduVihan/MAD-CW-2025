@@ -23,6 +23,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -30,7 +34,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar; // Use java.util.Calendar, not android.icu.util.Calendar
+import java.util.HashMap;
 import java.util.Locale; // Import Locale for SimpleDateFormat
+import java.util.Map;
 import java.util.UUID;
 
 public class TeacherAddAssignment extends AppCompatActivity {
@@ -49,11 +55,16 @@ public class TeacherAddAssignment extends AppCompatActivity {
     private Uri filePath;
 
 
+    private String assignmentName;
+    boolean isAvailabele;
+
 
     private FirebaseStorage storage;
 
     private StorageReference storageReference;
     private ActivityResultLauncher<Intent> pickFileLauncher;
+
+    private FirebaseFirestore db;
 
     //below is the method that will always be called whenever this activity class is called
     @Override
@@ -82,6 +93,9 @@ public class TeacherAddAssignment extends AppCompatActivity {
         //getting an instance of firebase storage.
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        //getting an instance of firebase firestore
+        db = FirebaseFirestore.getInstance();
 
         pickFileLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -228,5 +242,61 @@ public class TeacherAddAssignment extends AppCompatActivity {
     public void assignmentUpload(View v){
         Toast.makeText(this, "upload clicked", Toast.LENGTH_SHORT).show();
         uploadPdf();
+        saveAssignment();
     }
+
+    private void saveAssignment(){
+        String assignmentName = editAssignmentName.getText().toString().trim();
+        String dueDate = editDueDate.getText().toString().trim();
+
+        if (assignmentName.isEmpty()) {
+            editAssignmentName.setError("Assignment Name is required");
+            return;
+        }
+        if (dueDate.isEmpty()) {
+            editDueDate.setError("Due Date is required");
+            return;
+        }
+
+        String message = "Assignment: '" + assignmentName + "' assigned with Due Date: " + dueDate;
+        Toast.makeText(TeacherAddAssignment.this, message, Toast.LENGTH_LONG).show();
+
+        if (assignmentName == null || dueDate == null) {
+            Toast.makeText(TeacherAddAssignment.this, "Please Enter Assignment name and due date", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CollectionReference collectionReference = db.collection("Assignment");
+        Query query = collectionReference.whereEqualTo("assignmentName", assignmentName);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    isAvailabele = true;
+                    Toast.makeText(this, "Already Assigned", Toast.LENGTH_SHORT).show();
+                } else {
+                    Map<String, Object> assignmentData = new HashMap<>();
+                    assignmentData.put("assignmentName", assignmentName);
+                    assignmentData.put("dueDate", dueDate);
+
+                    db.collection("Assignment")
+                            .add(assignmentData)
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(TeacherAddAssignment.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
+
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(TeacherAddAssignment.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+
 }
