@@ -35,6 +35,7 @@ import java.util.UUID;
 
 public class TeacherAddAssignment extends AppCompatActivity {
 
+    //declaration of variables and objects that will be used in this class
     private TextInputEditText editAssignmentName;
     private TextInputEditText editDueDate;
     private Button btnAssign;
@@ -54,6 +55,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
     private StorageReference storageReference;
     private ActivityResultLauncher<Intent> pickFileLauncher;
 
+    //below is the method that will always be called whenever this activity class is called
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
         });
 
 
+        //initializing variables
         editAssignmentName = findViewById(R.id.editassigmentname);
         editDueDate = findViewById(R.id.editduedate);
         btnAssign = findViewById(R.id.btnAssign);
@@ -93,6 +96,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
                         }
                     }
                 });
+
 
 
         calendar = Calendar.getInstance();
@@ -164,7 +168,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
         return result;
     }
 
-    private void choosePdf() {
+    private void choosePdf() {    //this method will call an intent that actually can navigate and choose a file. user can any file explorer available in his mobile phone.
         Intent intent = new Intent();
         intent.setType("application/pdf"); // Filter for PDF files
         intent.setAction(Intent.ACTION_GET_CONTENT);
