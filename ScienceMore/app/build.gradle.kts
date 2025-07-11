@@ -1,5 +1,7 @@
 plugins {
+   // id("com.android.application")
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -37,7 +39,20 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0") // Check for the latest version
+    implementation ("com.google.zxing:core:3.5.3")
+
+    // ZXing Android Embedded for easy integration (includes core)
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("androidx.viewpager2:viewpager2:1.0.0") // Use the latest stable version
+    implementation ("androidx.fragment:fragment-ktx:1.6.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation ("com.google.firebase:firebase-firestore:24.10.0")
+    implementation("com.google.firebase:firebase-analytics:21.6.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
 }

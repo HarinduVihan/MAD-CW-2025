@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +20,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScienceMore"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".StudentQr"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".MarkAttendance"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".TeacherAddCourseMaterial"
+            android:exported="false" />
+        <activity
+            android:name=".TeacherAddAssignment"
+            android:exported="false"/>
+        <activity
+            android:name=".TeacherMarkAssignment"
+            android:exported="false" />
+        <activity
+            android:name=".StudentViewSubjectMaterial"
+            android:exported="false" />
+        <activity
+            android:name=".StudentAssignmentResults"
+            android:exported="false" />
         <activity
             android:name=".StudentTeacherLogin"
             android:exported="false" />
@@ -24,6 +64,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StudentUploadAssignment"
+            android:exported="false" />
     </application>
 
 </manifest>

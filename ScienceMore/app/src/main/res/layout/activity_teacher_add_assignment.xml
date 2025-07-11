@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AssignStudent">
+    tools:context=".TeacherAddAssignment">
 
     <LinearLayout
         android:layout_width="600dp"
@@ -32,75 +32,28 @@
         android:textSize="30dp"
         android:layout_marginTop="25px"
         android:translationX="5dp"
-        android:translationY="-700dp"
-        android:onClick="onClickBackButton"/>
+        android:translationY="-700dp"/>
 
     <TextView
-        android:layout_width="300dp"
-        android:layout_height="103dp"
         android:id="@+id/heading"
-        android:text="Assign Students to Class"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/alumin"
-        android:textFontWeight="1000"
+        android:text="History Grade 10"
         android:textColor="#040404"
-        android:textSize="44sp"
+        android:textFontWeight="1000"
+        android:textSize="34sp"
         android:translationX="35dp"
         android:translationY="-700dp" />
 
     <TextView
-        android:id="@+id/txtselectClass"
+        android:id="@+id/txtassigmentName"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:fontFamily="@font/alumin"
-        android:textFontWeight="1000"
-        android:text="Select Class"
-        android:layout_marginTop="-200px"
+        android:text="Assignment Name"
         android:textColor="#040404"
-        android:textSize="24sp"
-        android:translationX="35dp"
-        android:translationY="-500dp" />
-
-    <Spinner
-        android:id="@+id/classSpinner"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="60px"
-        android:layout_below="@id/txtselectClass"
-        android:translationX="35dp"
-        android:translationY="-500dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="50px"
-        android:id="@+id/txtselectStudent"
-        android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
-        android:text="Select Student Name"
-        android:textColor="#040404"
-        android:textSize="24sp"
-        android:translationX="35dp"
-        android:translationY="-500dp" />
-
-    <Spinner
-        android:id="@+id/studentSpinner"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="60px"
-        android:layout_below="@id/txtselectTeacher"
-        android:translationX="35dp"
-        android:translationY="-500dp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginTop="50px"
-        android:id="@+id/txtSudent"
-        android:fontFamily="@font/alumin"
-        android:textFontWeight="1000"
-        android:text="Student"
-        android:textColor="#040404"
         android:textSize="24sp"
         android:translationX="35dp"
         android:translationY="-500dp" />
@@ -108,7 +61,7 @@
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="350dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:translationX="20dp"
@@ -120,27 +73,95 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="140px"
-        app:boxStrokeColor="@color/lightBlue">
+        android:layout_marginTop="140px">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editUserName"
+            android:id="@+id/editassigmentname"
             android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:gravity="top|start"
-            android:hint="Selected Student"
-            android:paddingBottom="6dp"
-            android:scrollbars="vertical"
+            android:layout_height="40dp"
+            android:hint="Enter Assignment Name"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:ignore="KeyboardInaccessibleWidget"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10px"
+        android:id="@+id/txtduedate"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Due Date"
+        android:textColor="#040404"
+        android:textSize="24sp"
+        android:translationX="35dp"
+        android:translationY="-500dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:translationX="20dp"
+        android:translationY="-550dp"
+        app:boxCornerRadiusBottomEnd="5dp"
+        app:boxCornerRadiusBottomStart="5dp"
+        app:boxCornerRadiusTopEnd="5dp"
+        app:boxCornerRadiusTopStart="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="140px">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editduedate"
+            android:layout_width="350dp"
+            android:layout_height="70dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:hint="Due Date"
+            android:maxLines="1"
             tools:ignore="KeyboardInaccessibleWidget" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="200px"
+        android:fontFamily="@font/alata"
+        android:text="*Make sure your file is in PDF format"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:translationX="15dp"
+        android:layout_marginBottom="30dp"
+        android:translationY="-545dp"></TextView>
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginTop="40px"
+        android:id="@+id/btnUpload"
+        android:text="Chosse File"
+        android:textColor="@color/black"
+        android:transformPivotY="-100px"
+        android:translationX="15dp"
+        android:translationY="-590dp"
+        android:backgroundTint="@color/lightBlue"
+        app:cornerRadius="8dp"
+        app:strokeColor="@color/lightBlue"
+        app:strokeWidth="2dp"
+        >
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:id="@+id/btnAssign"
-        android:text="Assign"
+        android:text="Upload"
         android:textColor="@color/black"
         android:transformPivotY="-100px"
         android:translationX="100dp"
@@ -149,19 +170,9 @@
         app:cornerRadius="8dp"
         app:strokeColor="@color/lightBlue"
         app:strokeWidth="2dp"
-        android:onClick="saveDataInFireStore"
         >
     </com.google.android.material.button.MaterialButton>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="-1100px"
-        android:background="@color/lightBlue"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
-        app:menu="@menu/bottom_nav_menu" />
+
 
 </LinearLayout>

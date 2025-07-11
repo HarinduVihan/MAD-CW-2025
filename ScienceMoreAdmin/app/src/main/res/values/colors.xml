@@ -5,4 +5,5 @@
     <color name="lightBlue">#8054d0ff</color>
     <color name="buttonBlue">#8054d0ff</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="gray">#ededed</color>
 </resources>
