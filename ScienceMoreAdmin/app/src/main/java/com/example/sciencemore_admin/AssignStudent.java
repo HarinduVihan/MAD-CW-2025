@@ -20,8 +20,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,7 @@ public class AssignStudent extends AppCompatActivity {
     private Spinner classSpinner;
     private Spinner studentNameSpinner;
     private TextInputEditText studentDisplay;
+    boolean isAvailabele;
 
     // Firestore
     private FirebaseFirestore db;
@@ -164,6 +168,9 @@ public class AssignStudent extends AppCompatActivity {
                             }
                         }
                         ((ArrayAdapter) classSpinner.getAdapter()).notifyDataSetChanged();
+                        if (!subjectNameList.isEmpty()) {
+                            classSpinner.setSelection(0);
+                        }
                     } else {
                         Toast.makeText(AssignStudent.this, "Failed to load subjects: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -187,6 +194,9 @@ public class AssignStudent extends AppCompatActivity {
                             }
                         }
                         ((ArrayAdapter) studentNameSpinner.getAdapter()).notifyDataSetChanged();
+                        if (!studentNamesList.isEmpty()) {
+                            studentNameSpinner.setSelection(0);
+                        }
                     } else {
                         Toast.makeText(AssignStudent.this, "Failed to load students: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -194,34 +204,48 @@ public class AssignStudent extends AppCompatActivity {
     }
 
     // save data in firestore
-    public void saveDataInFireStore(View v){
-        if (selectedStudentName != null && selectedSubjectName != null){
-            Map<String, Object> assignmentData = new HashMap<>();
-            assignmentData.put("studentName", selectedStudentName);
-            assignmentData.put("subject", selectedSubjectName);
-
-            db.collection("studentSubject")
-                    .add(assignmentData)
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(AssignStudent.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
-                        resetSelections();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(AssignStudent.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            Toast.makeText(AssignStudent.this, "Please select both a student and a subject.", Toast.LENGTH_SHORT).show();
+    public void saveDataInFireStore(View v) {
+        if (selectedStudentName == null || selectedSubjectName == null) {
+            Toast.makeText(AssignStudent.this, "Please Select Student and subject", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        CollectionReference collectionReference = db.collection("studentSubject");
+        Query query = collectionReference.whereEqualTo("studentName", selectedStudentName).whereEqualTo("subject", selectedSubjectName);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    isAvailabele = true;
+                    Toast.makeText(this, "Already Assigned", Toast.LENGTH_SHORT).show();
+                } else {
+                    Map<String, Object> assignmentData = new HashMap<>();
+                    assignmentData.put("studentName", selectedStudentName);
+                    assignmentData.put("subject", selectedSubjectName);
+
+                    db.collection("studentSubject")
+                            .add(assignmentData)
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(AssignStudent.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
+                                resetSelections();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(AssignStudent.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 
     // reset all texts and spinners
     private void resetSelections(){
         studentDisplay.setText("");
         classSpinner.setSelection(0);
         studentNameSpinner.setSelection(0);
-        selectedSubjectName = null;
-        selectedStudentName = null;
-        selectedSubjectDocId = null;
-        selectedStudentDocId = null;
     }
 }
