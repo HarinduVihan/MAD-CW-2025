@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboardLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".AdminDashboard">
+
+    <TextView
+        android:id="@+id/tvDashboardTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dashboard"
+        android:textSize="34sp"
+        android:fontFamily="@font/alumin"
+        android:textColor="@color/black"
+        android:translationX="35dp"
+        android:translationY="40dp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:translationY="100dp"
+        android:gravity="center_horizontal"
+        android:padding="10dp">
+
+        <!-- Teachers -->
+        <Button
+            android:id="@+id/btnTeachers"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:text="Teachers"
+            android:textSize="20sp"
+            android:backgroundTint="@color/lightBlue"
+            android:textColor="@color/black"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Students -->
+        <Button
+            android:id="@+id/btnStudents"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:text="Students"
+            android:textSize="20sp"
+            android:backgroundTint="@color/lightBlue"
+            android:textColor="@color/black"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Attendance -->
+        <Button
+            android:id="@+id/btnAttendance"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:text="Attendance"
+            android:textSize="20sp"
+            android:backgroundTint="@color/lightBlue"
+            android:textColor="@color/black"
+            app:cornerRadius="8dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Results -->
+        <Button
+            android:id="@+id/btnResults"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:text="Results"
+            android:textSize="20sp"
+            android:backgroundTint="@color/lightBlue"
+            android:textColor="@color/black"
+            app:cornerRadius="8dp"/>
+    </LinearLayout>
+</LinearLayout>
