@@ -1,6 +1,7 @@
 package com.example.sciencemore_admin;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,6 +90,11 @@ public class AssignStudent extends AppCompatActivity {
         loadStudentsFromFirestore();
     }
 
+    public void onClickBackButton(View v){
+        startActivity(new Intent(this, AdminStudentDashboard.class));
+
+    }
+
     private void NavigationBar() {
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -99,9 +105,11 @@ public class AssignStudent extends AppCompatActivity {
                     Toast.makeText(AssignStudent.this, "Home Selected", Toast.LENGTH_SHORT).show();
                     return true;
                 } else if (itemId == R.id.bottom_nav_teacher) {
+                    startActivity(new Intent(AssignStudent.this, AdminTeacherDashboard.class));
                     Toast.makeText(AssignStudent.this, "Teacher Selected", Toast.LENGTH_SHORT).show();
                     return true;
                 } else if (itemId == R.id.bottom_nav_students) {
+                    startActivity(new Intent(AssignStudent.this, AdminStudentDashboard.class));
                     Toast.makeText(AssignStudent.this, "Students Selected", Toast.LENGTH_SHORT).show();
                     return true;
                 }
