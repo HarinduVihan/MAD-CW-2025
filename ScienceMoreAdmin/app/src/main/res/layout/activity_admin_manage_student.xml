@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/adminManageStudentLayout"
+    tools:context=".AdminManageStudent"
+    android:orientation="vertical">
+
+    <!-- Curved background -->
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="700dp"
+        android:background="@drawable/rounded_layout"
+        android:backgroundTint="@color/lightBlue"
+        android:paddingLeft="10px"
+        android:rotation="-19"
+        android:rotationX="0"
+        android:translationX="-190dp"
+        android:translationY="-1300px"
+        android:layout_margin="-100px"
+        android:padding="-100px">
+
+    </LinearLayout>
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/btnBackManageStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="&lt;"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_marginTop="16dp"
+        android:translationY="-700dp"/>
+
+        <!-- Title -->
+
+        <!-- Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/alumin"
+            android:text="Manage Student"
+            android:textFontWeight="1000"
+            android:textColor="#040404"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:translationY="-700dp"
+            android:translationX="35dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="20sp"
+            android:textFontWeight="1000"
+            android:fontFamily="@font/alumin"
+            android:layout_marginTop="24dp"
+            android:translationY="-600dp"
+            android:translationX="35dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:translationY="-600dp"
+            android:translationX="35dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etManageStudentName"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:hint="Enter Name"
+                android:inputType="textPersonName"
+                android:paddingBottom="6dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Age -->
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:text="Age"
+            android:textSize="20sp"
+            android:textFontWeight="700"
+            android:fontFamily="@font/alumin"
+            android:layout_marginTop="16dp"
+            android:translationY="-600dp"
+            android:translationX="35dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:translationY="-600dp"
+            android:translationX="35dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etManageStudentAge"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Enter Age"
+                android:inputType="number"
+                android:paddingBottom="6dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Grade -->
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:text="Grade"
+            android:textSize="20sp"
+            android:textFontWeight="700"
+            android:fontFamily="@font/alumin"
+            android:translationY="-600dp"
+            android:translationX="35dp"
+            android:layout_marginTop="16dp" />
+
+        <Spinner
+            android:id="@+id/spinnerManageGrade"
+            android:layout_width="350dp"
+            android:layout_height="48dp"
+            android:spinnerMode="dropdown"
+            android:translationY="-600dp"
+            android:translationX="35dp"
+            android:paddingBottom="6dp"/>
+
+        <!-- Password -->
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:text="Password"
+            android:textSize="20sp"
+            android:textFontWeight="700"
+            android:translationY="-600dp"
+            android:translationX="35dp"
+            android:fontFamily="@font/alumin"
+            android:layout_marginTop="16dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:translationY="-600dp"
+            android:translationX="35dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etManageStudentPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Enter Password"
+                android:inputType="textPassword"
+                android:paddingBottom="6dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Confirm Password -->
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:text="Confirm Password"
+            android:textSize="20sp"
+            android:textFontWeight="700"
+            android:fontFamily="@font/alumin"
+            android:layout_marginTop="16dp"
+            android:translationY="-600dp"
+            android:translationX="35dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:translationY="-600dp"
+            android:translationX="35dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etManageConfirmStudentPassword"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:paddingBottom="6dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Button Row -->
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2"
+            android:translationY="-600dp"
+            android:translationX="35dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUpdateStudent"
+                android:layout_width="150dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Update"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/lightBlue"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/lightBlue"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeleteStudent"
+                android:layout_width="150dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Delete"
+                android:textColor="@color/white"
+                android:backgroundTint="@android:color/holo_red_light"
+                app:cornerRadius="8dp"
+                app:strokeColor="@android:color/holo_red_light"
+                app:strokeWidth="2dp" />
+        </LinearLayout>
+</LinearLayout>

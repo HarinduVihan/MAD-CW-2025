@@ -22,6 +22,7 @@
             android:name=".AdminLogin"
             android:exported="false"/>
         <activity
+
             android:name=".AssignTeacher"
             android:exported="false" />
         <activity
