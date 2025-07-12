@@ -335,8 +335,6 @@ public class StudentUploadAssignment extends AppCompatActivity {
 
         uploadPdf(subjectName, assignmentName, studentName);
 
-
-
     }
 
     private void NavigationBar() {
@@ -359,10 +357,5 @@ public class StudentUploadAssignment extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
 
 }
