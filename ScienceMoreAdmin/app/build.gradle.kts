@@ -54,4 +54,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics:21.6.0")
     implementation ("com.itextpdf:itextg:5.5.10")
     implementation("com.github.barteksc:android-pdf-viewer:3.1.0-beta.1")
+    implementation ("androidx.core:core:1.13.0")
 }
