@@ -32,7 +32,13 @@ public class AdminStudentDashboard extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        NavigationBar();
     }
+
+    public void onClickBackBtn(View v){
+        startActivity(new Intent(AdminStudentDashboard.this , AdminDashboard.class));
+    }
+
     public void onClickAddStudent(View v){
         startActivity(new Intent(AdminStudentDashboard.this, AdminAddStudent.class));
 
