@@ -4,17 +4,20 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,6 +29,9 @@ public class TeacherDashboard extends AppCompatActivity {
     private LinearLayout cardContainer;
 
     private FirebaseFirestore db;
+    String teacherName;
+
+    private BottomNavigationView bottomNavigationView;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -39,11 +45,15 @@ public class TeacherDashboard extends AppCompatActivity {
             return insets;
         });
 
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
+
         cardContainer = findViewById(R.id.cardContainer);
         db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
-        String teacherName = intent.getStringExtra("teacherName");
+        teacherName = intent.getStringExtra("teacherName");
+        Toast.makeText(this, "teacher name :" + teacherName, Toast.LENGTH_SHORT).show();
 
         fetchTeacherGrades(teacherName);
 
@@ -91,6 +101,8 @@ public class TeacherDashboard extends AppCompatActivity {
                 });
     }
 
+    public void onClickCard(View v){}
+
     private void populateCardViews(List<CardItem> dataList) {
         //clear any existing views
         cardContainer.removeAllViews();
@@ -107,7 +119,25 @@ public class TeacherDashboard extends AppCompatActivity {
             TextView subject = cardViewLayout.findViewById(R.id.gardetxt);
 
             //populate the views with data
-            subject.setText(currentItem.getDescription());
+            String subjectName = currentItem.getDescription();
+            subject.setText(subjectName);
+
+            // Set an OnClickListener for the entire cardViewLayout
+            cardViewLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // When the card is clicked, create the Intent
+                    Intent intent = new Intent(TeacherDashboard.this, TeacherAddCourseMaterial.class);
+
+                    // Put the subjectText as an extra in the Intent
+                    // "subject_name" is a key you will use to retrieve this data in StudentViewSubjectMaterial
+                    intent.putExtra("subjectName", subjectName);
+                    intent.putExtra("teacherName", teacherName);
+
+                    // Start the new Activity
+                    startActivity(intent);
+                }
+            });
 
             //Add the inflated cardview to the container
             cardContainer.addView(cardViewLayout);
@@ -116,5 +146,27 @@ public class TeacherDashboard extends AppCompatActivity {
 
     public void back(View v){
         startActivity(new Intent(TeacherDashboard.this, StudentTeacherLogin.class));
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    Intent intent = new Intent(TeacherDashboard.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
+                    return true;
+                }else if (itemId == R.id.bottom_nav_qr) {
+                    Intent intent = new Intent(TeacherDashboard.this, MarkAttendance.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

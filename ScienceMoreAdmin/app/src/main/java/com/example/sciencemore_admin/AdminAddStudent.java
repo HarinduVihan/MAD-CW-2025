@@ -4,11 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,17 +14,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdminAddStudent extends AppCompatActivity {
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     private BottomNavigationView bottomNavigationView;
     private TextInputEditText etStudentName, etStudentAge, etStudentPassword, etConfirmStudentPassword;
-    private Spinner spinnerGrade;
     private Button btnAddStudent;
-
-    private String selectedGrade = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,80 +44,76 @@ public class AdminAddStudent extends AppCompatActivity {
             return insets;
         });
 
+        // Bottom Nav
         bottomNavigationView = findViewById(R.id.bottomnav);
         NavigationBar();
 
-        // Bind views
+        // Initialize UI elements
         etStudentName = findViewById(R.id.etStudentName);
         etStudentAge = findViewById(R.id.etStudentAge);
         etStudentPassword = findViewById(R.id.etStudentPassword);
         etConfirmStudentPassword = findViewById(R.id.etConfirmStudentPassword);
-        spinnerGrade = findViewById(R.id.spinnerGrade);
         btnAddStudent = findViewById(R.id.btnAddStudent);
 
-        // Setup grade spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.grade_list,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerGrade.setAdapter(adapter);
+        // Button click to add student
+        btnAddStudent.setOnClickListener(v -> addStudentToFirestore());
+    }
 
-        spinnerGrade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedGrade = parent.getItemAtPosition(position).toString();
-            }
+    private void addStudentToFirestore() {
+        String name = etStudentName.getText().toString().trim();
+        String age = etStudentAge.getText().toString().trim();
+        String password = etStudentPassword.getText().toString().trim();
+        String confirmPassword = etConfirmStudentPassword.getText().toString().trim();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                selectedGrade = "";
-            }
-        });
+        if (name.isEmpty() || age.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Button click listener
-        btnAddStudent.setOnClickListener(v -> {
-            String name = etStudentName.getText().toString().trim();
-            String age = etStudentAge.getText().toString().trim();
-            String password = etStudentPassword.getText().toString().trim();
-            String confirmPassword = etConfirmStudentPassword.getText().toString().trim();
+        if (!password.equals(confirmPassword)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            // Basic validation
-            if (name.isEmpty() || age.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || selectedGrade.isEmpty()) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        // Prepare student data (without grade)
+        Map<String, Object> student = new HashMap<>();
+        student.put("studentName", name);
+        student.put("studentAge", age);
+        student.put("studentPassword", password);
 
-            if (!password.equals(confirmPassword)) {
-                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Success - show message (replace this with database save if needed)
-            Toast.makeText(this, "Student Added:\n" +
-                    "Name: " + name + "\nAge: " + age + "\nGrade: " + selectedGrade, Toast.LENGTH_LONG).show();
-        });
+        // Save to Firestore under "Student" collection
+        db.collection("Student")
+                .add(student)
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(AdminAddStudent.this, "Student added successfully", Toast.LENGTH_SHORT).show();
+                    etStudentName.setText("");
+                    etStudentAge.setText("");
+                    etStudentPassword.setText("");
+                    etConfirmStudentPassword.setText("");
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(AdminAddStudent.this, "Failed to add student", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void NavigationBar() {
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-
-                if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(AdminAddStudent.this, AdminDashboard.class));
-                    return true;
-                } else if (itemId == R.id.bottom_nav_teacher) {
-                    startActivity(new Intent(AdminAddStudent.this, AdminTeacherDashboard.class));
-                    return true;
-                } else if (itemId == R.id.bottom_nav_students) {
-                    startActivity(new Intent(AdminAddStudent.this, AdminStudentDashboard.class));
-                    return true;
-                }
-                return false;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.bottom_nav_home) {
+                startActivity(new Intent(AdminAddStudent.this, AdminDashboard.class));
+                return true;
+            } else if (itemId == R.id.bottom_nav_teacher) {
+                startActivity(new Intent(AdminAddStudent.this, AdminTeacherDashboard.class));
+                return true;
+            } else if (itemId == R.id.bottom_nav_students) {
+                startActivity(new Intent(AdminAddStudent.this, AdminStudentDashboard.class));
+                return true;
             }
+            return false;
         });
+    }
+
+    public void backBtnStudentAdd(View view) {
+        startActivity(new Intent(AdminAddStudent.this, AdminStudentDashboard.class));
     }
 }
