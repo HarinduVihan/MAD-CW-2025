@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#c4c4c4"
+        app:cardCornerRadius="8dp"
+        android:layout_marginBottom="15dp"
+        >
+    <TextView
+        android:id="@+id/subjecttxt"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:text="Subject"
+        android:textAlignment="center"
+        android:padding="28dp"
+        android:textSize="24dp"
+        android:textColor="@color/black">
+
+    </TextView>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/adminpic"
+        android:translationX="235dp"
+        android:translationY="0dp">
+
+    </ImageView>
+    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

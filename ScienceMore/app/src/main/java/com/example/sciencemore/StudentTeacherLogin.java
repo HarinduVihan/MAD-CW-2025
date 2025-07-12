@@ -89,6 +89,7 @@ public class StudentTeacherLogin extends AppCompatActivity {
 
                             Toast.makeText(this, "Login success as a Teacher", Toast.LENGTH_SHORT).show();
                             //open Teacher dashboard
+                            startActivity(new Intent(StudentTeacherLogin.this,TeacherDashboard.class));
                             // startActivity(new Intent(AdminLogin.this,TeacherDashboard.class));
 //                            startActivity(new Intent(StudentTeacherLogin.this, StudentDashboard.class));
                             startActivity(intent);
@@ -111,6 +112,7 @@ public class StudentTeacherLogin extends AppCompatActivity {
                             intent.putExtra("studentName" , userName);
                            Toast.makeText(this, "Login success as Student", Toast.LENGTH_SHORT).show();
                             //open Student dashboard
+                             startActivity(new Intent(StudentTeacherLogin.this,StudentDashboard.class));
                             startActivity(new Intent(this, StudentAssignmentResults.class));
                             // start intent
                             startActivity(intent);
@@ -130,6 +132,5 @@ public class StudentTeacherLogin extends AppCompatActivity {
     }
     public void back(View v){
         startActivity(new Intent(StudentTeacherLogin.this, MainActivity.class));
-
     }
 }

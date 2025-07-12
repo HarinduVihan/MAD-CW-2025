@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".StudentViewSubjectMaterial">
+    tools:context=".StudentDashboard">
     <LinearLayout
         android:layout_width="600dp"
         android:layout_height="700dp"
@@ -33,66 +33,39 @@
         android:textSize="30dp"
         android:layout_marginTop="25px"
         android:translationX="5dp"
-        android:translationY="-700dp"/>
+        android:translationY="-700dp"
+        android:onClick="back"/>
 
     <TextView
-        android:layout_width="225dp"
+        android:layout_width="161dp"
         android:layout_height="50dp"
         android:fontFamily="@font/alumin"
-        android:text="History Grade 10"
-        android:textColor="#040404"
         android:textFontWeight="1000"
+        android:text="Student"
+        android:textColor="#040404"
         android:textSize="34sp"
         android:translationX="35dp"
         android:translationY="-700dp" />
 
     <TextView
         android:layout_width="161dp"
-        android:layout_height="30dp"
-        android:fontFamily="@font/alata"
-        android:text="Subject overview"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:translationX="15dp"
-        android:translationY="-594dp">
-
-    </TextView>
-
-    <TextView
-        android:layout_width="161dp"
-        android:layout_height="30dp"
-        android:fontFamily="@font/alata"
-        android:text="Mr.Kothalavala"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:translationX="15dp"
-        android:translationY="-598dp">
-
-    </TextView>
-    <TextView
-        android:layout_width="400dp"
         android:layout_height="50dp"
-        android:fontFamily="@font/alata"
-        android:text="Government school teacher with more than 20+ years experience. BSc Hons in History"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:translationX="15dp"
-        android:translationY="-598dp"
-        android:paddingBottom="1dp">
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Subjects"
+        android:textColor="#040404"
+        android:textSize="27sp"
+        android:translationX="35dp"
+        android:translationY="-600dp" />
 
-    </TextView>
-
+<!--    for view dynamic content-->
     <ScrollView
-        android:id="@+id/namesScrollView"
+        android:id="@+id/subjectScrollView"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:translationX="0dp"
-        android:translationY="-550dp"
+        android:translationY="-600dp"
 
-        android:layout_marginTop="1dp"
         android:padding="16dp">
 
         <LinearLayout
@@ -103,7 +76,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </LinearLayout>
