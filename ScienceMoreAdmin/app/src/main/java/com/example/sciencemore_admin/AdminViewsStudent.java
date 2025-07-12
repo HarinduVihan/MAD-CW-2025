@@ -1,9 +1,11 @@
 package com.example.sciencemore_admin;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -97,6 +99,10 @@ public class AdminViewsStudent extends AppCompatActivity {
                         Log.e(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+    }
+
+    public void backBtnViewStudent(View v){
+        startActivity(new Intent(this, AdminStudentDashboard.class));
     }
 
 }

@@ -34,7 +34,8 @@
         android:textColor="@color/black"
         android:textSize="30dp"
         android:translationX="5dp"
-        android:translationY="-700dp" />
+        android:translationY="-700dp"
+        android:onClick="backBtnTeacherAdd"/>
 
     <!-- Title -->
     <TextView
@@ -70,7 +71,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTeacherName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:hint="Enter Name"
             android:inputType="text"
             android:paddingBottom="6dp"/>
@@ -96,9 +97,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTeacherAge"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:hint="Enter Age"
-            android:inputType="number" />
+            android:inputType="number"
+            android:paddingBottom="6dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -120,9 +122,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTeacherNic"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:hint="Enter NIC"
-            android:inputType="text" />
+            android:inputType="text"
+            android:paddingBottom="6dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -144,9 +147,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTeacherDes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:hint="Enter Description"
-            android:inputType="text" />
+            android:inputType="text"
+            android:paddingBottom="6dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -168,9 +172,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTeacherPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:hint="Enter Password"
-            android:inputType="textPassword" />
+            android:inputType="text"
+            android:paddingBottom="6dp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <TextView
         android:layout_width="wrap_content"
@@ -191,9 +196,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTeacherConfirmPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:hint="Enter Password"
-            android:inputType="textPassword" />
+            android:inputType="text"
+            android:paddingBottom="6dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Add Button -->
