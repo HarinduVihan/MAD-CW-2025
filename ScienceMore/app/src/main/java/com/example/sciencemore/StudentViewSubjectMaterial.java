@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,11 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,6 +38,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
     private String subjectName;
 
     private StorageReference storageReference;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,9 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
     }
     private void populateCardViews(List<CardItem> dataList) {
         // Clear any existing views
@@ -169,5 +176,26 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
         Intent intent = new Intent(StudentViewSubjectMaterial.this , StudentUploadAssignment.class);
         intent.putExtra("subjectName" , subjectName);
         startActivity(intent);
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    startActivity(new Intent(StudentViewSubjectMaterial.this, StudentDashboard.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    startActivity(new Intent(StudentViewSubjectMaterial.this, StudentAssignmentResults.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_qr) {
+                    startActivity(new Intent(StudentViewSubjectMaterial.this, MarkAttendance.class));
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }
