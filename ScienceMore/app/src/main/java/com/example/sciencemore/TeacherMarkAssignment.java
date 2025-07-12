@@ -143,12 +143,12 @@ public class TeacherMarkAssignment extends AppCompatActivity {
         assignmentResult.put("studentName", studentName);
         assignmentResult.put("Result", result);
 
-        db.collection("AssignmentResult") // Your target collection
-                .add(assignmentResult) // Use .add() to create a new document with an auto-generated ID
+        db.collection("AssignmentResult")
+                .add(assignmentResult)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(TeacherMarkAssignment.this, "Result saved successfully for " + studentName, Toast.LENGTH_SHORT).show();
-                    // Optionally, you might want to refresh the list or disable the mark button
-                    // after saving to prevent re-marking.
+                    getDocumentID(studentName, assignmentName); // this method call will get the document id of assignment submission and then will delete ot using standard delete method
+
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(TeacherMarkAssignment.this, "Error saving result: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -240,6 +240,41 @@ public class TeacherMarkAssignment extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    public void getDocumentID(String studentName, String assignmentName){
+        db.collection("AssignmentSubmission")
+                .whereEqualTo("studentName", studentName)
+                .whereEqualTo("assignmentName", assignmentName)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null && !task.getResult().isEmpty()) {
+
+                            QueryDocumentSnapshot document = (QueryDocumentSnapshot) task.getResult().getDocuments().get(0);
+                            String documentId = document.getId();
+                            Toast.makeText(this, "Found Document ID: " + documentId, Toast.LENGTH_LONG).show();
+                            deleteAssignmentSubmissionById(documentId);
+
+                        } else {
+                            // No document found. according to the data flow of our app this couldn't happen, but this line was kept for any run time error that could happen
+                            Toast.makeText(this, "No submission found for " + studentName + " in " + assignmentName, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+
+                        Toast.makeText(this, "Error getting document ID: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+    private void deleteAssignmentSubmissionById(String documentId) {
+        db.collection("AssignmentSubmission").document(documentId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(TeacherMarkAssignment.this, "Submission deleted.", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(TeacherMarkAssignment.this, "Error deleting submission: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
     }
 
 }
