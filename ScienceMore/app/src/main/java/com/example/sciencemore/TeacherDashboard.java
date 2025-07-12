@@ -91,6 +91,8 @@ public class TeacherDashboard extends AppCompatActivity {
                 });
     }
 
+    public void onClickCard(View v){}
+
     private void populateCardViews(List<CardItem> dataList) {
         //clear any existing views
         cardContainer.removeAllViews();
