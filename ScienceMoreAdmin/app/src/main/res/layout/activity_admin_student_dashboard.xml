@@ -186,11 +186,6 @@
         android:translationY="0dp">
 
     </ImageView>
-
-
-
-
-
   </androidx.cardview.widget.CardView>
 
   <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -203,9 +198,4 @@
       app:itemIconTint="@color/black"
       app:itemTextColor="@color/black"
       app:menu="@menu/bottom_nav_menu" />
-
-
-
-
-
 </LinearLayout>
