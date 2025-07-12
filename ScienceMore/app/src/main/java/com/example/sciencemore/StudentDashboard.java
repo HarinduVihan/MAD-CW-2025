@@ -156,9 +156,6 @@ public class StudentDashboard extends AppCompatActivity {
                 } else if (itemId == R.id.bottom_nav_result) {
                     startActivity(new Intent(StudentDashboard.this, StudentAssignmentResults.class));
                     return true;
-                } else if (itemId == R.id.bottom_nav_qr) {
-                    startActivity(new Intent(StudentDashboard.this, MarkAttendance.class));
-                    return true;
                 }
                 return false;
             }

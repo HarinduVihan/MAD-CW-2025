@@ -47,7 +47,7 @@ public class MarkAttendance extends AppCompatActivity {
     private static final String TAG = "FirestoreSubjectLoader";
     private FirebaseFirestore db;
     private Spinner subjectsSpinner;
-
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,9 @@ public class MarkAttendance extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
 
     }
     public void scanQR(View v){
@@ -221,5 +224,26 @@ public class MarkAttendance extends AppCompatActivity {
     }
     public void mark(View v){
         markAttendance();
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    startActivity(new Intent(MarkAttendance.this, TeacherDashboard.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    startActivity(new Intent(MarkAttendance.this, TeacherMarkAssignment.class));
+                    return true;
+                }else if (itemId == R.id.bottom_nav_qr) {
+                    startActivity(new Intent(MarkAttendance.this, MarkAttendance.class));
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }
