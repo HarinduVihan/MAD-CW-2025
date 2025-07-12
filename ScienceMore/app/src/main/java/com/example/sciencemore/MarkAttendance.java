@@ -88,13 +88,13 @@ public class MarkAttendance extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(MarkAttendance.this, AdminDashboard.class));
+                    startActivity(new Intent(MarkAttendance.this, StudentDashboard.class));
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(MarkAttendance.this, AdminTeacherDashboard.class));
+                    startActivity(new Intent(MarkAttendance.this, StudentAssignmentResults.class));
                     return true;
-                } else if (itemId == R.id.bottom_nav_assignment) {
-                    startActivity(new Intent(MarkAttendance.this, AdminStudentDashboard.class));
+                } else if (itemId == R.id.bottom_nav_qr) {
+                    startActivity(new Intent(MarkAttendance.this, MarkAttendance.class));
                     return true;
                 }
                 return false;

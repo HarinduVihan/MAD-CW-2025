@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +34,8 @@ public class StudentAssignmentResults extends AppCompatActivity {
     private LinearLayout cardContainer;
     private FirebaseFirestore db;
     private List<AssignmentResults> combinedAssignmentResults = new ArrayList<>();
+    private BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,9 @@ public class StudentAssignmentResults extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         loadAssigmnentData();
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
     }
 
     private void loadAssigmnentData() {
@@ -170,6 +178,27 @@ public class StudentAssignmentResults extends AppCompatActivity {
                 marksTextView.setText((currentItem.getMarks() != null ? currentItem.getMarks() : "N/A") + "/100");
 
                 cardContainer.addView(cardViewLayout);
+            }
+        });
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    startActivity(new Intent(StudentAssignmentResults.this, StudentDashboard.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    startActivity(new Intent(StudentAssignmentResults.this, StudentAssignmentResults.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_qr) {
+                    startActivity(new Intent(StudentAssignmentResults.this, MarkAttendance.class));
+                    return true;
+                }
+                return false;
             }
         });
     }
