@@ -1,9 +1,12 @@
 package com.example.sciencemore;
 
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,22 +25,28 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class StudentUploadAssignment extends AppCompatActivity {
-    private ImageView imageView;
+
+    //below are the variable and object declarations
     private Button btnChooseFile;
     private Button btnUploadFile;
-    private Button btnDownloadFile;
-
     private Uri filePath;
-
-    String filedburl;
+    private FirebaseFirestore db;
 
     private FirebaseStorage storage;
 
@@ -46,6 +55,15 @@ public class StudentUploadAssignment extends AppCompatActivity {
     private ActivityResultLauncher<Intent> pickFileLauncher;
 
     private TextView txt;
+
+    private static final String TAG = "PDFDownloadFirebase";
+    private String subjectName;
+    private String studentName;
+    private String fileMetaData;
+    private String metaDataforUploading;
+    private String assignmentName;
+    private Button btnDownloadPdfFromUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +74,18 @@ public class StudentUploadAssignment extends AppCompatActivity {
         btnChooseFile = findViewById(R.id.btnUpload); // Reusing ID, but text changed
         btnUploadFile = findViewById(R.id.btnSubmit);   // Reusing ID, but text changed
         txt = findViewById(R.id.description);
+        btnDownloadPdfFromUrl = findViewById(R.id.btnDownloadIns);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        db = FirebaseFirestore.getInstance();
+        Intent intent = getIntent();
+        subjectName = intent.getStringExtra("subjectName");
+        studentName = intent.getStringExtra("studentName");
+        subjectName = "Maths grade 8";
+        studentName = "avasan sudu rhino";
+        checkForAnyAssignments();
+
 
         pickFileLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -84,7 +111,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
         btnUploadFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadPdf();
+                saveAssignment();
             }
         });
 
@@ -94,6 +121,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
 
     private String getFileName(Uri uri) {
@@ -130,53 +158,182 @@ public class StudentUploadAssignment extends AppCompatActivity {
         pickFileLauncher.launch(Intent.createChooser(intent, "Select PDF"));
     }
 
-    private void uploadPdf() {
+    private void uploadPdf(String subjectname, String assignmentname, String studentname) {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading PDF...");
             progressDialog.show();
 
-            // Store PDFs in a "pdfs" folder with a unique name
-            StorageReference ref = storageReference.child("pdfs/" + UUID.randomUUID().toString() + ".pdf");
+            // Create a unique file reference inside the "pdfs" folder
+            String uniqueFileName = UUID.randomUUID().toString() + ".pdf";
+            StorageReference ref = storageReference.child("pdfs/" + uniqueFileName);
 
-            ref.putFile(filePath)
+            // 👇 Define custom metadata
+            StorageMetadata metadata = new StorageMetadata.Builder()
+                    .setContentType("application/pdf")
+                    .setCustomMetadata("studentKey", createUniqueMetadata(subjectname, studentname, assignmentname)) // replace with dynamic value if needed
+
+                    .build();
+
+            // Upload file with metadata
+            ref.putFile(filePath, metadata)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
                             Toast.makeText(StudentUploadAssignment.this, "PDF Uploaded Successfully! 🎉", Toast.LENGTH_SHORT).show();
 
-                            // Get the download URL
-                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String downloadUrl = uri.toString();
-                                    Toast.makeText(StudentUploadAssignment.this, "Download URL: " + downloadUrl, Toast.LENGTH_LONG).show();
-                                    System.out.println("PDF Download URL: " + downloadUrl);
-                                    filedburl = downloadUrl;
-                                    txt.setText(downloadUrl);
-                                    // You would typically save this URL to Firestore/Realtime Database
-                                    // to easily retrieve the PDF later.
-                                }
-                            });
+                            // Get and show download URL
+
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@androidx.annotation.NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(StudentUploadAssignment.this, "PDF Upload Failed: " + e.getMessage() + " 😔", Toast.LENGTH_SHORT).show();
-                        }
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Toast.makeText(StudentUploadAssignment.this, "PDF Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@androidx.annotation.NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                        }
+                    .addOnProgressListener(taskSnapshot -> {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        progressDialog.setMessage("Uploaded " + (int) progress + "%");
                     });
         } else {
             Toast.makeText(this, "No PDF selected", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    private void findAndDownloadByMetadata(String fileMetaData) {
+        if(fileMetaData == null){
+            Toast.makeText(this,  "No assignments due", Toast.LENGTH_SHORT).show();
+        }
+        StorageReference listRef = storageReference.child("pdfs/");
+
+        listRef.listAll()
+                .addOnSuccessListener(listResult -> {
+                    for (StorageReference item : listResult.getItems()) {
+                        item.getMetadata().addOnSuccessListener(storageMetadata -> {
+                            String key = storageMetadata.getCustomMetadata("key");
+
+                            if (key != null && key.equals(fileMetaData)) {
+                                String fileName = storageMetadata.getName();
+                                item.getDownloadUrl().addOnSuccessListener(uri -> {
+                                    // Download file
+                                    downloadFile(uri.toString(), fileName);
+                                });
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to list files: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void downloadFile(String url, String filename) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setTitle("Downloading " + filename);
+        request.setDescription("Downloading PDF...");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+    }
+    public void downloadInstructions(View v){
+        findAndDownloadByMetadata(fileMetaData);
+    }
+    public void checkForAnyAssignments(){
+        db.collection("Assignment")
+                .whereEqualTo("subject", subjectName)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                            // Documents with the specified subject name exist
+                            for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                // Get the fileMetaData field for each matching document
+                                fileMetaData = document.getString("fileMetaData");
+                                if (fileMetaData != null) {
+                                    // Here you can use the fileMetaData
+                                    // For example, log it or display it
+                                    Toast.makeText(this, "File Meta Data: " + fileMetaData, Toast.LENGTH_SHORT).show();
+                                    // If you only need the first one found, you can break here
+                                    // break;
+                                } else {
+                                    Toast.makeText(this, "File Meta Data not found for this document.", Toast.LENGTH_SHORT).show();
+                                }
+                                assignmentName = document.getString("assignmentName");
+                                Toast.makeText(this, assignmentName, Toast.LENGTH_SHORT).show();
+                                txt.setText(assignmentName);
+
+                            }
+                        } else {
+                            // No documents found with the specified subject name
+                            Toast.makeText(this, "No assignments found for subject: " + subjectName, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        // Error getting documents
+                        Toast.makeText(this, "Error getting documents: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public String createUniqueMetadata(String subject, String studentname, String assignmentname){
+        return metaDataforUploading = subject + assignmentname + studentname;
+    }
+
+
+    private void saveAssignment(){
+
+
+        //String message = "Assignment: '" + assignmentName + "' assigned with Due Date: " + dueDate;
+        //Toast.makeText(TeacherAddAssignment.this, message, Toast.LENGTH_LONG).show();
+
+        if (assignmentName == null || subjectName == null || studentName == null) {
+            Toast.makeText(StudentUploadAssignment.this, "Incomplete data", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CollectionReference collectionReference = db.collection("AssignmentSubmission");
+        Query query = collectionReference.whereEqualTo("assignmentName", assignmentName).whereEqualTo("subject", subjectName).whereEqualTo("studentName", studentName);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    boolean isAvailabele = true;
+                    Toast.makeText(this, "Already uploaded", Toast.LENGTH_SHORT).show();
+                } else {
+                    Map<String, Object> assignmentData = new HashMap<>();
+                    assignmentData.put("assignmentName", assignmentName);
+                    assignmentData.put("studentName", studentName);
+                    assignmentData.put("subject", subjectName);
+                    assignmentData.put("fileMetaData", createUniqueMetadata(subjectName, studentName, assignmentName));
+
+                    db.collection("AssignmentSubmission")
+                            .add(assignmentData)
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(StudentUploadAssignment.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
+
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(StudentUploadAssignment.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        uploadPdf(subjectName, assignmentName, studentName);
+
+
+
+    }
+
+
+
+
+
+
 }
