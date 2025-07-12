@@ -1,10 +1,13 @@
 package com.example.sciencemore;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,58 +15,162 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StudentAssignmentResults extends AppCompatActivity {
 
     private LinearLayout cardContainer;
+    private FirebaseFirestore db;
+    private List<AssignmentResults> combinedAssignmentResults = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_assignment_results);
         cardContainer = findViewById(R.id.cardContainer);
-
-        List<AssignmentResults> results = new ArrayList<>();
-        results.add(new AssignmentResults("Science", "firs assignment" , "100"));
-        results.add(new AssignmentResults("Science", "second assignment" , "90"));
-        populateCardViews(results);
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        db = FirebaseFirestore.getInstance();
+        loadAssigmnentData();
     }
 
-    private void populateCardViews(List<AssignmentResults> results){
-        // Clear any existing views
-        cardContainer.removeAllViews();
+    private void loadAssigmnentData() {
+        Intent intent = getIntent();
+        String studentName = intent.getStringExtra("studentName");
 
-        LayoutInflater inflater = LayoutInflater.from(this);
+        CollectionReference collectionReference = db.collection("AssignmentResult");
+        Query query = collectionReference.whereEqualTo("studentName", studentName);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if(querySnapshot != null && !querySnapshot.isEmpty()) {
+                    List<AssignmentResultHelp> tempResult = new ArrayList<>();
 
-        for (int i = 0; i < results.size(); i++){
-            AssignmentResults currentItem = results.get(i);
+                    for (QueryDocumentSnapshot document : querySnapshot) {
+                        String assignmentId = document.getString("AssignmentId");
+                        String result = document.getString("Result");
 
-            View cardViewLayout = inflater.inflate(R.layout.result_card,cardContainer, false);
+                        if (assignmentId != null && result != null) {
+                            tempResult.add(new AssignmentResultHelp(assignmentId, result));
+                        } else {
+                            Log.w("Firestore", "Missing AssignmentId or Result in document: " + document.getId());
+                        }
+                    }
+                    fetchAssignmentDetails(tempResult);
+                }else {
+                    Toast.makeText(this, "No assignment results found for " + studentName, Toast.LENGTH_SHORT).show();
+                    populateCardViews(new ArrayList<>()); // Clear existing cards if any
+                }
+            }else {
+                Log.e("Firestore", "Error getting assignment results: ", task.getException());
+                Toast.makeText(this, "Error loading results: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
-            // IMPORTANT: Find the inner LinearLayout first
-            LinearLayout cardContentLayout = cardViewLayout.findViewById(R.id.cardContentLayout);
+    private void fetchAssignmentDetails(List<AssignmentResultHelp> tempResults) {
+        // Clear previous data before populating
+        combinedAssignmentResults.clear();
 
-            // Now, find the TextViews within that inner LinearLayout
-            TextView subject  = cardContentLayout.findViewById(R.id.txtsubject);
-            TextView descriptionTextView = cardContentLayout.findViewById(R.id.txtdescription);
-            TextView marks = cardContentLayout.findViewById(R.id.txtmark);
+        // Use a counter to know when all asynchronous fetches are complete
+        final int[] completedFetches = {0};
 
-            //populate the views with data
-            subject.setText(currentItem.getSubject());
-            descriptionTextView.setText(currentItem.getDescription());
-            marks.setText(currentItem.getMarks() + "/100"); // Assuming getMarks() returns "100" or "100%"
-
-            // You had 'final int cardIndex = i;' which wasn't used, safe to remove if not needed.
-
-            cardContainer.addView(cardViewLayout);
+        if (tempResults.isEmpty()) {
+            populateCardViews(new ArrayList<>()); // No assignments to fetch, clear UI
+            return;
         }
+
+        for (AssignmentResultHelp minimalResult : tempResults) {
+            String assignmentIdToFetch = minimalResult.getAssignmentId();
+            String resultScore = minimalResult.getResult();
+
+            CollectionReference assignmentRef = db.collection("Assignment");
+            // Query for the specific assignment using its assignmentId
+            Query queryAssignment = assignmentRef.whereEqualTo("assignmentId", assignmentIdToFetch);
+
+            queryAssignment.get().addOnCompleteListener(task -> {
+                completedFetches[0]++; // Increment the counter
+
+                if (task.isSuccessful()) {
+                    QuerySnapshot assignmentSnapshot = task.getResult();
+                    if (assignmentSnapshot != null && !assignmentSnapshot.isEmpty()) {
+                        DocumentSnapshot assignmentDoc = assignmentSnapshot.getDocuments().get(0); // Get the first one
+
+                        String assignmentName = assignmentDoc.getString("assignmentName");
+                        String assignmentDescription = assignmentDoc.getString("assignmentDescription");
+                        String subject = assignmentDoc.getString("subject"); // From Assignment collection
+
+                        // Create your AssignmentResults object with combined data
+                        AssignmentResults finalResult = new AssignmentResults(
+                                subject, // Subject from Assignment collection
+                                assignmentDescription != null ? assignmentDescription : assignmentName, // Use description, fallback to name
+                                resultScore
+                        );
+                        combinedAssignmentResults.add(finalResult);
+                    } else {
+                        combinedAssignmentResults.add(new AssignmentResults("Unknown Subject", "Assignment details missing", resultScore));
+                    }
+                } else {
+                    combinedAssignmentResults.add(new AssignmentResults("Error", "Could not load details", resultScore));
+                }
+
+                // Check if all assignment details have been fetched
+                if (completedFetches[0] == tempResults.size()) {
+                    // All data is collected, now populate the UI
+                    populateCardViews(combinedAssignmentResults);
+                    Toast.makeText(StudentAssignmentResults.this, "All assignment details loaded.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+
+    private void populateCardViews(List<AssignmentResults> results){
+        // this runs on the UI thread
+        runOnUiThread(() -> {
+            cardContainer.removeAllViews(); // Clear existing views before adding new ones
+
+            if (results.isEmpty()) {
+                // Show a message if no results to display
+                TextView noResultsText = new TextView(this);
+                noResultsText.setText("No assignments to display.");
+                noResultsText.setPadding(16, 16, 16, 16);
+                cardContainer.addView(noResultsText);
+                return;
+            }
+
+            LayoutInflater inflater = LayoutInflater.from(this);
+
+            for (int i = 0; i < results.size(); i++){
+                AssignmentResults currentItem = results.get(i);
+
+                View cardViewLayout = inflater.inflate(R.layout.result_card, cardContainer, false);
+
+                TextView subjectTextView  = cardViewLayout.findViewById(R.id.txtsubject);
+                TextView descriptionTextView = cardViewLayout.findViewById(R.id.txtdescription);
+                TextView marksTextView = cardViewLayout.findViewById(R.id.txtmark);
+
+                // Set text, handling nulls
+                subjectTextView.setText(currentItem.getSubject() != null ? currentItem.getSubject() : "N/A");
+                descriptionTextView.setText(currentItem.getDescription() != null ? currentItem.getDescription() : "N/A");
+                marksTextView.setText((currentItem.getMarks() != null ? currentItem.getMarks() : "N/A") + "/100");
+
+                cardContainer.addView(cardViewLayout);
+            }
+        });
     }
 }
