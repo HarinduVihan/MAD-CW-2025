@@ -192,10 +192,13 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(StudentViewSubjectMaterial.this, StudentDashboard.class));
-                    return true;
+                    Intent intent = new Intent(StudentViewSubjectMaterial.this, StudentDashboard.class);
+                    intent.putExtra("studentName", studentName);
+                    startActivity(intent);
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(StudentViewSubjectMaterial.this, StudentAssignmentResults.class));
+                    Intent intent = new Intent(StudentViewSubjectMaterial.this, StudentAssignmentResults.class);
+                    intent.putExtra("studentName",studentName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;
