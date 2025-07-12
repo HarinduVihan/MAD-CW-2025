@@ -108,17 +108,11 @@ public class StudentTeacherLogin extends AppCompatActivity {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null && !querySnapshot.isEmpty()) {
                             // Intent for get student name to other pages
-//                            Intent intent = new Intent(StudentTeacherLogin.this, StudentAssignmentResults.class);
                             Intent intent2 = new Intent(StudentTeacherLogin.this, StudentDashboard.class);
-//                            intent.putExtra("studentName" , userName);
                             intent2.putExtra("studentName" , userName);
                            Toast.makeText(this, "Login success as Student", Toast.LENGTH_SHORT).show();
                             //open Student dashboard
-                             startActivity(new Intent(StudentTeacherLogin.this,StudentDashboard.class));
-//                            startActivity(new Intent(this, StudentAssignmentResults.class));
-                            // start intent
                             startActivity(intent2);
-//                            startActivity(intent);
                         } else {
                            Toast.makeText(this, "Enter correct username and password", Toast.LENGTH_SHORT).show();
                         }
