@@ -41,29 +41,27 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttendenceReport extends AppCompatActivity {
+public class AssignmentResultReport extends AppCompatActivity {
 
-    List<AttendanceEntry> attendanceList;
+    List<AssignmentEntry> assignmentList;
 
     private static final String[] PERMISSIONS = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     private static final int REQUEST_CODE_PERMISSIONS = 12;
 
-    private File pFile;
+    private File pFile; // For older Android versions
     private PDFView pdfView;
     private Button generateReportButton;
-    private Uri pdfUri;
+    private Uri pdfUri; // For Android 10+ using MediaStore
 
     private FirebaseFirestore db;
 
@@ -71,28 +69,27 @@ public class AttendenceReport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_attendence_report);
+        setContentView(R.layout.activity_assignment_result_report); // IMPORTANT: New layout file
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        Toolbar toolbar = findViewById(R.id.attendance_toolbar);
+        Toolbar toolbar = findViewById(R.id.assignment_toolbar); // IMPORTANT: New toolbar ID
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Attendance Report");
+            getSupportActionBar().setTitle("Assignment Result Report");
         }
 
-        pdfView = findViewById(R.id.attendance_pdf_viewer);
-        generateReportButton = findViewById(R.id.button_generate_attendance_report);
+        pdfView = findViewById(R.id.assignment_pdf_viewer); // IMPORTANT: New PDF viewer ID
+        generateReportButton = findViewById(R.id.button_generate_assignment_report); // IMPORTANT: New button ID
 
-        attendanceList = new ArrayList<>();
+        assignmentList = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
 
-        db = FirebaseFirestore.getInstance(); // Initialize FirebaseFirestore
-
-        // Call populateAttendanceData to fetch data from Firestore
-        populateAttendanceData();
+        // Fetch data from Firestore when the activity is created
+        populateAssignmentData();
 
         generateReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,12 +126,11 @@ public class AttendenceReport extends AppCompatActivity {
 
     private void generateAndDisplayReport() {
         try {
-            // Ensure attendanceList is populated before attempting to create the report
-            if (attendanceList.isEmpty()) {
-                Toast.makeText(this, "No attendance data available to generate report.", Toast.LENGTH_SHORT).show();
+            if (assignmentList.isEmpty()) {
+                Toast.makeText(this, "No assignment result data available to generate report.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            createAttendanceReport(attendanceList);
+            createAssignmentReport(assignmentList);
             if (pdfUri != null) {
                 Toast.makeText(this, "Report generated to Downloads: " + pdfUri.toString(), Toast.LENGTH_LONG).show();
                 displayPdfFromUri(pdfUri);
@@ -156,46 +152,44 @@ public class AttendenceReport extends AppCompatActivity {
         }
     }
 
-    private void populateAttendanceData() {
-        attendanceList.clear(); // Clear any existing hardcoded data
+    private void populateAssignmentData() {
+        assignmentList.clear();
 
-        // Fetch data from Firestore
-        db.collection("Attendance")
+        // Fetch data from Firestore "AssignmentResult" collection
+        db.collection("AssignmentResult")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Assuming your document fields are 'date', 'studentName', 'subject'
-                            String date = document.getString("date");
+                            // Match the field names as they appear in your Firestore document
+                            String assignmentName = document.getString("AssignmentName");
+                            String result = document.getString("Result");
                             String studentName = document.getString("studentName");
-                            String subject = document.getString("subject");
 
-                            if (date != null && studentName != null && subject != null) {
-                                attendanceList.add(new AttendanceEntry(date, studentName, subject));
-                                Log.d("AttendanceData", "Fetched: Date: " + date +
-                                        ", Student: " + studentName +
-                                        ", Subject: " + subject);
+                            if (assignmentName != null && result != null && studentName != null) {
+                                assignmentList.add(new AssignmentEntry(assignmentName, result, studentName));
+                                Log.d("AssignmentData", "Fetched: Assignment: " + assignmentName +
+                                        ", Result: " + result +
+                                        ", Student: " + studentName);
                             } else {
-                                Log.w("AttendanceData", "Skipping document with null fields: " + document.getId());
+                                Log.w("AssignmentData", "Skipping document with null fields: " + document.getId());
                             }
                         }
-                        // Data is now loaded into attendanceList
-                        Toast.makeText(this, "Attendance data loaded from Firestore.", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(this, "Assignment result data loaded from Firestore.", Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.e("AttendanceData", "Error getting documents: ", task.getException());
-                        Toast.makeText(this, "Error loading attendance data from Firestore.", Toast.LENGTH_SHORT).show();
+                        Log.e("AssignmentData", "Error getting documents: ", task.getException());
+                        Toast.makeText(this, "Error loading assignment data from Firestore.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void createAttendanceReport(List<AttendanceEntry> attendanceEntries) throws DocumentException, IOException {
+    private void createAssignmentReport(List<AssignmentEntry> entries) throws DocumentException, IOException {
         BaseColor colorWhite = BaseColor.WHITE;
         BaseColor grayColor = new BaseColor(66, 80, 102);
 
         OutputStream outputStream = null;
         Document document = new Document(PageSize.A4);
-        String fileName = "AttendanceReport_" + System.currentTimeMillis() + ".pdf";
+        String fileName = "AssignmentResultReport_" + System.currentTimeMillis() + ".pdf";
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -229,7 +223,8 @@ public class AttendenceReport extends AppCompatActivity {
             PdfWriter.getInstance(document, outputStream);
             document.open();
 
-            PdfPTable table = new PdfPTable(new float[]{5, 25, 25, 25});
+            // PDF content for Assignment Report
+            PdfPTable table = new PdfPTable(new float[]{5, 40, 30, 25}); // No., Assignment Name, Student Name, Result
             table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             table.getDefaultCell().setFixedHeight(50);
             table.setTotalWidth(PageSize.A4.getWidth());
@@ -244,11 +239,11 @@ public class AttendenceReport extends AppCompatActivity {
             noCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             noCell.setVerticalAlignment(Element.ALIGN_CENTER);
 
-            Chunk dateText = new Chunk("Date", whiteFont);
-            PdfPCell dateCell = new PdfPCell(new Phrase(dateText));
-            dateCell.setFixedHeight(50);
-            dateCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            dateCell.setVerticalAlignment(Element.ALIGN_CENTER);
+            Chunk assignmentNameText = new Chunk("Assignment Name", whiteFont);
+            PdfPCell assignmentNameCell = new PdfPCell(new Phrase(assignmentNameText));
+            assignmentNameCell.setFixedHeight(50);
+            assignmentNameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            assignmentNameCell.setVerticalAlignment(Element.ALIGN_CENTER);
 
             Chunk studentNameText = new Chunk("Student Name", whiteFont);
             PdfPCell studentNameCell = new PdfPCell(new Phrase(studentNameText));
@@ -256,11 +251,11 @@ public class AttendenceReport extends AppCompatActivity {
             studentNameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             studentNameCell.setVerticalAlignment(Element.ALIGN_CENTER);
 
-            Chunk subjectText = new Chunk("Subject", whiteFont);
-            PdfPCell subjectCell = new PdfPCell(new Phrase(subjectText));
-            subjectCell.setFixedHeight(50);
-            subjectCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            subjectCell.setVerticalAlignment(Element.ALIGN_CENTER);
+            Chunk resultText = new Chunk("Result", whiteFont);
+            PdfPCell resultCell = new PdfPCell(new Phrase(resultText));
+            resultCell.setFixedHeight(50);
+            resultCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            resultCell.setVerticalAlignment(Element.ALIGN_CENTER);
 
             Chunk footerText = new Chunk("ScienceMore Admin - Copyright @ 2025");
             PdfPCell footCell = new PdfPCell(new Phrase(footerText));
@@ -270,9 +265,9 @@ public class AttendenceReport extends AppCompatActivity {
             footCell.setColspan(4);
 
             table.addCell(noCell);
-            table.addCell(dateCell);
+            table.addCell(assignmentNameCell);
             table.addCell(studentNameCell);
-            table.addCell(subjectCell);
+            table.addCell(resultCell);
             table.setHeaderRows(1);
 
             PdfPCell[] cells = table.getRow(0).getCells();
@@ -280,26 +275,26 @@ public class AttendenceReport extends AppCompatActivity {
                 cell.setBackgroundColor(grayColor);
             }
 
-            for (int i = 0; i < attendanceEntries.size(); i++) {
-                AttendanceEntry entry = attendanceEntries.get(i);
+            for (int i = 0; i < entries.size(); i++) {
+                AssignmentEntry entry = entries.get(i);
 
                 String id = String.valueOf(i + 1);
-                String date = entry.getDate();
+                String assignmentName = entry.getAssignmentName();
+                String result = entry.getResult();
                 String studentName = entry.getStudentName();
-                String subject = entry.getSubject();
 
                 table.addCell(id + ". ");
-                table.addCell(date);
+                table.addCell(assignmentName);
                 table.addCell(studentName);
-                table.addCell(subject);
+                table.addCell(result);
             }
 
-            PdfPTable footTable = new PdfPTable(new float[]{5, 25, 25, 25});
+            PdfPTable footTable = new PdfPTable(new float[]{5, 40, 30, 25}); // Match column widths
             footTable.setTotalWidth(PageSize.A4.getWidth());
             footTable.setWidthPercentage(100);
             footTable.addCell(footCell);
 
-            document.add(new Paragraph("ScienceMore Attendance Report\n\n", new Font(Font.FontFamily.HELVETICA, 25.0f, Font.NORMAL, grayColor)));
+            document.add(new Paragraph("ScienceMore Assignment Result Report\n\n", new Font(Font.FontFamily.HELVETICA, 25.0f, Font.NORMAL, grayColor)));
             document.add(table);
             document.add(footTable);
 
@@ -328,7 +323,7 @@ public class AttendenceReport extends AppCompatActivity {
                     .load();
         } else {
             Toast.makeText(this, "PDF URI is null, cannot display report.", Toast.LENGTH_SHORT).show();
-            Log.e("AttendenceReport", "PDF URI is null.");
+            Log.e("AssignmentResultReport", "PDF URI is null.");
         }
     }
 }

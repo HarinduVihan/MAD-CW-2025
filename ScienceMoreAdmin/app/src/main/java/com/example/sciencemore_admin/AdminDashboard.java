@@ -53,7 +53,7 @@ public class AdminDashboard extends AppCompatActivity {
     }
 
     public void onClickResults(View view) {
-        // Implement your navigation to Results screen here
+        startActivity(new Intent(this, AssignmentResultReport.class));
     }
 
     private void NavigationBar() {
