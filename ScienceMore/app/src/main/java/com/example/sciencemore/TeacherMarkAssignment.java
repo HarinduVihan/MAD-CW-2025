@@ -123,9 +123,23 @@ public class TeacherMarkAssignment extends AppCompatActivity {
 
     }
 
+    private void deleteAssignemtSubmissions(String assignmentName, String studentName){
+        db.collection("AssignmentSubission")
+                .whereEqualTo("assignementName", assignmentName)
+                .whereEqualTo("studentName", studentName)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().isEmpty()) {
+                            Toast.makeText(TeacherMarkAssignment.this, "No matching submission found to delete.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     private void saveAssignmentResult(String assignmentName, String studentName, String result) {
         Map<String, Object> assignmentResult = new HashMap<>();
-        assignmentResult.put("AssignmentId", assignmentName);
+        assignmentResult.put("AssignmentName", assignmentName);
         assignmentResult.put("studentName", studentName);
         assignmentResult.put("Result", result);
 

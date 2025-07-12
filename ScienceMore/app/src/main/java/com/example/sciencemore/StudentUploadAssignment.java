@@ -322,7 +322,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
                             .add(assignmentData)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(StudentUploadAssignment.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
-
+                                uploadPdf(subjectName, assignmentName, studentName);
                             })
                             .addOnFailureListener(e -> {
                                 Toast.makeText(StudentUploadAssignment.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -333,7 +333,6 @@ public class StudentUploadAssignment extends AppCompatActivity {
             }
         });
 
-        uploadPdf(subjectName, assignmentName, studentName);
 
     }
 
