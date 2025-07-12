@@ -1,5 +1,6 @@
 package com.example.sciencemore_admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -23,8 +24,21 @@ public class AdminStudentDashboard extends AppCompatActivity {
             return insets;
         });
     }
-    public void onclick(View v){
-        Toast.makeText(AdminStudentDashboard.this, "Hello from Toast!", Toast.LENGTH_SHORT).show();
+    public void onClickAddStudent(View v){
+        //startActivity(new Intent(AdminStudentDashboard.this, .class));
 
     }
+    public void onClickManageStudent(View v){
+        //startActivity(new Intent(AdminStudentDashboard.this, .class));
+
+    }
+    public void onClickAssignStudent(View v){
+        startActivity(new Intent(AdminStudentDashboard.this, AssignStudent.class));
+
+    }
+    public void onClickViewStudent(View v){
+        startActivity(new Intent(AdminStudentDashboard.this, AdminViewsStudent.class));
+
+    }
+
 }

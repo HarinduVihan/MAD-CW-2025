@@ -55,4 +55,5 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore:24.10.0")
     implementation("com.google.firebase:firebase-analytics:21.6.0")
     implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
+    implementation("com.google.firebase:firebase-storage")
 }

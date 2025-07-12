@@ -56,13 +56,13 @@
             android:exported="false" />
         <activity
             android:name=".StudentTeacherLogin"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".StudentUploadAssignment"
-            android:exported="false" />
+            android:exported="true"/>
     </application>
 
 </manifest>

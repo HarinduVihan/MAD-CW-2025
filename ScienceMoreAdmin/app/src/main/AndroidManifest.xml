@@ -17,10 +17,10 @@
             android:exported="false" />
         <activity
             android:name=".AdminViewTeachers"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".AdminLogin"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".AssignTeacher"
             android:exported="false" />
@@ -32,13 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdminViewsStudent"
-            android:exported="false" />
-        <activity
-            android:name=".AdminStudentDashboard"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,6 +42,9 @@
         <activity
             android:name=".AdminViewsStudent"
             android:exported="false"/>
+        <activity
+            android:name=".AdminStudentDashboard"
+            android:exported="false" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
