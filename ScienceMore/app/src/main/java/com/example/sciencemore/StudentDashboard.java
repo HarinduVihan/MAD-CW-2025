@@ -38,7 +38,7 @@ public class StudentDashboard extends AppCompatActivity {
 
         cardContainer = findViewById(R.id.cardContainer);
         db = FirebaseFirestore.getInstance();
-        
+
         Intent intent = getIntent();
         String studentName = intent.getStringExtra("studentName");
 
