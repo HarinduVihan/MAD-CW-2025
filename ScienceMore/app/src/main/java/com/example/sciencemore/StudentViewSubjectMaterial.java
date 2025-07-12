@@ -190,9 +190,6 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
                 } else if (itemId == R.id.bottom_nav_result) {
                     startActivity(new Intent(StudentViewSubjectMaterial.this, StudentAssignmentResults.class));
                     return true;
-                } else if (itemId == R.id.bottom_nav_qr) {
-                    startActivity(new Intent(StudentViewSubjectMaterial.this, MarkAttendance.class));
-                    return true;
                 }
                 return false;
             }

@@ -233,6 +233,9 @@ public class TeacherMarkAssignment extends AppCompatActivity {
                 } else if (itemId == R.id.bottom_nav_result) {
                     startActivity(new Intent(TeacherMarkAssignment.this, TeacherMarkAssignment.class));
                     return true;
+                }else if (itemId == R.id.bottom_nav_qr) {
+                    startActivity(new Intent(TeacherMarkAssignment.this, MarkAttendance.class));
+                    return true;
                 }
                 return false;
             }
