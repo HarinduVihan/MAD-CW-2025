@@ -45,6 +45,9 @@ public class TeacherDashboard extends AppCompatActivity {
 
         fetchTeacherGrades(teacherName);
 
+        //set the text view to teacher name
+        TextView teacherDisplayName = findViewById(R.id.teacherName);
+        teacherDisplayName.setText(teacherName);
     }
 
     private void fetchTeacherGrades(String teacherName){

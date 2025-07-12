@@ -43,6 +43,10 @@ public class StudentDashboard extends AppCompatActivity {
         String studentName = intent.getStringExtra("studentName");
 
         fetchStudentSubjects(studentName);
+
+        //set the text view to studentName
+        TextView teacherDisplayName = findViewById(R.id.studentName);
+        teacherDisplayName.setText(studentName);
     }
 
     private void fetchStudentSubjects(String studentName) {

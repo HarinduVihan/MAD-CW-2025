@@ -46,6 +46,17 @@
         android:textSize="34sp"
         android:translationX="35dp"
         android:translationY="-700dp" />
+    <TextView
+        android:id="@+id/teacherName"
+        android:layout_width="161dp"
+        android:layout_height="50dp"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Name"
+        android:textColor="#040404"
+        android:textSize="34sp"
+        android:translationX="205dp"
+        android:translationY="-800dp" />
 
     <TextView
         android:layout_width="161dp"
@@ -56,7 +67,7 @@
         android:textColor="#040404"
         android:textSize="27sp"
         android:translationX="35dp"
-        android:translationY="-600dp" />
+        android:translationY="-650dp" />
 
     <!--    for view dynamic content-->
     <ScrollView
@@ -64,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:translationX="0dp"
-        android:translationY="-600dp"
+        android:translationY="-650dp"
 
         android:padding="16dp">
 
