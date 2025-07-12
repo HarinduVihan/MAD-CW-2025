@@ -117,7 +117,24 @@ public class TeacherDashboard extends AppCompatActivity {
             TextView subject = cardViewLayout.findViewById(R.id.gardetxt);
 
             //populate the views with data
-            subject.setText(currentItem.getDescription());
+            String subjectName = currentItem.getDescription();
+            subject.setText(subjectName);
+
+            // Set an OnClickListener for the entire cardViewLayout
+            cardViewLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // When the card is clicked, create the Intent
+                    Intent intent = new Intent(TeacherDashboard.this, TeacherAddCourseMaterial.class);
+
+                    // Put the subjectText as an extra in the Intent
+                    // "subject_name" is a key you will use to retrieve this data in StudentViewSubjectMaterial
+                    intent.putExtra("subjectName", subjectName);
+
+                    // Start the new Activity
+                    startActivity(intent);
+                }
+            });
 
             //Add the inflated cardview to the container
             cardContainer.addView(cardViewLayout);
