@@ -1,6 +1,8 @@
 package com.example.sciencemore_admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,15 +12,18 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class AdminAddStudent extends AppCompatActivity {
 
+    private BottomNavigationView bottomNavigationView;
     private TextInputEditText etStudentName, etStudentAge, etStudentPassword, etConfirmStudentPassword;
     private Spinner spinnerGrade;
     private Button btnAddStudent;
@@ -36,6 +41,9 @@ public class AdminAddStudent extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
 
         // Bind views
         etStudentName = findViewById(R.id.etStudentName);
@@ -87,6 +95,27 @@ public class AdminAddStudent extends AppCompatActivity {
             // Success - show message (replace this with database save if needed)
             Toast.makeText(this, "Student Added:\n" +
                     "Name: " + name + "\nAge: " + age + "\nGrade: " + selectedGrade, Toast.LENGTH_LONG).show();
+        });
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    startActivity(new Intent(AdminAddStudent.this, AdminDashboard.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_teacher) {
+                    startActivity(new Intent(AdminAddStudent.this, AdminTeacherDashboard.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_students) {
+                    startActivity(new Intent(AdminAddStudent.this, AdminStudentDashboard.class));
+                    return true;
+                }
+                return false;
+            }
         });
     }
 }
