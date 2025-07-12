@@ -49,7 +49,7 @@
     <TextView
         android:id="@+id/studentName"
         android:layout_width="161dp"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:fontFamily="@font/alumin"
         android:textFontWeight="1000"
         android:text="Name"
