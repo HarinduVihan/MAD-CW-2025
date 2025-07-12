@@ -33,7 +33,8 @@
         android:textColor="@color/black"
         android:backgroundTint="@android:color/transparent"
         android:layout_marginTop="16dp"
-        android:translationY="-700dp"/>
+        android:translationY="-700dp"
+        android:onClick="btnAdminStudentManageBack"/>
 
         <!-- Title -->
 
@@ -62,23 +63,26 @@
             android:translationY="-600dp"
             android:translationX="35dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:translationY="-600dp"
-            android:translationX="35dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etManageStudentName"
-                android:layout_width="350dp"
-                android:layout_height="40dp"
-                android:hint="Enter Name"
-                android:inputType="textPersonName"
-                android:paddingBottom="6dp"/>
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:translationY="-600dp"
+        android:translationX="35dp">
+        <AutoCompleteTextView
+            android:id="@+id/actvStudentNames"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Select or type student name"
+            android:inputType="textPersonName"
+            android:completionThreshold="1"
+            android:paddingBottom="6dp"
+            android:paddingLeft="15dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-        <!-- Age -->
+
+    <!-- Age -->
         <TextView
             android:layout_width="40dp"
             android:layout_height="30dp"
@@ -105,26 +109,26 @@
                 android:paddingBottom="6dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Grade -->
-        <TextView
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:text="Grade"
-            android:textSize="20sp"
-            android:textFontWeight="700"
-            android:fontFamily="@font/alumin"
-            android:translationY="-600dp"
-            android:translationX="35dp"
-            android:layout_marginTop="16dp" />
+<!--        &lt;!&ndash; Grade &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:text="Grade"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textFontWeight="700"-->
+<!--            android:fontFamily="@font/alumin"-->
+<!--            android:translationY="-600dp"-->
+<!--            android:translationX="35dp"-->
+<!--            android:layout_marginTop="16dp" />-->
 
-        <Spinner
-            android:id="@+id/spinnerManageGrade"
-            android:layout_width="350dp"
-            android:layout_height="48dp"
-            android:spinnerMode="dropdown"
-            android:translationY="-600dp"
-            android:translationX="35dp"
-            android:paddingBottom="6dp"/>
+<!--        <Spinner-->
+<!--            android:id="@+id/spinnerManageGrade"-->
+<!--            android:layout_width="350dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:spinnerMode="dropdown"-->
+<!--            android:translationY="-600dp"-->
+<!--            android:translationX="35dp"-->
+<!--            android:paddingBottom="6dp"/>-->
 
         <!-- Password -->
         <TextView
@@ -149,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:hint="Enter Password"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:paddingBottom="6dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -176,7 +180,7 @@
                 android:layout_width="350dp"
                 android:layout_height="40dp"
                 android:hint="Confirm Password"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:paddingBottom="6dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -202,7 +206,8 @@
                 android:backgroundTint="@color/lightBlue"
                 app:cornerRadius="8dp"
                 app:strokeColor="@color/lightBlue"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="2dp"
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDeleteStudent"
@@ -215,7 +220,8 @@
                 android:backgroundTint="@android:color/holo_red_light"
                 app:cornerRadius="8dp"
                 app:strokeColor="@android:color/holo_red_light"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="2dp"
+                />
         </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -223,7 +229,7 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-1550px"
+        android:layout_marginTop="-1350px"
         android:background="@color/lightBlue"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"

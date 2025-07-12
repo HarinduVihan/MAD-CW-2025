@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,18 +14,25 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class TeacherAddCourseMaterial extends AppCompatActivity {
@@ -37,7 +45,9 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
     private String description;
     private String uniqueMetadata;
     private Uri filePath;
-    private String subject; //should come from an intent
+    private String subjectName;
+    private String teacherName;//should come from an intent
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +60,18 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
             return insets;
         });
 
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
+
         descriptionTXT = findViewById(R.id.descriptionCM);
+
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        Intent intent = getIntent();
+        subjectName = intent.getStringExtra("subjectName");
+        teacherName = intent.getStringExtra("teacherName");
 
         db = FirebaseFirestore.getInstance();
 
@@ -157,7 +175,83 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
     }
     public void onPressUpload(View v){
         description = descriptionTXT.getText().toString();
-        uploadPdf(subject, description);
+        saveAssignment();
 
+    }
+
+    private void saveAssignment(){
+        description = descriptionTXT.getText().toString();
+
+
+        if (description == null || subjectName == null) {
+            Toast.makeText(TeacherAddCourseMaterial.this, "Please Enter Course material description", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CollectionReference collectionReference = db.collection("SubjectMaterial");
+        Query query = collectionReference.whereEqualTo("materialDescription", description).whereEqualTo("subject", subjectName);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    boolean isAvailabele = true;
+                    Toast.makeText(this, "Already Assigned", Toast.LENGTH_SHORT).show();
+                } else {
+                    Map<String, Object> assignmentData = new HashMap<>();
+                    assignmentData.put("materialDescription", description);
+
+                    assignmentData.put("subject", subjectName);
+                    assignmentData.put("fileMetaData", createUniqueMetada(subjectName, description));
+
+                    db.collection("SubjectMaterial")
+                            .add(assignmentData)
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(TeacherAddCourseMaterial.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
+                                uploadPdf(subjectName, description);
+
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(TeacherAddCourseMaterial.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    Intent intent = new Intent(TeacherAddCourseMaterial.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    Intent intent = new Intent(TeacherAddCourseMaterial.this , TeacherMarkAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
+                    return true;
+                } else if (itemId == R.id.bottom_nav_assignment) {
+                    Intent intent = new Intent(TeacherAddCourseMaterial.this , TeacherAddAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

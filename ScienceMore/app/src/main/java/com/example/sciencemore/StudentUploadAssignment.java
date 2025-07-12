@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,6 +27,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -64,6 +67,8 @@ public class StudentUploadAssignment extends AppCompatActivity {
     private String assignmentName;
     private Button btnDownloadPdfFromUrl;
 
+    private BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +81,17 @@ public class StudentUploadAssignment extends AppCompatActivity {
         txt = findViewById(R.id.description);
         btnDownloadPdfFromUrl = findViewById(R.id.btnDownloadIns);
 
+
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("subjectName");
         studentName = intent.getStringExtra("studentName");
-        subjectName = "Maths grade 8";
-        studentName = "avasan sudu rhino";
+        Toast.makeText(this, "Student name :" + studentName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Subject name :" + subjectName, Toast.LENGTH_SHORT).show();
+
         checkForAnyAssignments();
 
 
@@ -100,6 +108,9 @@ public class StudentUploadAssignment extends AppCompatActivity {
                         }
                     }
                 });
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
 
         btnChooseFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,6 +300,9 @@ public class StudentUploadAssignment extends AppCompatActivity {
         //String message = "Assignment: '" + assignmentName + "' assigned with Due Date: " + dueDate;
         //Toast.makeText(TeacherAddAssignment.this, message, Toast.LENGTH_LONG).show();
 
+        Toast.makeText(StudentUploadAssignment.this, "assignmentName" + assignmentName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(StudentUploadAssignment.this, "subjectName" + subjectName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(StudentUploadAssignment.this, "studentName" + studentName, Toast.LENGTH_SHORT).show();
         if (assignmentName == null || subjectName == null || studentName == null) {
             Toast.makeText(StudentUploadAssignment.this, "Incomplete data", Toast.LENGTH_SHORT).show();
             return;
@@ -314,7 +328,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
                             .add(assignmentData)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(StudentUploadAssignment.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
-
+                                uploadPdf(subjectName, assignmentName, studentName);
                             })
                             .addOnFailureListener(e -> {
                                 Toast.makeText(StudentUploadAssignment.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -325,15 +339,29 @@ public class StudentUploadAssignment extends AppCompatActivity {
             }
         });
 
-        uploadPdf(subjectName, assignmentName, studentName);
-
-
 
     }
 
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
 
-
-
-
+                if (itemId == R.id.bottom_nav_home) {
+                    Intent intent = new Intent(StudentUploadAssignment.this, StudentDashboard.class);
+                    intent.putExtra("studentName", studentName);
+                    startActivity(intent);
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    Intent intent = new Intent(StudentUploadAssignment.this, StudentAssignmentResults.class);
+                    intent.putExtra("studentName",studentName);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 
 }

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,12 +17,14 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -64,9 +67,11 @@ public class TeacherAddAssignment extends AppCompatActivity {
     private StorageReference storageReference;
     private ActivityResultLauncher<Intent> pickFileLauncher;
     String subjectName;
+    String teacherName;
 
     private FirebaseFirestore db;
     String uniqueMetadata;
+    private BottomNavigationView bottomNavigationView;
 
     //below is the method that will always be called whenever this activity class is called
     @Override
@@ -79,9 +84,15 @@ public class TeacherAddAssignment extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
+
         Intent intent = getIntent();
+        teacherName = intent.getStringExtra("teacherName");
         subjectName = intent.getStringExtra("subjectName");
-        subjectName = "Maths grade 8";
+
+
 
 
         //initializing variables
@@ -312,6 +323,34 @@ public class TeacherAddAssignment extends AppCompatActivity {
     public String createUniqueMetada(String subject, String assignmentName){
         uniqueMetadata = subject + assignmentName;
         return uniqueMetadata;
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    Intent intent = new Intent(TeacherAddAssignment.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    Intent intent = new Intent(TeacherAddAssignment.this , TeacherMarkAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
+                    return true;
+                } else if (itemId == R.id.bottom_nav_assignment) {
+                    Intent intent = new Intent(TeacherAddAssignment.this , TeacherAddAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
     }
 
 }

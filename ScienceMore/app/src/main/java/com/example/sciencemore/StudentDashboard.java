@@ -4,17 +4,20 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -25,6 +28,9 @@ public class StudentDashboard extends AppCompatActivity {
 
     private LinearLayout cardContainer;
     private FirebaseFirestore db;
+    private BottomNavigationView bottomNavigationView;
+    String studentName;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -38,11 +44,15 @@ public class StudentDashboard extends AppCompatActivity {
             return insets;
         });
 
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
+
         cardContainer = findViewById(R.id.cardContainer);
         db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
-        String studentName = intent.getStringExtra("studentName");
+        studentName = intent.getStringExtra("studentName");
+        Toast.makeText(this, "Student name :" + studentName, Toast.LENGTH_SHORT).show();
 
         fetchStudentSubjects(studentName);
 
@@ -109,12 +119,53 @@ public class StudentDashboard extends AppCompatActivity {
             TextView subject = cardViewLayout.findViewById(R.id.subjecttxt);
 
             // Populate the views with data
-            subject.setText(currentItem.getDescription());
+            String subjectText = currentItem.getDescription();
+            subject.setText(subjectText);
+
+            // Set an OnClickListener for the entire cardViewLayout
+            cardViewLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // When the card is clicked, create the Intent
+                    Intent intent = new Intent(StudentDashboard.this, StudentViewSubjectMaterial.class);
+
+                    // Put the subjectText as an extra in the Intent
+                    // "subject_name" is a key you will use to retrieve this data in StudentViewSubjectMaterial
+                    intent.putExtra("subjectName", subjectText);
+                    intent.putExtra("studentName", studentName);
+
+                    // Start the new Activity
+                    startActivity(intent);
+                }
+            });
 
             // Add the inflated cardview to the container
             cardContainer.addView(cardViewLayout);
         }
     }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    Intent intent = new Intent(StudentDashboard.this, StudentDashboard.class);
+                    intent.putExtra("studentName", studentName);
+                    startActivity(intent);
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    Intent intent = new Intent(StudentDashboard.this, StudentAssignmentResults.class);
+                    intent.putExtra("studentName",studentName);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
 
     public void back(View v){
         startActivity(new Intent(StudentDashboard.this, StudentTeacherLogin.class));
