@@ -45,7 +45,8 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
     private String description;
     private String uniqueMetadata;
     private Uri filePath;
-    private String subject; //should come from an intent
+    private String subjectName;
+    private String teacherName;//should come from an intent
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -63,10 +64,14 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
         NavigationBar();
 
         descriptionTXT = findViewById(R.id.descriptionCM);
-        subject = "Math grade 8";
+
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        Intent intent = getIntent();
+        subjectName = intent.getStringExtra("subjectName");
+        teacherName = intent.getStringExtra("teacherName");
 
         db = FirebaseFirestore.getInstance();
 
@@ -178,13 +183,13 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
         description = descriptionTXT.getText().toString();
 
 
-        if (description == null || subject == null) {
+        if (description == null || subjectName == null) {
             Toast.makeText(TeacherAddCourseMaterial.this, "Please Enter Course material description", Toast.LENGTH_SHORT).show();
             return;
         }
 
         CollectionReference collectionReference = db.collection("SubjectMaterial");
-        Query query = collectionReference.whereEqualTo("materialDescription", description).whereEqualTo("subject", subject);
+        Query query = collectionReference.whereEqualTo("materialDescription", description).whereEqualTo("subject", subjectName);
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 
@@ -196,14 +201,14 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
                     Map<String, Object> assignmentData = new HashMap<>();
                     assignmentData.put("materialDescription", description);
 
-                    assignmentData.put("subject", subject);
-                    assignmentData.put("fileMetaData", createUniqueMetada(subject, description));
+                    assignmentData.put("subject", subjectName);
+                    assignmentData.put("fileMetaData", createUniqueMetada(subjectName, description));
 
                     db.collection("SubjectMaterial")
                             .add(assignmentData)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(TeacherAddCourseMaterial.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
-                                uploadPdf(subject, description);
+                                uploadPdf(subjectName, description);
 
                             })
                             .addOnFailureListener(e -> {
@@ -228,13 +233,21 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(TeacherAddCourseMaterial.this, TeacherDashboard.class));
+                    Intent intent = new Intent(TeacherAddCourseMaterial.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(TeacherAddCourseMaterial.this, TeacherMarkAssignment.class));
+                    Intent intent = new Intent(TeacherAddCourseMaterial.this , TeacherMarkAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_assignment) {
-                    startActivity(new Intent(TeacherAddCourseMaterial.this, TeacherAddAssignment.class));
+                    Intent intent = new Intent(TeacherAddCourseMaterial.this , TeacherAddAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;

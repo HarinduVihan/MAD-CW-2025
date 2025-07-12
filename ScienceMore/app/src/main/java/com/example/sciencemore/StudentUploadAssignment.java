@@ -81,14 +81,17 @@ public class StudentUploadAssignment extends AppCompatActivity {
         txt = findViewById(R.id.description);
         btnDownloadPdfFromUrl = findViewById(R.id.btnDownloadIns);
 
+
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("subjectName");
         studentName = intent.getStringExtra("studentName");
-        subjectName = "Maths grade 8";
-        studentName = "avasan sudu rhino";
+        Toast.makeText(this, "Student name :" + studentName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Subject name :" + subjectName, Toast.LENGTH_SHORT).show();
+
         checkForAnyAssignments();
 
 
@@ -297,6 +300,9 @@ public class StudentUploadAssignment extends AppCompatActivity {
         //String message = "Assignment: '" + assignmentName + "' assigned with Due Date: " + dueDate;
         //Toast.makeText(TeacherAddAssignment.this, message, Toast.LENGTH_LONG).show();
 
+        Toast.makeText(StudentUploadAssignment.this, "assignmentName" + assignmentName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(StudentUploadAssignment.this, "subjectName" + subjectName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(StudentUploadAssignment.this, "studentName" + studentName, Toast.LENGTH_SHORT).show();
         if (assignmentName == null || subjectName == null || studentName == null) {
             Toast.makeText(StudentUploadAssignment.this, "Incomplete data", Toast.LENGTH_SHORT).show();
             return;
@@ -343,10 +349,14 @@ public class StudentUploadAssignment extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(StudentUploadAssignment.this, StudentDashboard.class));
+                    Intent intent = new Intent(StudentUploadAssignment.this, StudentDashboard.class);
+                    intent.putExtra("studentName", studentName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(StudentUploadAssignment.this, StudentAssignmentResults.class));
+                    Intent intent = new Intent(StudentUploadAssignment.this, StudentAssignmentResults.class);
+                    intent.putExtra("studentName",studentName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;

@@ -29,6 +29,7 @@ public class TeacherDashboard extends AppCompatActivity {
     private LinearLayout cardContainer;
 
     private FirebaseFirestore db;
+    String teacherName;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -51,7 +52,8 @@ public class TeacherDashboard extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
-        String teacherName = intent.getStringExtra("teacherName");
+        teacherName = intent.getStringExtra("teacherName");
+        Toast.makeText(this, "teacher name :" + teacherName, Toast.LENGTH_SHORT).show();
 
         fetchTeacherGrades(teacherName);
 
@@ -130,6 +132,7 @@ public class TeacherDashboard extends AppCompatActivity {
                     // Put the subjectText as an extra in the Intent
                     // "subject_name" is a key you will use to retrieve this data in StudentViewSubjectMaterial
                     intent.putExtra("subjectName", subjectName);
+                    intent.putExtra("teacherName", teacherName);
 
                     // Start the new Activity
                     startActivity(intent);
@@ -152,13 +155,14 @@ public class TeacherDashboard extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(TeacherDashboard.this, TeacherDashboard.class));
-                    return true;
-                } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(TeacherDashboard.this, TeacherMarkAssignment.class));
+                    Intent intent = new Intent(TeacherDashboard.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 }else if (itemId == R.id.bottom_nav_qr) {
-                    startActivity(new Intent(TeacherDashboard.this, MarkAttendance.class));
+                    Intent intent = new Intent(TeacherDashboard.this, MarkAttendance.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;

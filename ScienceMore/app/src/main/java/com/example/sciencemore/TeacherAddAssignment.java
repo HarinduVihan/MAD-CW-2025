@@ -67,6 +67,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
     private StorageReference storageReference;
     private ActivityResultLauncher<Intent> pickFileLauncher;
     String subjectName;
+    String teacherName;
 
     private FirebaseFirestore db;
     String uniqueMetadata;
@@ -88,8 +89,10 @@ public class TeacherAddAssignment extends AppCompatActivity {
         NavigationBar();
 
         Intent intent = getIntent();
+        teacherName = intent.getStringExtra("teacherName");
         subjectName = intent.getStringExtra("subjectName");
-        subjectName = "Maths grade 8";
+
+
 
 
         //initializing variables
@@ -329,14 +332,21 @@ public class TeacherAddAssignment extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(TeacherAddAssignment.this, TeacherDashboard.class));
+                    Intent intent = new Intent(TeacherAddAssignment.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(TeacherAddAssignment.this, TeacherMarkAssignment.class));
+                    Intent intent = new Intent(TeacherAddAssignment.this , TeacherMarkAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
                     return true;
-                } else if (itemId == R.id.bottom_nav_qr) {
-                    startActivity(new Intent(TeacherAddAssignment.this, MarkAttendance.class));
-                    return true;
+                } else if (itemId == R.id.bottom_nav_assignment) {
+                    Intent intent = new Intent(TeacherAddAssignment.this , TeacherAddAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
                 }
                 return false;
             }

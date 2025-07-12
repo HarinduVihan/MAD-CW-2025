@@ -29,6 +29,7 @@ public class StudentDashboard extends AppCompatActivity {
     private LinearLayout cardContainer;
     private FirebaseFirestore db;
     private BottomNavigationView bottomNavigationView;
+    String studentName;
 
 
     @SuppressLint("SetTextI18n")
@@ -50,7 +51,8 @@ public class StudentDashboard extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
-        String studentName = intent.getStringExtra("studentName");
+        studentName = intent.getStringExtra("studentName");
+        Toast.makeText(this, "Student name :" + studentName, Toast.LENGTH_SHORT).show();
 
         fetchStudentSubjects(studentName);
 
@@ -130,6 +132,7 @@ public class StudentDashboard extends AppCompatActivity {
                     // Put the subjectText as an extra in the Intent
                     // "subject_name" is a key you will use to retrieve this data in StudentViewSubjectMaterial
                     intent.putExtra("subjectName", subjectText);
+                    intent.putExtra("studentName", studentName);
 
                     // Start the new Activity
                     startActivity(intent);
@@ -148,10 +151,14 @@ public class StudentDashboard extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(StudentDashboard.this, StudentDashboard.class));
+                    Intent intent = new Intent(StudentDashboard.this, StudentDashboard.class);
+                    intent.putExtra("studentName", studentName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(StudentDashboard.this, StudentAssignmentResults.class));
+                    Intent intent = new Intent(StudentDashboard.this, StudentAssignmentResults.class);
+                    intent.putExtra("studentName",studentName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;
