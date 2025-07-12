@@ -13,29 +13,32 @@
         android:theme="@style/Theme.ScienceMoreAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".AttendenceReport"
+            android:exported="false" />
+        <activity
             android:name=".AdminTeacherDashboard"
             android:exported="false" />
         <activity
             android:name=".AdminViewTeachers"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AdminLogin"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AdminDashboard"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AdminAddStudent"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AdminManageStudent"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AdminAddTeacher"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AdminManageTeacher"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AssignTeacher"
             android:exported="false" />
@@ -47,7 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,13 +59,16 @@
         </activity>
         <activity
             android:name=".AdminViewsStudent"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AdminStudentDashboard"
             android:exported="false" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>
