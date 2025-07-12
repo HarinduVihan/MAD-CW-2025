@@ -15,7 +15,7 @@
             android:id="@+id/assignment_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:background="@color/lightBlue" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -40,7 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:textColor="@color/black"
             android:text="Generate Assignment Report"
+            android:backgroundTint="@color/lightBlue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
