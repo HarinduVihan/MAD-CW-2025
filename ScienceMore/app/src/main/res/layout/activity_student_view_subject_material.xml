@@ -100,6 +100,7 @@
         app:cornerRadius="8dp"
         app:strokeColor="@color/lightBlue"
         app:strokeWidth="2dp"
+        android:onClick="assignmentPageBtn"
         >
     </com.google.android.material.button.MaterialButton>
 

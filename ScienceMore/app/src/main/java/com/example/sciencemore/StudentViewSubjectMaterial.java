@@ -32,6 +32,8 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseStorage storage;
 
+    private String subjectName;
+
     private StorageReference storageReference;
 
     @Override
@@ -49,7 +51,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
 
         //populateCardViews(cardDataList);
         Intent intent = getIntent();
-        String subjectName = intent.getStringExtra("subjectName");
+        subjectName = intent.getStringExtra("subjectName");
 //        fetchSubjectMaterials("Math grade 8");
         fetchSubjectMaterials(subjectName);
 
@@ -160,5 +162,12 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
 
         DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
+    }
+
+    public void assignmentPageBtn(View v) {
+        // intent passing
+        Intent intent = new Intent(StudentViewSubjectMaterial.this , StudentUploadAssignment.class);
+        intent.putExtra("subjectName" , subjectName);
+        startActivity(intent);
     }
 }
