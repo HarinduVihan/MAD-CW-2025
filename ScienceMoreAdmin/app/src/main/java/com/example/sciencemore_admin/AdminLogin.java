@@ -2,16 +2,19 @@ package com.example.sciencemore_admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -63,7 +66,7 @@ public class AdminLogin extends AppCompatActivity {
                     if(querySnapshot != null && !querySnapshot.isEmpty()){
                         Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show();
                         //open admin dashboard
-                       // startActivity(new Intent(AdminLogin.this,AdminDashboard.class));
+                        startActivity(new Intent(AdminLogin.this,AdminDashboard.class));
                     }else {
                         Toast.makeText(this, "Enter correct username and password", Toast.LENGTH_SHORT).show();
                     }
