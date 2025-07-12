@@ -87,7 +87,7 @@ public class AdminRegister extends AppCompatActivity {
                                 Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                 Toast.makeText(AdminRegister.this, "Registered success", Toast.LENGTH_SHORT).show();
                                 //back to first page
-                                startActivity(new Intent(AdminRegister.this, MainActivity.class));
+                                startActivity(new Intent(AdminRegister.this, AdminDashboard.class));
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
