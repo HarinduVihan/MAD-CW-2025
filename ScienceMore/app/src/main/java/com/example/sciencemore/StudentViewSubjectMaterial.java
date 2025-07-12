@@ -38,6 +38,10 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
     private String subjectName;
     private String studentName;
 
+    private String teacher;
+    private TextView teacherTXT;
+    private TextView teacherdescriptionTXT;
+
     private StorageReference storageReference;
     private BottomNavigationView bottomNavigationView;
 
@@ -50,9 +54,10 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        //List<CardItem> cardDataList = new ArrayList<>();
-        //cardDataList.add(new CardItem("Card One", "This is the description for card number one."));
-        //cardDataList.add(new CardItem("Card Two", "Here's some content for the second card."));
+        teacherdescriptionTXT = findViewById(R.id.descriptionTextView);
+        teacherTXT = findViewById(R.id.teacherNameTextView);
+
+
 
         //populateCardViews(cardDataList);
         Intent intent = getIntent();
@@ -75,6 +80,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomnav);
         NavigationBar();
+        getTeacherBySubject(subjectName);
     }
     private void populateCardViews(List<CardItem> dataList) {
         // Clear any existing views
@@ -204,5 +210,85 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+
+    //below method will get the teacher name by subject
+    public void getTeacherBySubject(String subject) {
+
+
+        if (subject == null || subject.isEmpty()) {
+            // 'this' refers to the Activity's context
+            Toast.makeText(this, "Subject name cannot be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+
+        db.collection("teacherSubject")
+                .whereEqualTo("subjectName", subject)
+                .limit(1) // Assuming teacher names are unique, get only the first match
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null && !task.getResult().isEmpty()) {
+                            // Document found
+                            QueryDocumentSnapshot document = (QueryDocumentSnapshot) task.getResult().getDocuments().get(0);
+                            teacher = document.getString("teacherName");
+
+                            if (teacher != null) {
+                                Toast.makeText(this, "Teacher Name bla bla: " + teacher, Toast.LENGTH_LONG).show();
+                                teacherTXT.setText(teacher);
+                                getDescriptionByTeacher(teacher);
+                                //teacherTXT.setText(teacher);
+
+                            } else {
+                                Toast.makeText(this, "Teacher name not found for " + subject, Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+                            // No teacher found matching the name
+                            Toast.makeText(this, "No teacher found with name: " + subject, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        // Error during the query
+                        Toast.makeText(this, "Error getting teacher description: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+
+
+    }
+    public void getDescriptionByTeacher(String teacher){
+        db.collection("Teacher")
+                .whereEqualTo("teacherName",teacher)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null && !task.getResult().isEmpty()) {
+                            // Document found
+                            QueryDocumentSnapshot document = (QueryDocumentSnapshot) task.getResult().getDocuments().get(0);
+                            String teacherDescription = document.getString("teacherDescription");
+
+                            if (teacher != null) {
+                                Toast.makeText(this, "Teacher Description: " + teacher, Toast.LENGTH_LONG).show();
+                                teacherdescriptionTXT.setText(teacherDescription);
+
+
+                            } else {
+                                Toast.makeText(this, "Teacher description not found for " + teacher, Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+
+                            Toast.makeText(this, "No teacher found with name: " + teacher, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        // Error during the query
+                        Toast.makeText(this, "Error getting teacher description: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }
