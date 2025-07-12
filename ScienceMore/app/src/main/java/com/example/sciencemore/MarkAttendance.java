@@ -48,6 +48,7 @@ public class MarkAttendance extends AppCompatActivity {
     private FirebaseFirestore db;
     private Spinner subjectsSpinner;
     private BottomNavigationView bottomNavigationView;
+    String teacherName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,9 @@ public class MarkAttendance extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = getIntent();
+        teacherName = intent.getStringExtra("teacherName");
 
         bottomNavigationView = findViewById(R.id.bottomnav);
         NavigationBar();
@@ -233,13 +237,14 @@ public class MarkAttendance extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(MarkAttendance.this, TeacherDashboard.class));
-                    return true;
-                } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(MarkAttendance.this, TeacherMarkAssignment.class));
+                    Intent intent = new Intent(MarkAttendance.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 }else if (itemId == R.id.bottom_nav_qr) {
-                    startActivity(new Intent(MarkAttendance.this, MarkAttendance.class));
+                    Intent intent = new Intent(MarkAttendance.this, MarkAttendance.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;

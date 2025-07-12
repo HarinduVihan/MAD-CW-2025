@@ -159,11 +159,6 @@ public class TeacherDashboard extends AppCompatActivity {
                     intent.putExtra("teacherName", teacherName);
                     startActivity(intent);
                     return true;
-                } else if (itemId == R.id.bottom_nav_result) {
-                    Intent intent = new Intent(TeacherDashboard.this, TeacherMarkAssignment.class);
-                    intent.putExtra("teacherName", teacherName);
-                    startActivity(intent);
-                    return true;
                 }else if (itemId == R.id.bottom_nav_qr) {
                     Intent intent = new Intent(TeacherDashboard.this, MarkAttendance.class);
                     intent.putExtra("teacherName", teacherName);
