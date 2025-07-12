@@ -27,10 +27,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class StudentAssignmentResults extends AppCompatActivity {
 
+    private static final String TAG = "StudentAssignmentResults";
     private LinearLayout cardContainer;
     private FirebaseFirestore db;
     private List<AssignmentResults> combinedAssignmentResults = new ArrayList<>();
@@ -38,35 +38,45 @@ public class StudentAssignmentResults extends AppCompatActivity {
 
     String studentName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_assignment_results);
-        cardContainer = findViewById(R.id.cardContainer);
         EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_student_assignment_results);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        cardContainer = findViewById(R.id.cardContainer);
+        bottomNavigationView = findViewById(R.id.bottomnav);
+
         Intent intent = getIntent();
         studentName = intent.getStringExtra("studentName");
+        if (studentName == null || studentName.isEmpty()) {
+            Log.e(TAG, "Student name not received via Intent.");
+            Toast.makeText(this, "Error: Student name not found.", Toast.LENGTH_LONG).show();
+        }
 
         db = FirebaseFirestore.getInstance();
-        loadAssigmnentData();
+        loadAssignmentData();
 
-        bottomNavigationView = findViewById(R.id.bottomnav);
         NavigationBar();
     }
 
-    private void loadAssigmnentData() {
-        Intent intent = getIntent();
-        String studentName = intent.getStringExtra("studentName");
+    private void loadAssignmentData() {
+        if (studentName == null || studentName.isEmpty()) {
+            Log.e(TAG, "Student name is null or empty when trying to load assignment data.");
+            Toast.makeText(this, "Cannot load data: Student name is missing.", Toast.LENGTH_SHORT).show();
+            populateCardViews(new ArrayList<>());
+            return;
+        }
 
         CollectionReference collectionReference = db.collection("AssignmentResult");
         Query query = collectionReference.whereEqualTo("studentName", studentName);
+
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
@@ -74,76 +84,84 @@ public class StudentAssignmentResults extends AppCompatActivity {
                     List<AssignmentResultHelp> tempResult = new ArrayList<>();
 
                     for (QueryDocumentSnapshot document : querySnapshot) {
-                        String assignmentId = document.getString("AssignmentId");
+                        String assignmentName = document.getString("AssignmentName");
                         String result = document.getString("Result");
 
-                        if (assignmentId != null && result != null) {
-                            tempResult.add(new AssignmentResultHelp(assignmentId, result));
+                        if (assignmentName != null && result != null) {
+                            tempResult.add(new AssignmentResultHelp(assignmentName, result)); // Pass assignmentName as the ID
                         } else {
-                            Log.w("Firestore", "Missing AssignmentId or Result in document: " + document.getId());
+                            Log.w(TAG, "Missing AssignmentName or Result in document: " + document.getId());
                         }
                     }
                     fetchAssignmentDetails(tempResult);
-                }else {
+                } else {
                     Toast.makeText(this, "No assignment results found for " + studentName, Toast.LENGTH_SHORT).show();
-                    populateCardViews(new ArrayList<>()); // Clear existing cards if any
+                    populateCardViews(new ArrayList<>());
                 }
-            }else {
-                Log.e("Firestore", "Error getting assignment results: ", task.getException());
-                Toast.makeText(this, "Error loading results: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+            } else {
+                Log.e(TAG, "Error getting assignment results: ", task.getException());
+                Toast.makeText(this, "Error loading results: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"), Toast.LENGTH_LONG).show();
+                populateCardViews(new ArrayList<>());
             }
         });
     }
 
     private void fetchAssignmentDetails(List<AssignmentResultHelp> tempResults) {
-        // Clear previous data before populating
         combinedAssignmentResults.clear();
-
-        // Use a counter to know when all asynchronous fetches are complete
         final int[] completedFetches = {0};
 
         if (tempResults.isEmpty()) {
-            populateCardViews(new ArrayList<>()); // No assignments to fetch, clear UI
+            populateCardViews(new ArrayList<>());
             return;
         }
 
         for (AssignmentResultHelp minimalResult : tempResults) {
-            String assignmentIdToFetch = minimalResult.getAssignmentId();
+            // MODIFIED: Use assignmentNameToFetch as the linking key
+            String assignmentNameToFetch = minimalResult.getAssignmentId(); // This now holds the AssignmentName
             String resultScore = minimalResult.getResult();
 
+            if (assignmentNameToFetch == null) {
+                Log.w(TAG, "Skipping assignment with null AssignmentName.");
+                completedFetches[0]++;
+                if (completedFetches[0] == tempResults.size()) {
+                    populateCardViews(combinedAssignmentResults);
+                    Toast.makeText(StudentAssignmentResults.this, "All assignment details loaded (some skipped).", Toast.LENGTH_SHORT).show();
+                }
+                continue;
+            }
+
             CollectionReference assignmentRef = db.collection("Assignment");
-            // Query for the specific assignment using its assignmentId
-            Query queryAssignment = assignmentRef.whereEqualTo("assignmentId", assignmentIdToFetch);
+            // MODIFIED: Query for the "Assignment" collection using "assignmentName" field
+            Query queryAssignment = assignmentRef.whereEqualTo("assignmentName", assignmentNameToFetch);
 
             queryAssignment.get().addOnCompleteListener(task -> {
-                completedFetches[0]++; // Increment the counter
+                completedFetches[0]++;
 
                 if (task.isSuccessful()) {
                     QuerySnapshot assignmentSnapshot = task.getResult();
                     if (assignmentSnapshot != null && !assignmentSnapshot.isEmpty()) {
-                        DocumentSnapshot assignmentDoc = assignmentSnapshot.getDocuments().get(0); // Get the first one
+                        DocumentSnapshot assignmentDoc = assignmentSnapshot.getDocuments().get(0);
 
-                        String assignmentName = assignmentDoc.getString("assignmentName");
+                        String assignmentNameFromDetails = assignmentDoc.getString("assignmentName");
                         String assignmentDescription = assignmentDoc.getString("assignmentDescription");
-                        String subject = assignmentDoc.getString("subject"); // From Assignment collection
+                        String subject = assignmentDoc.getString("subject");
 
-                        // Create your AssignmentResults object with combined data
                         AssignmentResults finalResult = new AssignmentResults(
-                                subject, // Subject from Assignment collection
-                                assignmentDescription != null ? assignmentDescription : assignmentName, // Use description, fallback to name
+                                subject,
+                                assignmentDescription != null ? assignmentDescription : assignmentNameFromDetails,
                                 resultScore
                         );
                         combinedAssignmentResults.add(finalResult);
                     } else {
-                        combinedAssignmentResults.add(new AssignmentResults("Unknown Subject", "Assignment details missing", resultScore));
+                        Log.w(TAG, "Assignment details not found for Name: " + assignmentNameToFetch);
+                        combinedAssignmentResults.add(new AssignmentResults("Unknown Subject", "Assignment details missing (Name: " + assignmentNameToFetch + ")", resultScore));
                     }
                 } else {
-                    combinedAssignmentResults.add(new AssignmentResults("Error", "Could not load details", resultScore));
+                    Log.e(TAG, "Error getting assignment details for Name: " + assignmentNameToFetch, task.getException());
+                    combinedAssignmentResults.add(new AssignmentResults("Error", "Could not load details for Name: " + assignmentNameToFetch, resultScore));
                 }
 
-                // Check if all assignment details have been fetched
                 if (completedFetches[0] == tempResults.size()) {
-                    // All data is collected, now populate the UI
                     populateCardViews(combinedAssignmentResults);
                     Toast.makeText(StudentAssignmentResults.this, "All assignment details loaded.", Toast.LENGTH_SHORT).show();
                 }
@@ -153,15 +171,14 @@ public class StudentAssignmentResults extends AppCompatActivity {
 
 
     private void populateCardViews(List<AssignmentResults> results){
-        // this runs on the UI thread
         runOnUiThread(() -> {
-            cardContainer.removeAllViews(); // Clear existing views before adding new ones
+            cardContainer.removeAllViews();
 
             if (results.isEmpty()) {
-                // Show a message if no results to display
                 TextView noResultsText = new TextView(this);
                 noResultsText.setText("No assignments to display.");
-                noResultsText.setPadding(16, 16, 16, 16);
+                noResultsText.setPadding(32, 32, 32, 32);
+                noResultsText.setTextSize(18);
                 cardContainer.addView(noResultsText);
                 return;
             }
@@ -177,7 +194,6 @@ public class StudentAssignmentResults extends AppCompatActivity {
                 TextView descriptionTextView = cardViewLayout.findViewById(R.id.txtdescription);
                 TextView marksTextView = cardViewLayout.findViewById(R.id.txtmark);
 
-                // Set text, handling nulls
                 subjectTextView.setText(currentItem.getSubject() != null ? currentItem.getSubject() : "N/A");
                 descriptionTextView.setText(currentItem.getDescription() != null ? currentItem.getDescription() : "N/A");
                 marksTextView.setText((currentItem.getMarks() != null ? currentItem.getMarks() : "N/A") + "/100");
@@ -200,7 +216,7 @@ public class StudentAssignmentResults extends AppCompatActivity {
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
                     Intent intent = new Intent(StudentAssignmentResults.this, StudentAssignmentResults.class);
-                    intent.putExtra("studentName",studentName);
+                    intent.putExtra("studentName", studentName);
                     startActivity(intent);
                     return true;
                 }

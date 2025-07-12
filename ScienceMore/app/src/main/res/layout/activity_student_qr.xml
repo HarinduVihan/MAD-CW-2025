@@ -8,38 +8,14 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/editTextQrContent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter text for QR code"
-        android:inputType="textMultiLine"
-        android:minLines="3"
-        android:maxLines="5"
-        android:gravity="top|start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonGenerateQr"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Generate QR Code"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextQrContent" />
-
     <ImageView
         android:id="@+id/imageViewQrCode"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginTop="32dp"
         android:background="#CCCCCC"
         android:contentDescription="Generated QR Code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonGenerateQr" />
+        tools:layout_editor_absoluteY="199dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
