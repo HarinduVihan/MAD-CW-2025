@@ -58,6 +58,18 @@
         android:translationX="250dp"
         android:translationY="-800dp" />
 
+    <ImageButton
+        android:id="@+id/myQr"
+        android:onClick="myQrgen"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:translationX="350dp"
+        android:translationY="-615dp"
+        tools:src="@drawable/qr">
+
+    </ImageButton>
+
+
     <TextView
         android:layout_width="161dp"
         android:layout_height="50dp"
@@ -93,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-1450px"
+        android:layout_marginTop="-1580px"
         android:background="@color/lightBlue"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"

@@ -58,6 +58,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
     private ActivityResultLauncher<Intent> pickFileLauncher;
 
     private TextView txt;
+    private TextView subjectTXT;
 
     private static final String TAG = "PDFDownloadFirebase";
     private String subjectName;
@@ -80,6 +81,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
         btnUploadFile = findViewById(R.id.btnSubmit);   // Reusing ID, but text changed
         txt = findViewById(R.id.description);
         btnDownloadPdfFromUrl = findViewById(R.id.btnDownloadIns);
+        subjectTXT = findViewById(R.id.subjectTextView);
 
 
 
@@ -89,6 +91,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("subjectName");
         studentName = intent.getStringExtra("studentName");
+        subjectTXT.setText(subjectName);
         Toast.makeText(this, "Student name :" + studentName, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Subject name :" + subjectName, Toast.LENGTH_SHORT).show();
 

@@ -60,7 +60,7 @@ public class TeacherMarkAssignment extends AppCompatActivity {
         teacherName = intent.getStringExtra("teacherName");
         subjectName = intent.getStringExtra("subjectName");
 
-        String specificSubject = "Maths grade 8";
+
         fetchAssignmentSubmissions(subjectName);
 
 
@@ -131,19 +131,7 @@ public class TeacherMarkAssignment extends AppCompatActivity {
 
     }
 
-    private void deleteAssignemtSubmissions(String assignmentName, String studentName){
-        db.collection("AssignmentSubission")
-                .whereEqualTo("assignementName", assignmentName)
-                .whereEqualTo("studentName", studentName)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().isEmpty()) {
-                            Toast.makeText(TeacherMarkAssignment.this, "No matching submission found to delete.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+    
 
     private void saveAssignmentResult(String assignmentName, String studentName, String result) {
         Map<String, Object> assignmentResult = new HashMap<>();
@@ -156,6 +144,7 @@ public class TeacherMarkAssignment extends AppCompatActivity {
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(TeacherMarkAssignment.this, "Result saved successfully for " + studentName, Toast.LENGTH_SHORT).show();
                     getDocumentID(studentName, assignmentName); // this method call will get the document id of assignment submission and then will delete ot using standard delete method
+                    fetchAssignmentSubmissions(subjectName);
 
                 })
                 .addOnFailureListener(e -> {

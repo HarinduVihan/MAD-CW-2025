@@ -49,11 +49,11 @@ public class AdminDashboard extends AppCompatActivity {
 
     // Optional placeholders for the rest if you want
     public void onClickAttendance(View view) {
-        // Implement your navigation to Attendance screen here
+        startActivity(new Intent(this, AttendenceReport.class));
     }
 
     public void onClickResults(View view) {
-        // Implement your navigation to Results screen here
+        startActivity(new Intent(this, AssignmentResultReport.class));
     }
 
     private void NavigationBar() {

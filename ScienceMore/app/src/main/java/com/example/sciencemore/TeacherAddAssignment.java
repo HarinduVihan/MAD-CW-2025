@@ -68,6 +68,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
     private ActivityResultLauncher<Intent> pickFileLauncher;
     String subjectName;
     String teacherName;
+    private TextView heading;
 
     private FirebaseFirestore db;
     String uniqueMetadata;
@@ -85,6 +86,8 @@ public class TeacherAddAssignment extends AppCompatActivity {
             return insets;
         });
 
+        heading = findViewById(R.id.heading);
+
         bottomNavigationView = findViewById(R.id.bottomnav);
         NavigationBar();
 
@@ -92,7 +95,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
         teacherName = intent.getStringExtra("teacherName");
         subjectName = intent.getStringExtra("subjectName");
 
-
+        heading.setText(subjectName);
 
 
         //initializing variables
