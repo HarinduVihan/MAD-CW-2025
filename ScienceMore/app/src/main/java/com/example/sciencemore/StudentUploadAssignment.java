@@ -42,14 +42,11 @@ import java.util.UUID;
 
 public class StudentUploadAssignment extends AppCompatActivity {
 
+    //below are the variable and object declarations
     private Button btnChooseFile;
     private Button btnUploadFile;
-
-
     private Uri filePath;
     private FirebaseFirestore db;
-
-
 
     private FirebaseStorage storage;
 
@@ -66,7 +63,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
     private String metaDataforUploading;
     private String assignmentName;
     private Button btnDownloadPdfFromUrl;
-    private static final String ACTUAL_DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/madsciencemore.firebasestorage.app/o/pdfs%2Fed4fd8cc-6f93-4dc9-8ba8";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

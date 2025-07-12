@@ -45,9 +45,13 @@
             android:exported="false"/>
 
 
+
+
         <activity
             android:name=".TeacherMarkAssignment"
-            android:exported="false" />
+            android:exported="false"/>
+
+
         <activity
             android:name=".StudentViewSubjectMaterial"
             android:exported="false" />
@@ -71,6 +75,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
 
 
     </application>
