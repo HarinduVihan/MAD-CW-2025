@@ -1,5 +1,6 @@
 package com.example.sciencemore;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class TeacherDashboard extends AppCompatActivity {
 
     private FirebaseFirestore db;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +47,19 @@ public class TeacherDashboard extends AppCompatActivity {
 
         fetchTeacherGrades(teacherName);
 
-        //set the text view to teacher name
         TextView teacherDisplayName = findViewById(R.id.teacherName);
-        teacherDisplayName.setText(teacherName);
+
+        try{
+            //get only the firstname if there is multiple names
+            assert teacherName != null;
+            String teacherFirstName = teacherName.substring(0,teacherName.indexOf(' '));
+            //set the text view to teacher name
+            teacherDisplayName.setText("Welcome "+teacherFirstName+ " 🙏");
+        } catch (Exception e) {
+            //set the text view to teacher name
+            teacherDisplayName.setText("Welcome "+teacherName+ " 🙏");
+        }
+
     }
 
     private void fetchTeacherGrades(String teacherName){
