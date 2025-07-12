@@ -151,8 +151,10 @@ public class AdminManageTeacher extends AppCompatActivity {
 
         db.collection("Teacher").document(selectedDocId)
                 .update(updatedData)
-                .addOnSuccessListener(aVoid ->
-                        Toast.makeText(this, "Teacher updated successfully", Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(this, "Teacher updated successfully", Toast.LENGTH_SHORT).show();
+                            clearFields();;
+                        })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show());
     }
