@@ -55,7 +55,7 @@
         android:text="Name"
         android:textColor="#040404"
         android:textSize="34sp"
-        android:translationX="205dp"
+        android:translationX="250dp"
         android:translationY="-800dp" />
 
     <TextView
