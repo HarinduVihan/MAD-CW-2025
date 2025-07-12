@@ -83,7 +83,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
         subjectName = intent.getStringExtra("subjectName");
         studentName = intent.getStringExtra("studentName");
         subjectName = "Maths grade 8";
-        studentName = "gnanapala";
+        studentName = "avasan sudu rhino";
         checkForAnyAssignments();
 
 

@@ -43,7 +43,7 @@ public class TeacherMarkAssignment extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        String specificSubject = "Maths grade 9";
+        String specificSubject = "Maths grade 8";
         fetchAssignmentSubmissions(specificSubject);
 
 
