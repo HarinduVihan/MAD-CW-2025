@@ -110,8 +110,7 @@ public class TeacherAddAssignment extends AppCompatActivity {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null && result.getData().getData() != null) {
                             filePath = result.getData().getData();
                             Toast.makeText(TeacherAddAssignment.this, "PDF Selected: " + getFileName(filePath), Toast.LENGTH_SHORT).show();
-                            // You might change the ImageView to a "PDF icon" here
-                            //imageView.setImageResource(R.drawable.ic_pdf_placeholder); // Assume you have a PDF icon drawable
+
                         }
                     }
                 });

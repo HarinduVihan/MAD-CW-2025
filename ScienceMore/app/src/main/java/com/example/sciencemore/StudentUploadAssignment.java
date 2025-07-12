@@ -25,8 +25,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -34,6 +36,8 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class StudentUploadAssignment extends AppCompatActivity {
@@ -57,7 +61,9 @@ public class StudentUploadAssignment extends AppCompatActivity {
 
     private static final String TAG = "PDFDownloadFirebase";
     private String subjectName;
+    private String studentName;
     private String fileMetaData;
+    private String metaDataforUploading;
     private String assignmentName;
     private Button btnDownloadPdfFromUrl;
     private static final String ACTUAL_DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/madsciencemore.firebasestorage.app/o/pdfs%2Fed4fd8cc-6f93-4dc9-8ba8";
@@ -78,7 +84,9 @@ public class StudentUploadAssignment extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("subjectName");
-        subjectName = "Maths grad 9";
+        studentName = intent.getStringExtra("studentName");
+        subjectName = "Maths grade 9";
+        studentName = "gnanapala";
         checkForAnyAssignments();
 
 
@@ -106,7 +114,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
         btnUploadFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadPdf();
+                saveAssignment();
             }
         });
 
@@ -153,7 +161,7 @@ public class StudentUploadAssignment extends AppCompatActivity {
         pickFileLauncher.launch(Intent.createChooser(intent, "Select PDF"));
     }
 
-    private void uploadPdf() {
+    private void uploadPdf(String subjectname, String assignmentname, String studentname) {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading PDF...");
@@ -166,8 +174,8 @@ public class StudentUploadAssignment extends AppCompatActivity {
             // 👇 Define custom metadata
             StorageMetadata metadata = new StorageMetadata.Builder()
                     .setContentType("application/pdf")
-                    .setCustomMetadata("studentId", "s12345") // replace with dynamic value if needed
-                    .setCustomMetadata("assignmentId", "a7890") // optional additional metadata
+                    .setCustomMetadata("studentKey", createUniqueMetadata(subjectname, studentname, assignmentname)) // replace with dynamic value if needed
+
                     .build();
 
             // Upload file with metadata
@@ -272,6 +280,61 @@ public class StudentUploadAssignment extends AppCompatActivity {
                     }
                 });
     }
+
+    public String createUniqueMetadata(String subject, String studentname, String assignmentname){
+        return metaDataforUploading = subject + assignmentname + studentname;
+    }
+
+
+    private void saveAssignment(){
+
+
+        //String message = "Assignment: '" + assignmentName + "' assigned with Due Date: " + dueDate;
+        //Toast.makeText(TeacherAddAssignment.this, message, Toast.LENGTH_LONG).show();
+
+        if (assignmentName == null || subjectName == null || studentName == null) {
+            Toast.makeText(StudentUploadAssignment.this, "Incomplete data", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CollectionReference collectionReference = db.collection("AssignmentSubmission");
+        Query query = collectionReference.whereEqualTo("assignmentName", assignmentName).whereEqualTo("subject", subjectName).whereEqualTo("studentName", studentName);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    boolean isAvailabele = true;
+                    Toast.makeText(this, "Already uploaded", Toast.LENGTH_SHORT).show();
+                } else {
+                    Map<String, Object> assignmentData = new HashMap<>();
+                    assignmentData.put("assignmentName", assignmentName);
+                    assignmentData.put("studentName", studentName);
+                    assignmentData.put("subject", subjectName);
+                    assignmentData.put("fileMetaData", createUniqueMetadata(subjectName, studentName, assignmentName));
+
+                    db.collection("AssignmentSubmission")
+                            .add(assignmentData)
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(StudentUploadAssignment.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
+
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(StudentUploadAssignment.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        uploadPdf(subjectName, assignmentName, studentName);
+
+
+
+    }
+
+
 
 
 
