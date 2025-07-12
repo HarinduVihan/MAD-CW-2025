@@ -79,24 +79,44 @@ public class AdminRegister extends AppCompatActivity {
                 admin.put("adminPassword",password);
 
                 //enter admin data in to firestore
-                db.collection("Admin")
-                        .add(admin)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                db.collection("Admin")
+//                        .add(admin)
+//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                            @Override
+//                            public void onSuccess(DocumentReference documentReference) {
+//                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+//                                Toast.makeText(AdminRegister.this, "Registered success", Toast.LENGTH_SHORT).show();
+//                                //back to first page
+//                                startActivity(new Intent(AdminRegister.this, AdminDashboard.class));
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d("failure", "Error writing document", e);
+//                                Toast.makeText(AdminRegister.this, "Error", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+
+                //enter admin data in to firestore
+                DocumentReference registerRef = db.collection("Admin").document("paR9Gx0qYxe5WaUxFcMY");
+                registerRef
+                        .update("adminUserName",userName,"adminPassword",password)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                            public void onSuccess(Void aVoid) {
                                 Toast.makeText(AdminRegister.this, "Registered success", Toast.LENGTH_SHORT).show();
                                 //back to first page
-                                startActivity(new Intent(AdminRegister.this, AdminDashboard.class));
+                                startActivity(new Intent(AdminRegister.this, MainActivity.class));
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d("failure", "Error writing document", e);
-                                Toast.makeText(AdminRegister.this, "Error", Toast.LENGTH_SHORT).show();
+                                Log.w(TAG,"Error updating document", e);
                             }
                         });
+
             }else{
                 Toast.makeText(this, "Unmatched passwords", Toast.LENGTH_SHORT).show();
                 Log.d("passwordCheck", "Unmatched passwords");
