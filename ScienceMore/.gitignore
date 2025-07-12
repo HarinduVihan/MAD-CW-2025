@@ -2,6 +2,7 @@
 .gradle
 .idea
 /local.properties
+.idea
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -15,4 +16,3 @@
 .cxx
 local.properties
 /app/google-services.json
-

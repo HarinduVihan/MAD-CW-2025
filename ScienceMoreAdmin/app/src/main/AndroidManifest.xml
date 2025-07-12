@@ -22,10 +22,31 @@
             android:name=".AdminLogin"
             android:exported="false"/>
         <activity
+            android:name=".AdminDashboard"
+            android:exported="false"/>
+        <activity
+            android:name=".AdminAddStudent"
+            android:exported="false"/>
+        <activity
+            android:name=".AdminManageStudent"
+            android:exported="false"/>
+        <activity
+            android:name=".AdminAddTeacher"
+            android:exported="false"/>
+        <activity
+            android:name=".AdminManageTeacher"
+            android:exported="false"/>
+        <activity
             android:name=".AssignTeacher"
             android:exported="false" />
         <activity
             android:name=".AssignStudent"
+            android:exported="true" />
+        <activity
+            android:name=".AdminRegister"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,12 +54,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AdminRegister"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
         <activity
             android:name=".AdminViewsStudent"
             android:exported="false"/>

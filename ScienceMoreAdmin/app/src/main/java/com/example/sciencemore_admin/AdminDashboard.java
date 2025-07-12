@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class AdminStudentDashboard extends AppCompatActivity {
+public class AdminDashboard extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -23,37 +23,37 @@ public class AdminStudentDashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_admin_student_dashboard);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        setContentView(R.layout.activity_admin_dashboard);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.dashboardLayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-
         NavigationBar();
     }
 
-    public void onClickBackBtn(View v){
-        startActivity(new Intent(AdminStudentDashboard.this , AdminDashboard.class));
+    // Called when the "Teachers" card is clicked
+    public void onClickAssignTeacher(View view) {
+        Intent intent = new Intent(this, AdminTeacherDashboard.class);
+        startActivity(intent);
     }
 
-    public void onClickAddStudent(View v){
-        startActivity(new Intent(AdminStudentDashboard.this, AdminAddStudent.class));
-
+    // Called when the "Students" card is clicked
+    public void onClickStudents(View view) {
+        Intent intent = new Intent(this, AdminStudentDashboard.class);
+        startActivity(intent);
     }
-    public void onClickManageStudent(View v){
-        startActivity(new Intent(AdminStudentDashboard.this, AdminManageStudent.class));
 
+    // Optional placeholders for the rest if you want
+    public void onClickAttendance(View view) {
+        // Implement your navigation to Attendance screen here
     }
-    public void onClickAssignStudent(View v){
-        startActivity(new Intent(AdminStudentDashboard.this, AssignStudent.class));
 
-    }
-    public void onClickViewStudent(View v){
-        startActivity(new Intent(AdminStudentDashboard.this, AdminViewsStudent.class));
-
+    public void onClickResults(View view) {
+        // Implement your navigation to Results screen here
     }
 
     private void NavigationBar() {
@@ -63,18 +63,17 @@ public class AdminStudentDashboard extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(AdminStudentDashboard.this, AdminDashboard.class));
+                    startActivity(new Intent(AdminDashboard.this, AdminDashboard.class));
                     return true;
                 } else if (itemId == R.id.bottom_nav_teacher) {
-                    startActivity(new Intent(AdminStudentDashboard.this, AdminTeacherDashboard.class));
+                    startActivity(new Intent(AdminDashboard.this, AdminTeacherDashboard.class));
                     return true;
                 } else if (itemId == R.id.bottom_nav_students) {
-                    startActivity(new Intent(AdminStudentDashboard.this, AdminStudentDashboard.class));
+                    startActivity(new Intent(AdminDashboard.this, AdminStudentDashboard.class));
                     return true;
                 }
                 return false;
             }
         });
     }
-
 }
