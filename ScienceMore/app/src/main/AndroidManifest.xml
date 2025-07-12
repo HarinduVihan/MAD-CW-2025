@@ -40,10 +40,6 @@
         <activity
             android:name=".TeacherAddCourseMaterial"
             android:exported="false"/>
-
-
-
-
         <activity
             android:name=".TeacherAddAssignment"
             android:exported="false"/>
@@ -52,15 +48,7 @@
             android:exported="false"/>
         <activity
             android:name=".StudentViewSubjectMaterial"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-
+            android:exported="true" />
         <activity
             android:name=".StudentAssignmentResults"
             android:exported="false" />
@@ -69,14 +57,16 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".StudentUploadAssignment"
-            android:exported="false" />
-
-
-
-
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -113,5 +113,16 @@
         >
     </com.google.android.material.button.MaterialButton>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnav"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-900px"
+        android:background="@color/lightBlue"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_nav_menu" />
+
 
 </LinearLayout>

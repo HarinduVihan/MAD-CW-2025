@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,6 +27,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -64,6 +67,8 @@ public class StudentUploadAssignment extends AppCompatActivity {
     private String assignmentName;
     private Button btnDownloadPdfFromUrl;
 
+    private BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +105,9 @@ public class StudentUploadAssignment extends AppCompatActivity {
                         }
                     }
                 });
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
 
         btnChooseFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,13 +335,27 @@ public class StudentUploadAssignment extends AppCompatActivity {
 
         uploadPdf(subjectName, assignmentName, studentName);
 
-
-
     }
 
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
 
-
-
-
+                if (itemId == R.id.bottom_nav_home) {
+                    startActivity(new Intent(StudentUploadAssignment.this, StudentDashboard.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    startActivity(new Intent(StudentUploadAssignment.this, StudentAssignmentResults.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_qr) {
+                    startActivity(new Intent(StudentUploadAssignment.this, MarkAttendance.class));
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 
 }

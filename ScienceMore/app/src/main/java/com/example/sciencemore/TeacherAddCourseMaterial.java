@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,12 +14,14 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -43,6 +46,7 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
     private String uniqueMetadata;
     private Uri filePath;
     private String subject; //should come from an intent
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,9 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
 
         descriptionTXT = findViewById(R.id.descriptionCM);
         subject = "Math grade 8";
@@ -171,10 +178,6 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
         description = descriptionTXT.getText().toString();
 
 
-
-
-
-
         if (description == null || subject == null) {
             Toast.makeText(TeacherAddCourseMaterial.this, "Please Enter Course material description", Toast.LENGTH_SHORT).show();
             return;
@@ -216,5 +219,26 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
 
 
 
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    startActivity(new Intent(TeacherAddCourseMaterial.this, TeacherDashboard.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    startActivity(new Intent(TeacherAddCourseMaterial.this, TeacherMarkAssignment.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_assignment) {
+                    startActivity(new Intent(TeacherAddCourseMaterial.this, TeacherAddAssignment.class));
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

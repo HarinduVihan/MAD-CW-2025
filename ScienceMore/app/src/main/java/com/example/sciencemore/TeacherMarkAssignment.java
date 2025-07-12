@@ -2,29 +2,36 @@ package com.example.sciencemore;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TeacherMarkAssignment extends AppCompatActivity {
 
@@ -33,6 +40,8 @@ public class TeacherMarkAssignment extends AppCompatActivity {
     private FirebaseStorage storage;
 
     private StorageReference storageReference;
+
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +56,17 @@ public class TeacherMarkAssignment extends AppCompatActivity {
         fetchAssignmentSubmissions(specificSubject);
 
 
-        List<Assigments> assigmentsList = new ArrayList<>();
-        assigmentsList.add(new Assigments("http", "Dinidu Dididy"));
-        populateCardViews(assigmentsList);
+//        List<Assigments> assigmentsList = new ArrayList<>();
+//        assigmentsList.add(new Assigments("http", "Dinidu Dididy"));
+//        populateCardViews(assigmentsList);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        bottomNavigationView = findViewById(R.id.bottomnav);
+        NavigationBar();
     }
 
     private void populateCardViews(List<Assigments> assigments){
@@ -71,6 +83,8 @@ public class TeacherMarkAssignment extends AppCompatActivity {
 
             TextView name = cardContentLayout.findViewById(R.id.txtStudentName);
             Button downloadbtn = cardViewLayout.findViewById(R.id.btnDownloadAnswerSheet);
+            Button markButton = cardViewLayout.findViewById(R.id.btnMark);
+            EditText markInput = cardViewLayout.findViewById(R.id.txtMarkDisplay);
 
             name.setText(currentItem.getName());
 
@@ -83,10 +97,50 @@ public class TeacherMarkAssignment extends AppCompatActivity {
                 }
             });
 
+            markButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String studentName = currentItem.getName();
+                    String markStr = markInput.getText().toString().trim();
+
+                    if (markStr.isEmpty()) {
+                        Toast.makeText(TeacherMarkAssignment.this, "Please enter a mark.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String assignmentName = currentItem.getAssignmentName();
+
+                    if (assignmentName == null || assignmentName.isEmpty()) {
+                        assignmentName = "assign_id_" + System.currentTimeMillis();
+                    }
+
+                    saveAssignmentResult(assignmentName, studentName, markStr);
+                }
+            });
+
             cardContainer.addView(cardViewLayout);
         }
 
     }
+
+    private void saveAssignmentResult(String assignmentName, String studentName, String result) {
+        Map<String, Object> assignmentResult = new HashMap<>();
+        assignmentResult.put("AssignmentId", assignmentName);
+        assignmentResult.put("studentName", studentName);
+        assignmentResult.put("Result", result);
+
+        db.collection("AssignmentResult") // Your target collection
+                .add(assignmentResult) // Use .add() to create a new document with an auto-generated ID
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(TeacherMarkAssignment.this, "Result saved successfully for " + studentName, Toast.LENGTH_SHORT).show();
+                    // Optionally, you might want to refresh the list or disable the mark button
+                    // after saving to prevent re-marking.
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(TeacherMarkAssignment.this, "Error saving result: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
     private void fetchAssignmentSubmissions(String subject) {
         //Toast.makeText(this, "fetch assignment executed", Toast.LENGTH_SHORT).show();
         db.collection("AssignmentSubmission")
@@ -98,11 +152,12 @@ public class TeacherMarkAssignment extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             // Convert each document to your Assigments object
                             String studentName = document.getString("studentName");
-                            String fileMetaData = document.getString("fileMetaData"); // This contains the download link
+                            String fileMetaData = document.getString("fileMetaData");
+                            String assignmentName = document.getString("assignmentName");// This contains the download link
 
                             // Create an Assigments object and add to the list
                             if (studentName != null && fileMetaData != null) {
-                                assigmentsList.add(new Assigments(fileMetaData, studentName));
+                                assigmentsList.add(new Assigments(fileMetaData, studentName,assignmentName));
                             }
                         }
                         // This will populate the UI with the fetched data
@@ -150,6 +205,24 @@ public class TeacherMarkAssignment extends AppCompatActivity {
 
         DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         manager.enqueue(request);
+    }
+
+    private void NavigationBar() {
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.bottom_nav_home) {
+                    startActivity(new Intent(TeacherMarkAssignment.this, TeacherDashboard.class));
+                    return true;
+                } else if (itemId == R.id.bottom_nav_result) {
+                    startActivity(new Intent(TeacherMarkAssignment.this, TeacherMarkAssignment.class));
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
 }
