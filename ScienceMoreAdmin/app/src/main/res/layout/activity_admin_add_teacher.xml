@@ -1,10 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/addTeacherLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AdminAddTeacher">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Curved background -->
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="700dp"
+        android:layout_margin="-100px"
+        android:background="@drawable/rounded_layout"
+        android:backgroundTint="@color/lightBlue"
+        android:padding="-100px"
+        android:rotation="-19"
+        android:translationX="-190dp"
+        android:translationY="-1300px" />
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/btnBackAddStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="25px"
+        android:backgroundTint="@color/transparent"
+        android:text="&lt;"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:translationX="5dp"
+        android:translationY="-700dp" />
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textFontWeight="1000"
+        android:fontFamily="@font/alumin"
+        android:text="Add Teachers"
+        android:textColor="#040404"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:translationX="35dp"
+        android:translationY="-700dp" />
+
+    <!-- Name -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alumin"
+        android:text="Name"
+        android:textFontWeight="1000"
+        android:textSize="20sp"
+        android:translationX="35dp"
+        android:translationY="-580dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:translationX="20dp"
+        android:translationY="-580dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTeacherName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Name"
+            android:inputType="text"
+            android:paddingBottom="6dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alumin"
+        android:text="Age"
+        android:textFontWeight="1000"
+        android:textSize="20sp"
+        android:translationX="35dp"
+        android:translationY="-580dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:translationX="20dp"
+        android:translationY="-580dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTeacherAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Age"
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alumin"
+        android:text="NIC"
+        android:textFontWeight="1000"
+        android:textSize="20sp"
+        android:translationX="35dp"
+        android:translationY="-580dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:translationX="20dp"
+        android:translationY="-580dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTeacherNic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter NIC"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alumin"
+        android:text="Description"
+        android:textFontWeight="1000"
+        android:textSize="20sp"
+        android:translationX="35dp"
+        android:translationY="-580dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:translationX="20dp"
+        android:translationY="-580dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTeacherDes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Description"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alumin"
+        android:text="Password"
+        android:textFontWeight="1000"
+        android:textSize="20sp"
+        android:translationX="35dp"
+        android:translationY="-580dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:translationX="20dp"
+        android:translationY="-580dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTeacherPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Password"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alumin"
+        android:text="Confirm Password"
+        android:textFontWeight="1000"
+        android:textSize="20sp"
+        android:translationX="35dp"
+        android:translationY="-580dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:translationX="20dp"
+        android:translationY="-580dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTeacherConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Password"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Add Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddTeacher"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/lightBlue"
+            android:text="Add"
+            android:textColor="@color/black"
+            android:translationX="100dp"
+            android:translationY="-500dp"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/lightBlue"
+            app:strokeWidth="2dp" />
+</LinearLayout>
+    </LinearLayout>
