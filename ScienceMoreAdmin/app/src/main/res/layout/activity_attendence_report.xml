@@ -15,7 +15,7 @@
             android:id="@+id/attendance_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:background="@color/lightBlue" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,6 +39,8 @@
         android:id="@+id/button_generate_attendance_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/lightBlue"
+            android:textColor="@color/black"
         android:text="Generate Attendance Report"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
