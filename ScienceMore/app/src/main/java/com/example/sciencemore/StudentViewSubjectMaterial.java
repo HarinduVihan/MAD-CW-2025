@@ -29,10 +29,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
         List<CardItem> cardDataList = new ArrayList<>();
         cardDataList.add(new CardItem("Card One", "This is the description for card number one."));
         cardDataList.add(new CardItem("Card Two", "Here's some content for the second card."));
-        cardDataList.add(new CardItem("Card Three", "A brief note about the third card."));
-        cardDataList.add(new CardItem("Card Four", "More details for card number four."));
-        cardDataList.add(new CardItem("Card Five", "The final card in our dynamic list."));
-        cardDataList.add(new CardItem("Card Six", "Let's add one more for good measure."));
+
         populateCardViews(cardDataList);
         EdgeToEdge.enable(this);
         //setContentView(R.layout.activity_student_view_subject_material);
