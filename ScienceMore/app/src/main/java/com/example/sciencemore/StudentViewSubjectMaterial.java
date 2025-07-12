@@ -2,6 +2,7 @@ package com.example.sciencemore;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -47,7 +48,10 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
         //cardDataList.add(new CardItem("Card Two", "Here's some content for the second card."));
 
         //populateCardViews(cardDataList);
-        fetchSubjectMaterials("Math grade 8");
+        Intent intent = getIntent();
+        String subjectName = intent.getStringExtra("subjectName");
+//        fetchSubjectMaterials("Math grade 8");
+        fetchSubjectMaterials(subjectName);
 
         EdgeToEdge.enable(this);
         //setContentView(R.layout.activity_student_view_subject_material);
