@@ -19,12 +19,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class TeacherAddCourseMaterial extends AppCompatActivity {
@@ -51,6 +56,7 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
         });
 
         descriptionTXT = findViewById(R.id.descriptionCM);
+        subject = "Math grade 8";
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -157,7 +163,58 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
     }
     public void onPressUpload(View v){
         description = descriptionTXT.getText().toString();
-        uploadPdf(subject, description);
+        saveAssignment();
+
+    }
+
+    private void saveAssignment(){
+        description = descriptionTXT.getText().toString();
+
+
+
+
+
+
+        if (description == null || subject == null) {
+            Toast.makeText(TeacherAddCourseMaterial.this, "Please Enter Course material description", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CollectionReference collectionReference = db.collection("SubjectMaterial");
+        Query query = collectionReference.whereEqualTo("materialDescription", description).whereEqualTo("subject", subject);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    boolean isAvailabele = true;
+                    Toast.makeText(this, "Already Assigned", Toast.LENGTH_SHORT).show();
+                } else {
+                    Map<String, Object> assignmentData = new HashMap<>();
+                    assignmentData.put("materialDescription", description);
+
+                    assignmentData.put("subject", subject);
+                    assignmentData.put("fileMetaData", createUniqueMetada(subject, description));
+
+                    db.collection("SubjectMaterial")
+                            .add(assignmentData)
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(TeacherAddCourseMaterial.this, "Assigned successfully!", Toast.LENGTH_SHORT).show();
+                                uploadPdf(subject, description);
+
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(TeacherAddCourseMaterial.this, "Error in assigning: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
 
     }
 }
