@@ -40,6 +40,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
 
     private String teacher;
     private TextView teacherTXT;
+    private TextView subjectTXT;
     private TextView teacherdescriptionTXT;
 
     private StorageReference storageReference;
@@ -56,6 +57,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
 
         teacherdescriptionTXT = findViewById(R.id.descriptionTextView);
         teacherTXT = findViewById(R.id.teacherNameTextView);
+        subjectTXT = findViewById(R.id.subjectTextView);
 
 
 
@@ -63,6 +65,8 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("subjectName");
         studentName = intent.getStringExtra("studentName");
+
+        subjectTXT.setText(subjectName);
 
         Toast.makeText(this, "Student name :" + studentName, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Subject name :" + subjectName, Toast.LENGTH_SHORT).show();

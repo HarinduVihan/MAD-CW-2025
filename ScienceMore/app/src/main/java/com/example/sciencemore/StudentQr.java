@@ -39,7 +39,7 @@ public class StudentQr extends AppCompatActivity {
 
         Intent intent = getIntent();
         studentName = intent.getStringExtra("studentName");
-        
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

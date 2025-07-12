@@ -60,7 +60,7 @@ public class TeacherMarkAssignment extends AppCompatActivity {
         teacherName = intent.getStringExtra("teacherName");
         subjectName = intent.getStringExtra("subjectName");
 
-        String specificSubject = "Maths grade 8";
+        
         fetchAssignmentSubmissions(subjectName);
 
 
@@ -156,6 +156,7 @@ public class TeacherMarkAssignment extends AppCompatActivity {
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(TeacherMarkAssignment.this, "Result saved successfully for " + studentName, Toast.LENGTH_SHORT).show();
                     getDocumentID(studentName, assignmentName); // this method call will get the document id of assignment submission and then will delete ot using standard delete method
+                    fetchAssignmentSubmissions(subjectName);
 
                 })
                 .addOnFailureListener(e -> {
