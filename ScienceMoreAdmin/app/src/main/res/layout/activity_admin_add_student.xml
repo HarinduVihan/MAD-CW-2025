@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addStudentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminAddStudent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Curved background -->
+        <LinearLayout
+            android:layout_width="600dp"
+            android:layout_height="700dp"
+            android:layout_margin="-100px"
+            android:background="@drawable/rounded_layout"
+            android:backgroundTint="@color/lightBlue"
+            android:padding="-100px"
+            android:rotation="-19"
+            android:translationX="-190dp"
+            android:translationY="-1300px" />
+
+        <!-- Back Button -->
+        <Button
+            android:id="@+id/btnBackAddStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginTop="25px"
+            android:backgroundTint="@color/transparent"
+            android:text="&lt;"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:translationX="5dp"
+            android:translationY="-700dp" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:fontFamily="@font/alumin"
+            android:text="Add Students"
+            android:textColor="#040404"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:translationX="35dp"
+            android:translationY="-700dp" />
+
+        <!-- Name -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alumin"
+            android:text="Name"
+            android:textFontWeight="1000"
+            android:textSize="20sp"
+            android:translationX="35dp"
+            android:translationY="-550dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:translationX="20dp"
+            android:translationY="-550dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etStudentName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Name"
+            android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Age -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/alumin"
+            android:layout_height="37dp"
+            android:textFontWeight="1000"
+            android:text="Age"
+            android:textSize="20sp"
+            android:translationX="35dp"
+            android:translationY="-540dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:translationX="20dp"
+            android:translationY="-550dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etStudentAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Age"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Grade -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:fontFamily="@font/alumin"
+            android:textFontWeight="1000"
+            android:text="Grade"
+            android:textSize="20sp"
+            android:translationX="30dp"
+            android:translationY="-540dp" />
+
+        <Spinner
+            android:id="@+id/spinnerGrade"
+            android:layout_width="350dp"
+            android:layout_height="48dp"
+            android:spinnerMode="dropdown"
+            android:translationX="20dp"
+            android:translationY="-550dp" />
+
+
+        <!-- Password -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:fontFamily="@font/alumin"
+            android:textFontWeight="1000"
+            android:text="Password"
+            android:textSize="20sp"
+            android:translationX="30dp"
+            android:translationY="-540dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:translationX="20dp"
+            android:translationY="-550dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etStudentPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Confirm Password -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:fontFamily="@font/alumin"
+            android:textFontWeight="1000"
+            android:text="Confirm Password"
+            android:textSize="20sp"
+            android:translationX="30dp"
+            android:translationY="-540dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:translationX="20dp"
+            android:translationY="-550dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etConfirmStudentPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Add Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddStudent"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/lightBlue"
+            android:text="Add"
+            android:textColor="@color/black"
+            android:translationX="100dp"
+            android:translationY="-500dp"
+            app:cornerRadius="8dp"
+            app:strokeColor="@color/lightBlue"
+            app:strokeWidth="2dp" />
+
+
+    </LinearLayout>
+</LinearLayout>
