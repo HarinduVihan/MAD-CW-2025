@@ -108,7 +108,6 @@ public class StudentAssignmentResults extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     QuerySnapshot assignmentSnapshot = task.getResult();
                     if (assignmentSnapshot != null && !assignmentSnapshot.isEmpty()) {
-                        // There should typically be only one document per assignmentId
                         DocumentSnapshot assignmentDoc = assignmentSnapshot.getDocuments().get(0); // Get the first one
 
                         String assignmentName = assignmentDoc.getString("assignmentName");
@@ -141,7 +140,7 @@ public class StudentAssignmentResults extends AppCompatActivity {
 
 
     private void populateCardViews(List<AssignmentResults> results){
-        // Ensure this runs on the UI thread
+        // this runs on the UI thread
         runOnUiThread(() -> {
             cardContainer.removeAllViews(); // Clear existing views before adding new ones
 
