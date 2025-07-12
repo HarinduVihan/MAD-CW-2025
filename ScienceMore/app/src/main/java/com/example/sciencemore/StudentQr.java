@@ -1,5 +1,6 @@
 package com.example.sciencemore;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -25,33 +26,34 @@ public class StudentQr extends AppCompatActivity {
     private Button buttonGenerateQr;
     private ImageView imageViewQrCode;
 
+    private String studentName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_student_qr);
 
-        editTextQrContent = findViewById(R.id.editTextQrContent);
-        buttonGenerateQr = findViewById(R.id.buttonGenerateQr);
+
         imageViewQrCode = findViewById(R.id.imageViewQrCode);
+
+        Intent intent = getIntent();
+        studentName = intent.getStringExtra("studentName");
+        
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        buttonGenerateQr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateQrCode();
-            }
-        });
+        generateQrCode();
     }
     private void generateQrCode() {
-        String qrContent = editTextQrContent.getText().toString().trim();
+        String qrContent = studentName;
 
         if (qrContent.isEmpty()) {
-            Toast.makeText(this, "Please enter some text to generate QR code", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sorry! didnt received data from previous intent", Toast.LENGTH_SHORT).show();
             return;
         }
 
