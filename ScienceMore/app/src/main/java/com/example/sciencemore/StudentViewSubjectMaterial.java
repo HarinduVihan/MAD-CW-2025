@@ -31,6 +31,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
         cardDataList.add(new CardItem("Card Two", "Here's some content for the second card."));
 
         populateCardViews(cardDataList);
+
         EdgeToEdge.enable(this);
         //setContentView(R.layout.activity_student_view_subject_material);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
