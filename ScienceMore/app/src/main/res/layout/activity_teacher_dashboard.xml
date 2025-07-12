@@ -1,10 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".TeacherDashboard">
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="700dp"
+        android:background="@drawable/rounded_layout"
+        android:backgroundTint="@color/lightBlue"
+        android:paddingLeft="10px"
+        android:rotation="-19"
+        android:rotationX="0"
+        android:translationX="-190dp"
+        android:translationY="-1300px"
+        android:layout_margin="-100px"
+        android:padding="-100px">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnbk"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="&lt;"
+        android:backgroundTint="@color/transparent"
+        android:textColor="@color/black"
+        android:textFontWeight="1000"
+        android:textSize="30dp"
+        android:layout_marginTop="25px"
+        android:translationX="5dp"
+        android:translationY="-700dp"
+        android:onClick="back"/>
+
+    <TextView
+        android:layout_width="161dp"
+        android:layout_height="50dp"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Teacher"
+        android:textColor="#040404"
+        android:textSize="34sp"
+        android:translationX="35dp"
+        android:translationY="-700dp" />
+
+    <TextView
+        android:layout_width="161dp"
+        android:layout_height="50dp"
+        android:fontFamily="@font/alumin"
+        android:textFontWeight="1000"
+        android:text="Grades"
+        android:textColor="#040404"
+        android:textSize="27sp"
+        android:translationX="35dp"
+        android:translationY="-600dp" />
+
+    <!--    for view dynamic content-->
+    <ScrollView
+        android:id="@+id/dradesScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:translationX="0dp"
+        android:translationY="-600dp"
+
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/cardContainer"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
