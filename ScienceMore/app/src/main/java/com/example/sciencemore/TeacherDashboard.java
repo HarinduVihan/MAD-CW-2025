@@ -155,13 +155,14 @@ public class TeacherDashboard extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(TeacherDashboard.this, TeacherDashboard.class));
-                    return true;
-                } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(TeacherDashboard.this, TeacherMarkAssignment.class));
+                    Intent intent = new Intent(TeacherDashboard.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 }else if (itemId == R.id.bottom_nav_qr) {
-                    startActivity(new Intent(TeacherDashboard.this, MarkAttendance.class));
+                    Intent intent = new Intent(TeacherDashboard.this, MarkAttendance.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;

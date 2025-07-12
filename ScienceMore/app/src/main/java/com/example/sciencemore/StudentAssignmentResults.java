@@ -36,6 +36,8 @@ public class StudentAssignmentResults extends AppCompatActivity {
     private List<AssignmentResults> combinedAssignmentResults = new ArrayList<>();
     private BottomNavigationView bottomNavigationView;
 
+    String studentName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class StudentAssignmentResults extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = getIntent();
+        studentName = intent.getStringExtra("studentName");
 
         db = FirebaseFirestore.getInstance();
         loadAssigmnentData();
@@ -189,10 +194,14 @@ public class StudentAssignmentResults extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(StudentAssignmentResults.this, StudentDashboard.class));
+                    Intent intent = new Intent(StudentAssignmentResults.this, StudentDashboard.class);
+                    intent.putExtra("studentName", studentName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(StudentAssignmentResults.this, StudentAssignmentResults.class));
+                    Intent intent = new Intent(StudentAssignmentResults.this, StudentAssignmentResults.class);
+                    intent.putExtra("studentName",studentName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;

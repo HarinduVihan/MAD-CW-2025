@@ -233,15 +233,20 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(TeacherAddCourseMaterial.this, TeacherDashboard.class));
+                    Intent intent = new Intent(TeacherAddCourseMaterial.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(TeacherAddCourseMaterial.this, TeacherMarkAssignment.class));
+                    Intent intent = new Intent(TeacherAddCourseMaterial.this , TeacherMarkAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_assignment) {
                     Intent intent = new Intent(TeacherAddCourseMaterial.this , TeacherAddAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
                     intent.putExtra("subjectName" , subjectName);
-
                     startActivity(intent);
                     return true;
                 }

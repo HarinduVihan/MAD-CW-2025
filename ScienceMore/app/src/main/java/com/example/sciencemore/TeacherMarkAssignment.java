@@ -43,6 +43,9 @@ public class TeacherMarkAssignment extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
+    String teacherName;
+    String subjectName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +55,13 @@ public class TeacherMarkAssignment extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
+        Intent intent = getIntent();
+        teacherName = intent.getStringExtra("teacherName");
+        subjectName = intent.getStringExtra("subjectName");
+
         String specificSubject = "Maths grade 8";
-        fetchAssignmentSubmissions(specificSubject);
+        fetchAssignmentSubmissions(subjectName);
 
 
 //        List<Assigments> assigmentsList = new ArrayList<>();
@@ -228,13 +236,21 @@ public class TeacherMarkAssignment extends AppCompatActivity {
                 int itemId = item.getItemId();
 
                 if (itemId == R.id.bottom_nav_home) {
-                    startActivity(new Intent(TeacherMarkAssignment.this, TeacherDashboard.class));
+                    Intent intent = new Intent(TeacherMarkAssignment.this, TeacherDashboard.class);
+                    intent.putExtra("teacherName", teacherName);
+                    startActivity(intent);
                     return true;
                 } else if (itemId == R.id.bottom_nav_result) {
-                    startActivity(new Intent(TeacherMarkAssignment.this, TeacherMarkAssignment.class));
+                    Intent intent = new Intent(TeacherMarkAssignment.this , TeacherMarkAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
                     return true;
-                }else if (itemId == R.id.bottom_nav_qr) {
-                    startActivity(new Intent(TeacherMarkAssignment.this, MarkAttendance.class));
+                }else if (itemId == R.id.bottom_nav_assignment) {
+                    Intent intent = new Intent(TeacherMarkAssignment.this , TeacherAddAssignment.class);
+                    intent.putExtra("teacherName", teacherName);
+                    intent.putExtra("subjectName" , subjectName);
+                    startActivity(intent);
                     return true;
                 }
                 return false;
