@@ -170,4 +170,9 @@ public class StudentDashboard extends AppCompatActivity {
     public void back(View v){
         startActivity(new Intent(StudentDashboard.this, StudentTeacherLogin.class));
     }
+    public void myQrgen(View v){
+        Intent intent = new Intent(StudentDashboard.this, StudentQr.class);
+        intent.putExtra("studentName", studentName);
+        startActivity(intent);
+    }
 }

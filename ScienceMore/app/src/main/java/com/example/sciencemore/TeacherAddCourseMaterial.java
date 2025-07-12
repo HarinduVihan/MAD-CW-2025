@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -43,6 +44,7 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
     private FirebaseFirestore db;
     private EditText descriptionTXT;
     private String description;
+    private TextView subjectTXT;
     private String uniqueMetadata;
     private Uri filePath;
     private String subjectName;
@@ -64,6 +66,7 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
         NavigationBar();
 
         descriptionTXT = findViewById(R.id.descriptionCM);
+        subjectTXT = findViewById(R.id.subjectTXT);
 
 
         storage = FirebaseStorage.getInstance();
@@ -72,6 +75,7 @@ public class TeacherAddCourseMaterial extends AppCompatActivity {
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("subjectName");
         teacherName = intent.getStringExtra("teacherName");
+        subjectTXT.setText(subjectName);
 
         db = FirebaseFirestore.getInstance();
 

@@ -40,6 +40,7 @@
       android:layout_height="50dp"
       android:fontFamily="@font/alumin"
       android:text="History Grade 10"
+      android:id="@+id/subjectTextView"
       android:textColor="#040404"
       android:textFontWeight="1000"
       android:textSize="34sp"
