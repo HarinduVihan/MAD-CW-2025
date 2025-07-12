@@ -89,7 +89,8 @@ public class TeacherAddAssignment extends AppCompatActivity {
 
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("subjectName");
-        subjectName = "Maths grade 8";
+
+
 
 
         //initializing variables

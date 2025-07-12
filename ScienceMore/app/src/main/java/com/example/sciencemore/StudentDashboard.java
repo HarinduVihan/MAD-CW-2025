@@ -29,6 +29,7 @@ public class StudentDashboard extends AppCompatActivity {
     private LinearLayout cardContainer;
     private FirebaseFirestore db;
     private BottomNavigationView bottomNavigationView;
+    String studentName;
 
 
     @SuppressLint("SetTextI18n")
@@ -50,7 +51,8 @@ public class StudentDashboard extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
-        String studentName = intent.getStringExtra("studentName");
+        studentName = intent.getStringExtra("studentName");
+        Toast.makeText(this, "Student name :" + studentName, Toast.LENGTH_SHORT).show();
 
         fetchStudentSubjects(studentName);
 
@@ -130,6 +132,7 @@ public class StudentDashboard extends AppCompatActivity {
                     // Put the subjectText as an extra in the Intent
                     // "subject_name" is a key you will use to retrieve this data in StudentViewSubjectMaterial
                     intent.putExtra("subjectName", subjectText);
+                    intent.putExtra("studentName", studentName);
 
                     // Start the new Activity
                     startActivity(intent);

@@ -36,6 +36,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
     private FirebaseStorage storage;
 
     private String subjectName;
+    private String studentName;
 
     private StorageReference storageReference;
     private BottomNavigationView bottomNavigationView;
@@ -56,6 +57,11 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
         //populateCardViews(cardDataList);
         Intent intent = getIntent();
         subjectName = intent.getStringExtra("subjectName");
+        studentName = intent.getStringExtra("studentName");
+
+        Toast.makeText(this, "Student name :" + studentName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Subject name :" + subjectName, Toast.LENGTH_SHORT).show();
+
 //        fetchSubjectMaterials("Math grade 8");
         fetchSubjectMaterials(subjectName);
 
@@ -175,6 +181,7 @@ public class StudentViewSubjectMaterial extends AppCompatActivity {
         // intent passing
         Intent intent = new Intent(StudentViewSubjectMaterial.this , StudentUploadAssignment.class);
         intent.putExtra("subjectName" , subjectName);
+        intent.putExtra("studentName", studentName);
         startActivity(intent);
     }
 

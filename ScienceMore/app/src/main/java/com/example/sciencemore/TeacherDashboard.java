@@ -29,6 +29,7 @@ public class TeacherDashboard extends AppCompatActivity {
     private LinearLayout cardContainer;
 
     private FirebaseFirestore db;
+    String teacherName;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -51,7 +52,8 @@ public class TeacherDashboard extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
-        String teacherName = intent.getStringExtra("teacherName");
+        teacherName = intent.getStringExtra("teacherName");
+        Toast.makeText(this, "teacher name :" + teacherName, Toast.LENGTH_SHORT).show();
 
         fetchTeacherGrades(teacherName);
 
@@ -130,6 +132,7 @@ public class TeacherDashboard extends AppCompatActivity {
                     // Put the subjectText as an extra in the Intent
                     // "subject_name" is a key you will use to retrieve this data in StudentViewSubjectMaterial
                     intent.putExtra("subjectName", subjectName);
+                    intent.putExtra("teacherName", teacherName);
 
                     // Start the new Activity
                     startActivity(intent);
