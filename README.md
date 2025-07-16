@@ -6,6 +6,7 @@
 Science More is a reputed tuition institute that provides knowledge for students who are in grade 6 through 11. This institute operates through two branches located in Mallawagedara and Godigamuwa, offering a wide array of subjects including Science, Mathes, Sinhala, English, History, ICT, Tamil and Commerce for all 6 grade levels, conducted by 10 to 15 Teachers. 
 Each class there are roughly 100 to 150 students. Approximately there are 800 students learning from Science More institute, demonstrating its significant impact and outreach within the educational landscape.
 
+![WhatsApp Image 2025-07-12 at 14 56 48_f032842c](https://github.com/user-attachments/assets/84248051-203e-480d-8bb8-bfbb2ada749f)
 
 
 ## 2.	Problem definition
